@@ -1,0 +1,10 @@
+Fedora 22 Cloud Image Issues
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Fedora 22 Cloud vagrant image does not extend filesystem to disk size:
+https://fedorahosted.org/cloud/ticket/120
+
+The fix, login into the VM when vagrant up:
+
+sudo su -
+growpart --dry-run /dev/vda 1 && growpart /dev/vda 1 && resize2fs /dev/vda1
+

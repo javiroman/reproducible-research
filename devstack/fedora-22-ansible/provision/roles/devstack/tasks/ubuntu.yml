@@ -1,0 +1,12 @@
+---
+- name: Update system
+  apt: upgrade=full update_cache=yes
+  sudo: yes
+
+- name: Install prerequisites
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - git
+    - build-essential
+  sudo: yes

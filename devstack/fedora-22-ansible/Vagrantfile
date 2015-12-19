@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#export VAGRANT_DEFAULT_PROVIDER=virtualbox
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "fedora-22"
+  config.vm.box_url = "http://download.fedoraproject.org/pub/fedora/linux/releases/22/Cloud/x86_64/Images/Fedora-Cloud-Base-Vagrant-22-20150521.x86_64.vagrant-libvirt.box"
+  config.vm.box_check_update = true
+  config.ssh.forward_agent = true
+  config.vm.hostname = "devstack"
+  config.vm.network :forwarded_port, guest: 80, host: 8080,
+      auto_correct: true
+  config.vm.network :forwarded_port, guest: 5000, host: 5000,
+      auto_correct: true
+  config.vm.network :forwarded_port, guest: 9696, host: 9696,
+      auto_correct: true
+  config.vm.network :forwarded_port, guest: 8774, host: 8774,
+      auto_correct: true
+  config.vm.network :forwarded_port, guest: 35357, host: 35357,
+      auto_correct: true
+  config.vm.provider "libvirt" do |lv|
+    lv.memory = 4096
+    lv.cpus = 2
+  end
+  config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provision/playbook.yml"
+  end
+end

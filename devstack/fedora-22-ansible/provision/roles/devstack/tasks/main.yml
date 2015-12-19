@@ -1,0 +1,20 @@
+---
+- include: fedora.yml
+  when: ansible_distribution == 'Fedora'
+
+- include: ubuntu.yml
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Clone devstack repo
+  git: repo=https://git.openstack.org/openstack-dev/devstack dest=~/devstack
+
+- name: Create log directory
+  file: path=~/logs state=directory
+
+- name: Create local.conf for devstack
+  template: src=local.conf.j2 dest=~/devstack/local.conf
+
+- name: Run devstack
+  command: ./stack.sh
+  args:
+    chdir: ~/devstack

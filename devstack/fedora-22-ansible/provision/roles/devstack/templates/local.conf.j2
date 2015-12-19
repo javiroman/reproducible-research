@@ -1,0 +1,28 @@
+[[local|localrc]]
+ADMIN_PASSWORD={{ admin_password }}
+MYSQL_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=$ADMIN_PASSWORD
+TEMPEST_ALLOW_TENANT_ISOLATION=True
+API_RATE_LIMIT=False
+LOG_COLOR=True
+LOGFILE=~/logs/stack.sh.log
+# Enable Neutron
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-l3
+enable_service q-meta
+enable_service tempest
+VIRT_DRIVER=libvirt
+LIBVIRT_TYPE=kvm
+export YUM=dnf
+[[post-config|$NOVA_CONF]]
+[DEFAULT]
+force_config_drive = False
+live_migration_flag=VIR_MIGRATE_UNDEFINE_SOURCE, VIR_MIGRATE_PEER2PEER,
+VIR_MIGRATE_LIVE, VIR_MIGRATE_TUNNELLED
+block_migration_flag=VIR_MIGRATE_UNDEFINE_SOURCE, VIR_MIGRATE_PEER2PEER,
+VIR_MIGRATE_LIVE, VIR_MIGRATE_NON_SHARED_INC
