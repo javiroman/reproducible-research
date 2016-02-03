@@ -1,0 +1,64 @@
+## List OpenStack Services
+
+### Via API
+$ curl -d @credentials.json –X POST -H "Content-Type: application/json" http://127.0.0.1:5000/v2.0/tokens | python -mjson.tool
+
+#### Authorization string
+{"auth": {"tenantName": "admin", "passwordCredentials": {"username": "raxuser", "password": "raxpasswd"}}}
+
+#### JSON Output
+"token": {
+    "audit_ids": [
+"tWnOdGc-Qpu71Ag6QUo9JQ"
+    ],
+    "expires": "2015-06-30T04:53:27Z",
+    "id": "907ca229af164a09918a661ffa224747",
+    "issued_at": "2015-06-29T16:53:27.191192",
+    "tenant": {
+"description": "Admin Tenant",
+"enabled": true,
+"id": "4cc43830491046ada1f0f26317da41c0",
+"name": "admin"
+    }
+}
+
+#### API Request
+$ curl -X GET http://127.0.0.1:35357/v2.0/OS-KSADM/services -H "Accept: application/json" -H "X-Auth-Token: 907ca229af164a09918a661ffa224747" | python -mjson.tool
+
+#### JSON Output
+{
+    "OS-KSADM:services": [
+        {
+            "description": "Nova Compute Service",
+            "enabled": true,
+            "id": "020cc772b9c942eb979fc587877a9239",
+            "name": "nova",
+            "type": "compute"
+        },
+        {
+            "description": "Nova Compute Service V3",
+            "enabled": true,
+            "id": "1565c929d84b423fb3c9561b22e4468c",
+            "name": "novav3",
+            "type": "computev3"
+        },
+...
+
+### Via CLI
+
+#### OpenRC file example
+# To use an OpenStack cloud you need to authenticate against keystone.
+export OS_ENDPOINT_TYPE=internalURL
+export OS_USERNAME=admin
+export OS_TENANT_NAME=admin
+export OS_AUTH_URL=http://127.0.0.1:5000/v2.0
+
+# With Keystone you pass the keystone password.
+echo "Please enter your OpenStack Password: "
+read -sr OS_PASSWORD_INPUT
+export OS_PASSWORD=$OS_PASSWORD_INPUT
+
+#### CLI commands
+$ source openrc
+$ keystone service-list
+

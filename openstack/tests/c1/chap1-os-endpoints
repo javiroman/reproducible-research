@@ -1,0 +1,26 @@
+## List OpenStack Endpoints
+
+### Via API
+
+$ curl -X GET http://127.0.0.1:35357/v2.0/endpoints -H "Accept: application/json" -H "X-Auth-Token: 907ca229af164a09918a661ffa224747" | python -mjson.tool
+
+### JSON Output
+
+{
+    "endpoints": [
+        {
+            "adminurl": "http://172.29.236.7:8774/v2/%(tenant_id)s",
+            "enabled": true,
+            "id": "90603842a5a54958a7768dd909d43237",
+            "internalurl": "http://172.29.236.7:8774/v2/%(tenant_id)s",
+            "publicurl": "http://172.29.236.7:8774/v2/%(tenant_id)s",
+            "region": "RegionOne",
+            "service_id": "020cc772b9c942eb979fc587877a9239"
+        },
+...
+
+
+### Via CLI
+
+$ keystone endpoint-list
+
