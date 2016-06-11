@@ -58,6 +58,9 @@
 "
 " 16. Vim syntax for Ansible playbooks:
 " 	git clone https://github.com/pearofducks/ansible-vim
+"
+" 18. Vim syntax for Vagrant Files:
+" 	 git clone https://github.com/hashivim/vim-vagrant.git
 
 " ~~~~~~~~~~~~~~~~~~~
 " Enable Pantogen
@@ -74,6 +77,27 @@ syntax on
 " ~~~~~~~~~~~~~~~~
 " General settings
 " ~~~~~~~~~~~~~~~~
+
+"
+" Getting Linux flavor [TODO]
+"
+" Notes
+" $ lsb_release -sir
+"  CentOS 7.2.1511
+"  RedHatEnterpriseServer 6.7
+"  Fedora 22
+" let s:distro = system("lsb_release -sir")
+"
+"if s:distro ==? "Fedora 22" 
+"	syntax on
+"   else
+"	syntax on
+"endif
+"
+" if varialbe not match 
+"if s:distro !~ "RedHatEnterpriseServer" 
+"endif
+
 
 " Color Schemes
 if has("gui_running")
