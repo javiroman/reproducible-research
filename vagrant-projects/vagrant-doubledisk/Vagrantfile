@@ -1,0 +1,18 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos-7"
+  config.vm.box_url = "http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1605_01.LibVirt.box"
+  config.vm.hostname = "disk-testbed"
+
+  config.vm.define :disk_testbed do |disk_testbed|
+    disk_testbed.vm.box = "centos-7"
+
+    disk_testbed.vm.provider :libvirt do |domain|
+      domain.memory = 4096
+      domain.cpus = 2
+      domain.nested = true
+      domain.storage :file, :size => '20G'
+    end
+
+  end
+
+end
