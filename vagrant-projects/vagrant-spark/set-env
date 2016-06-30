@@ -1,0 +1,1 @@
+export SPARK_NUM_NODES=3
