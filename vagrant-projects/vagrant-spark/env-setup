@@ -1,0 +1,12 @@
+ANSIBLE_PATH=/home/jromanes/HACK/dev/resources/ansible.git/hacking
+
+source ${ANSIBLE_PATH}/env-setup &> /dev/null
+
+export SPARK_NUM_NODES=3
+export BOX_NAME='centos/7'
+
+ANSIBLE_VERSION=`ansible --version | head -1`
+
+echo $ANSIBLE_VERSION
+echo "$SPARK_NUM_NODES host Apache Spark Cluster"
+echo "Vagrant Box used: $BOX_NAME"

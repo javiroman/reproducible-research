@@ -11,8 +11,8 @@ Vagrant.require_version ">= 1.7.2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     vagrant_spark_config = {
-        "num_nodes" => ENV['SPARK_NUM_NODES'] || 2,
-	"box_name"  => "centos/7",
+        "num_nodes" => ENV['SPARK_NUM_WORKERS'] || 3,
+	"box_name"  => ENV['BOX_NAME'] || "centos/7"
     }
 
     config.vm.box = vagrant_spark_config['box_name']
@@ -20,9 +20,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # The number of Apache Spark nodes to provision.
     num_nodes = (vagrant_spark_config['num_nodes']).to_i
 
+    # standalone master server
+    config.vm.define "#{VM_NAME_PREFIX}master" do |master|
+      master.vm.network "private_network", ip: "#{master_ip}"
+      master.vm.hostname = "openshift-master"
+
+      master.vm.provision :ansible do |ansible|
+        ansible.playbook = "provision/elk/playbook.yml"
+        ansible.inventory_path = "provisioning/elk/inventory"
+      end
+    end
+
+    # workers
     num_nodes.times do |i|
       config.vm.define "spark_vm#{i}" do |node|
-        node.vm.hostname = "spark-node0#{i}"
+        node.vm.hostname = "spark-worker#{i}"
         config.vm.provider :libvirt do |domain|
 	  domain.uri = 'qemu+unix:///system'
           domain.driver = 'kvm'
@@ -32,8 +44,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
     end
 
-    #config.vm.provision "ansible" do |ansible|
-    #  ansible.playbook = "provision/playbook.yml"
-    #end
+    config.vm.provision :ansible do |ansible|
+      ansible.playbook = "provision/playbook.yml"
+    end
 
 end
