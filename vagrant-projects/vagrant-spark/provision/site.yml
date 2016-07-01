@@ -1,5 +1,10 @@
 ---
-- hosts: all
+- hosts: master
+  roles:
+   - common
+   - spark-master
+
+- hosts: workers
   # Strategies: Plays execution control for many hosts.
   # linear (default): All hosts have to finish one task before any of them can 
   #                   begin the next one. Using the number of forks (default 5)
@@ -10,4 +15,8 @@
   #       Allows all hosts to run independently of each other
   strategy: free
   roles:
-   - spark
+   - common
+   - spark-worker
+
+
+

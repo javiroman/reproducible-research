@@ -4,7 +4,3 @@
 
 - include: centos.yml
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-- name: Download Spark distribution
-  get_url: url="{{ spark_mirror  }}/spark-{{ spark_version  }}.tgz"
-           dest="{{ spark_src_dir  }}/spark-{{ spark_version  }}.tgz"
