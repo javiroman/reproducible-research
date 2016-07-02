@@ -1,3 +1,3 @@
 Repoducible Research Collection
 
-Ansible and Vagrantfile's collection for researh
+Ansible and Vagrantfile's collection for research
