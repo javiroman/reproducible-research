@@ -1,3 +1,6 @@
-Repoducible Research Collection
+# Repoducible Research Collection
 
-Ansible and Vagrantfile's collection for research
+Ansible and Vagrant files collection for research
+
+- Apache Spark Standalone Cluster
+- OpenShift Origin Cluster
