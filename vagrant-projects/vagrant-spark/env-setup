@@ -1,9 +1,13 @@
+BOX_NAME='centos/7'
+SPARK_NUM_WORKERS=2
+MASTER_MEMORY=512
+WORKER_MEMORY=512
+
 ANSIBLE_PATH=/home/jromanes/HACK/dev/resources/ansible.git/hacking
 
 source ${ANSIBLE_PATH}/env-setup &> /dev/null
 
-export SPARK_NUM_NODES=3
-export BOX_NAME='centos/7'
+export BOX_NAME SPARK_NUM_WOKERS MASTER_MEMORY WORKER_MEMORY
 
 ANSIBLE_VERSION=`ansible --version | head -1`
 

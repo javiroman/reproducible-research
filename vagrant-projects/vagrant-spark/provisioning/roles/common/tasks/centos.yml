@@ -1,7 +1,7 @@
 ---
-- name: Update the system
-  yum: name=* state=latest
-  become: yes
+#- name: Update the system
+#  yum: name=* state=latest
+#  become: yes
 
 - name: Install the prerequisites
   yum: name={{ item }} state=present

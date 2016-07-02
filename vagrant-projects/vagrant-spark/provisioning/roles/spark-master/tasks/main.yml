@@ -1,0 +1,6 @@
+---
+#- name: Download Spark distribution
+#  get_url: url="{{ spark_mirror  }}/spark-{{ spark_version  }}.tgz"
+#           dest="{{ spark_src_dir  }}/spark-{{ spark_version  }}.tgz"
+- name: touch file
+  file: path=/tmp/SOYMASTER state=touch

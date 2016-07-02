@@ -1,5 +1,5 @@
 # -*- mode: ruby -*-
-# vi: set ft=ruby :
+# vim: set ft=ruby ts=2 et :
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
@@ -11,41 +11,67 @@ Vagrant.require_version ">= 1.7.2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     vagrant_spark_config = {
-        "num_nodes" => ENV['SPARK_NUM_WORKERS'] || 3,
-	"box_name"  => ENV['BOX_NAME'] || "centos/7"
+      "box_name"  => ENV['BOX_NAME'] || "centos/7",
+      "num_nodes" => ENV['SPARK_NUM_WORKERS'] || 2,
+      "master_memory"  => ENV['MASTER_MEMORY'] || 512,
+      "worker_memory"  => ENV['WORKER_MEMORY'] || 512
     }
 
-    config.vm.box = vagrant_spark_config['box_name']
+    config.vm.box = vagrant_spark_config["box_name"]
 
     # The number of Apache Spark nodes to provision.
-    num_nodes = (vagrant_spark_config['num_nodes']).to_i
+    N = (vagrant_spark_config['num_nodes']).to_i
 
     # standalone master server
-    config.vm.define "#{VM_NAME_PREFIX}master" do |master|
-      master.vm.network "private_network", ip: "#{master_ip}"
-      master.vm.hostname = "openshift-master"
-
-      master.vm.provision :ansible do |ansible|
-        ansible.playbook = "provision/elk/playbook.yml"
-        ansible.inventory_path = "provisioning/elk/inventory"
+    config.vm.define "sparkmaster" do |master|
+      master.vm.hostname = "sparkmaster"
+      config.vm.provider :libvirt do |domain|
+        domain.uri = "qemu+unix:///system"
+        domain.driver = "kvm"
+        domain.memory =  vagrant_spark_config["master_memory"].to_i
+        domain.cpus = 1
       end
+
+      # Ansible provisioner for master
+      #master.vm.provision :ansible do |ansible|
+      #  ansible.groups = {
+      #    "master" => ["sparkmaster"],
+      #  }
+      #  ansible.playbook = "provisioning/site.yml"
+      #end
     end
 
     # workers
-    num_nodes.times do |i|
-      config.vm.define "spark_vm#{i}" do |node|
-        node.vm.hostname = "spark-worker#{i}"
+    (1..N).each do |i|
+      #if i = 1
+      #  config.vm.define "sparkmaster" do |node|
+
+      #else
+      #config.vm.define "sparkworker#{i}" do |node|
+
+      #end
+
+      config.vm.define "sparkworker#{i}" do |node|
+        node.vm.hostname = "sparkworker#{i}"
         config.vm.provider :libvirt do |domain|
-	  domain.uri = 'qemu+unix:///system'
+          domain.uri = 'qemu+unix:///system'
           domain.driver = 'kvm'
-          domain.memory = 512
+          domain.memory =  vagrant_spark_config['worker_memory'].to_i
           domain.cpus = 1
+        end
+
+      # Only execute once the Ansible provisioner
+      if i = N
+        node.vm.provision :ansible do |ansible|
+          ansible.groups = {
+            "master" => ["sparkmaster"],
+            "workers" => ["sparkworker1", "sparkworker2"],
+            "all_groups:children" => ["master", "workers"]
+          }
+          ansible.limit = "all_groups"
+          ansible.playbook = "provisioning/site.yml"
         end
       end
     end
-
-    config.vm.provision :ansible do |ansible|
-      ansible.playbook = "provision/playbook.yml"
-    end
-
+  end
 end
