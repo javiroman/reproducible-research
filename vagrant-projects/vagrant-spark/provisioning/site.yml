@@ -1,11 +1,17 @@
 ---
 # Play 1
+- hosts: mn
+  roles:
+   - common
+   - spark-mn
+
+# Play 2
 - hosts: master
   roles:
    - common
    - spark-master
 
-# Play 2
+# Play 3
 - hosts: workers
   # Strategies: Plays execution control for many hosts.
   # linear (default): All hosts have to finish one task before any of them can 

@@ -13,6 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   vagrant_spark_config = {
     "box_name"  => ENV['BOX_NAME'] || "centos/7",
     "num_nodes" => ENV['SPARK_NUM_WORKERS'] || 2,
+    "mn_memory"  => ENV['MN_MEMORY'] || 512,
     "master_memory"  => ENV['MASTER_MEMORY'] || 512,
     "worker_memory"  => ENV['WORKER_MEMORY'] || 512
   }
@@ -20,21 +21,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = vagrant_spark_config["box_name"]
 
   # Worker nodes plus the master
-  N = (vagrant_spark_config['num_nodes']).to_i + 1
+  N = (vagrant_spark_config['num_nodes']).to_i + 2
 
   (1..N).each do |i|
     if i == 1
-      # standalone master server
+      # management node
+      vm_name = "sparkmn"
+      vm_memory = vagrant_spark_config['mn_memory']
+    elsif i == 2
+      # cluster mananger
       vm_name = "sparkmaster"
       vm_memory = vagrant_spark_config['master_memory']
     else
       # workers
-      vm_name = "sparkworker#{i-1}"
+      vm_name = "sparkworker#{i-2}"
       vm_memory = vagrant_spark_config['worker_memory']
     end
 
     config.vm.define "#{vm_name}" do |node|
       node.vm.hostname = "#{vm_name}"
+      #node.vm.network :private_network, ip: "10.10.10.10#{i}", auto_config: false 
       config.vm.provider :libvirt do |domain|
         domain.uri = 'qemu+unix:///system'
         domain.driver = 'kvm'
@@ -47,6 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # only works in Vagrant +1.8.0
       node.vm.provision :ansible do |ansible|
         ansible.groups = {
+          "mn" => ["sparkmn"],
           "master" => ["sparkmaster"],
           "workers" => ["sparkworker1", "sparkworker2"],
         }

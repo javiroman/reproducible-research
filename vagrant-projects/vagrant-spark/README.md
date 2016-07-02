@@ -16,9 +16,18 @@ This Vagrantfile run a Apache Spark Standalone Cluster:
 │   ├── ansible.cfg
 │   ├── roles
 │   │   ├── common
+│   │   ├── spark-mn
 │   │   ├── spark-master
 │   │   └── spark-worker
 │   └── site.yml
 ├── README.md
 └── Vagrantfile
 ```
+
+TODO
+
+- private network (2nd interface with static network)
+- spark management node with Jupyter, and Zeppelin notebooks
+- better DNS mecanish, to avoid setup the host names in the 
+  host file of host machine. (libvirtd dnsmasq inject /etc/host
+  file from host machine to the guests)

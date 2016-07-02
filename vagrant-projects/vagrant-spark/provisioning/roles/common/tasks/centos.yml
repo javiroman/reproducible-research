@@ -1,11 +1,23 @@
 ---
-#- name: Update the system
-#  yum: name=* state=latest
-#  become: yes
+- name: Update the system
+  yum: name=* state=latest
+  become: yes
 
 - name: Install the prerequisites
   yum: name={{ item }} state=present
   with_items:
     - vim
     - tree
+    - java-1.8.0-openjdk
   become: yes
+
+- name: Download Spark distribution
+  get_url: url="{{ spark_mirror }}/spark-{{ spark_version }}.tgz"
+           dest="{{ spark_src_dir }}/spark-{{ spark_version }}.tgz"
+
+- name: Extract Spark distribution
+  unarchive: src="{{ spark_src_dir }}/spark-{{ spark_version }}.tgz"
+             dest="{{ spark_src_dir }}"
+             copy=no
+
+
