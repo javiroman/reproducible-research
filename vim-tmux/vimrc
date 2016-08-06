@@ -256,6 +256,17 @@ let g:ctrlp_use_caching=0
 "~~~~~~~~
 set laststatus=2
 
+
+"~~~~~~~~
+" Vim-Go
+"~~~~~~~~
+" By default when :GoInstallBinaries is called, 
+" the binaries are installed to $GOBIN or $GOPATH/bin. 
+" To change it:
+
+" let g:go_bin_path = expand("~/.gotools")
+let g:go_bin_path = expand("~/bin")
+
 "~~~~~~~~
 " Others
 "~~~~~~~~
