@@ -120,7 +120,8 @@ call matchadd('ColorColumn', '\%81v', 100)
 " higlight the line where the cursor is
 set cursorline 
 " higlight the the column in 80 characters
-set colorcolumn=+1
+highlight ColorColumn ctermbg=magenta "set to whatever you like
+call matchadd('ColorColumn', '\%81v', 100) "set column nr
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "  NERDTree settings
