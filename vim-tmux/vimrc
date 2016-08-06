@@ -1,79 +1,108 @@
-" Minimal stuff
+" Vimrc file based on the plug-in manager
+" https://github.com/VundleVim/Vundle.vim
 "
-" 1. Pantogen: https://github.com/tpope/vim-pathogen (Plugin installer)
-" 	mkdir -p ~/.vim/autoload ~/.vim/bundle
-" 	curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-" 	cd .vim/bundle
-"
-" 2. NERDTree plugin: (Folder explorer)
-" 	git clone https://github.com/scrooloose/nerdtree.git
-"
-" 3a. TagList plugin: (Code logic navigator)
-" 	git clone https://github.com/vim-scripts/taglist.vim
-" 	yum install ctags cscope
-"
-" 3b. Tagbar plugin: (A class outline viewer for Vim)
-" 	git clone https://github.com/majutsushi/tagbar.git
-" 	yum install ctags cscope
-"
-" 4. AutoPairs plugin: (Auto coloms, brackers, ..)
-" 	git clone git://github.com/jiangmiao/auto-pairs.git 
-"
-" 5. Python-Mode plugin: (Python IDE tools)
-" 	git clone https://github.com/klen/python-mode.git
-"
-" 6. Enhaced Commentify plugin: (Easy code block comment)
-" 	git clone https://github.com/vim-scripts/EnhCommentify.vim.git
-"
-" 7. SuperTAB plugin: (autocomplete engine)
-" 	git clone https://github.com/ervandew/supertab.git
-"
-" 8. SnipMate forked plugin: (Code snippets insert)
-" 	git clone https://github.com/tomtom/tlib_vim.git
-" 	git clone https://github.com/MarcWeber/vim-addon-mw-utils.git
-" 	git clone https://github.com/garbas/vim-snipmate.git
-" 	git clone https://github.com/honza/vim-snippets.git
-"
-" 9. BuffExporer plugin: (Easier buffer explorer)
-" 	git clone https://github.com/jlanzarotta/bufexplorer.git
-"
-" 10. Fugitive plugin: (Git functions)
-" 	git clone https://github.com/tpope/vim-fugitive.git
-"
-" 11. IndentLine: (Visual horizontal code indentation)
-" 	git clone https://github.com/Yggdroot/indentLine.git	
-"
-" 12. ControlP: (Another folder explorer and search tool)
-" 	git clone https://github.com/kien/ctrlp.vim
-"
-" 13. AirLine: lean & mean status/tabline for vim 
-" 	git clone https://github.com/vim-airline/vim-airline.git
-"
-" 14. Vim-Go: For Go lang programming
-" 	git clone https://github.com/fatih/vim-go.git
-" 	:GoInstallBinaries
-"
-" 15. Vim colorschemes
-" 	git clone https://github.com/flazz/vim-colorschemes.git
-"
-" 16. Vim syntax for Ansible playbooks:
-" 	git clone https://github.com/pearofducks/ansible-vim
+" Vundle Setup:
+" mkdir .vim/bundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+" :PluginInstall or from command line: vim +PluginInstall +qall
 
-" ~~~~~~~~~~~~~~~~~~~
-" Enable Pantogen
-" ~~~~~~~~~~~~~~~~~~~
+"-----------------------
+" Plug-ins installation
+"-----------------------
+set nocompatible
+filetype off   
 
-filetype off
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-call pathogen#infect()
-call pathogen#helptags()
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
+" -------- Plug-in start
+
+" NERDTree plugin: (Folder explorer)
+" github.com/scrooloose/nerdtree.git
+" dnf install ctags cscope
+Plugin 'scrooloose/nerdtree.git'
+
+" TagList plugin: (Code logic navigator)
+" github.com/vim-scripts/taglist.vim
+Plugin 'vim-scripts/taglist.vim'
+
+" Tagbar plugin: (A class outline viewer for Vim)
+" github.com/majutsushi/tagbar.git
+Plugin 'majutsushi/tagbar.git'
+
+" AutoPairs plugin: (Auto coloms, brackers, ..)
+" github.com/jiangmiao/auto-pairs.git
+Plugin 'jiangmiao/auto-pairs.git'
+
+" Python-Mode plugin: (Python IDE tools)
+" github.com/klen/python-mode.git
+Plugin 'klen/python-mode.git'
+
+" Enhaced Commentify plugin: (Easy code block comment)
+" github.com/vim-scripts/EnhCommentify.vim.git
+Plugin 'vim-scripts/EnhCommentify.vim.git'
+
+" SuperTAB plugin: (autocomplete engine)
+" github.com/ervandew/supertab.git
+Plugin 'ervandew/supertab.git'
+
+" SnipMate forked plugin: (Code snippets insert)
+" github.com/tomtom/tlib_vim.git
+" github.com/MarcWeber/vim-addon-mw-utils.git
+" github.com/garbas/vim-snipmate.git
+" github.com/honza/vim-snippets.git
+Plugin 'tomtom/tlib_vim.git'
+
+" BuffExporer plugin: (Easier buffer explorer)
+" github.com/jlanzarotta/bufexplorer.git
+Plugin 'jlanzarotta/bufexplorer.git'
+
+" Fugitive plugin: (Git functions)
+" github.com/tpope/vim-fugitive.git
+Plugin 'tpope/vim-fugitive.git'
+
+" IndentLine: (Visual horizontal code indentation)
+" github.com/Yggdroot/indentLine.git
+Plugin 'Yggdroot/indentLine.git'
+
+" ControlP: (Another folder explorer and search tool)
+" github.com/kien/ctrlp.vim
+Plugin 'kien/ctrlp.vim'
+
+" AirLine: lean & mean status/tabline for vim 
+" github.com/vim-airline/vim-airline.git
+Plugin 'vim-airline/vim-airline.git'
+
+" Vim-Go: For Go lang programming
+" github.com/fatih/vim-go.git
+Plugin 'fatih/vim-go.git'
+
+" Vim colorschemes
+" github.com/flazz/vim-colorschemes.git
+Plugin 'flazz/vim-colorschemes.git'
+
+" Vim syntax for Ansible playbooks:
+" github.com/pearofducks/ansible-vim
+Plugin 'pearofducks/ansible-vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()
 filetype plugin indent on
-syntax on
 
-" ~~~~~~~~~~~~~~~~
-" General settings
-" ~~~~~~~~~~~~~~~~
+" -------- Plug-in end 
+
+"-----------------------
+" General Settings
+"-----------------------
+set expandtab
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=4
 
 " Color Schemes
 if has("gui_running")
@@ -112,23 +141,20 @@ nnoremap <silent> <leader>y :TagbarToggle<CR>
 " Leader key + n -> open/close folder explorer
 nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 
-" Enable columm limits with only one character
-highlight ColorColumn ctermbg=red
-call matchadd('ColorColumn', '\%81v', 100)
-
-
 " higlight the line where the cursor is
 set cursorline 
-" higlight the the column in 80 characters
-highlight ColorColumn ctermbg=magenta "set to whatever you like
-call matchadd('ColorColumn', '\%81v', 100) "set column nr
+
+" higlight the the column in 80 characters only one character
+highlight ColorColumn ctermbg=magenta 
+call matchadd('ColorColumn', '\%81v', 100) 
+
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "  NERDTree settings
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 " Avoid listing of files like .pyc
 let NERDTreeIgnore = ['\.pyc$']
+
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 " Python Mode General Settings
@@ -151,7 +177,6 @@ let NERDTreeIgnore = ['\.pyc$']
 " 	"control space (in inserting mode)"
 " 4. Commnen/uncomment blocks:
 " 	"visual mode" ,c
-
 " Folders python-mode help:
 "
 " zf#j creates a fold from the cursor down # lines.
@@ -178,6 +203,7 @@ let g:pymode_options_colorcolumn = 0
 
 " Disable python-mode Rope code completion, we use super tab.
 let g:pymode_rope = 0
+
 
 " ~~~~~~~~~~~~~~~~
 " SnipMate forked
