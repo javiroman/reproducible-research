@@ -1,3 +1,4 @@
+" -----------------------------------------------------------------------------
 " Vimrc file based on the plug-in manager
 " https://github.com/VundleVim/Vundle.vim
 "
@@ -5,10 +6,11 @@
 " mkdir .vim/bundle
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 " :PluginInstall or from command line: vim +PluginInstall +qall
+" -----------------------------------------------------------------------------
 
-"-----------------------
+" -----------------------------------------------------------------------------
 " Plug-ins installation
-"-----------------------
+" -----------------------------------------------------------------------------
 set nocompatible
 filetype off   
 
@@ -19,7 +21,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" -------- Plug-in start
+" [Plug-in handling ... BEGIN]
 
 " NERDTree plugin: (Folder explorer)
 " github.com/scrooloose/nerdtree.git
@@ -93,16 +95,33 @@ Plugin 'pearofducks/ansible-vim'
 call vundle#end()
 filetype plugin indent on
 
-" -------- Plug-in end 
+" [Plug-in handling ... END]
 
-"-----------------------
+" -----------------------------------------------------------------------------
 " General Settings
-"-----------------------
+" -----------------------------------------------------------------------------
+" Insert space characters whenever the tab key is pressed
 set expandtab
+
+" Affects how <TAB> key presses are interpreted depending on 
+" where the cursor is. If 'smarttab' is on, a <TAB> key inserts
+" indentation according to 'shiftwidth' at the beginning of the
+" line, whereas 'tabstop' and 'softtabstop' are used elsewhere.
 set smarttab
-set shiftwidth=2
-set softtabstop=2
+
+" Number of spaces to use for each step of (auto)indent.  Used for
+" 'cindent', >>, <<
+set shiftwidth=4
+
+" Control how many columns vim uses when you hit Tab in insert mode.
+set softtabstop=4
+
+" how many columns a tab counts for. Linux kernel code expects each tab to be
+" eight columns wide. 
 set tabstop=4
+
+" indent for YAML files
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " Color Schemes
 if has("gui_running")
@@ -148,18 +167,15 @@ set cursorline
 highlight ColorColumn ctermbg=magenta 
 call matchadd('ColorColumn', '\%81v', 100) 
 
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 "  NERDTree settings
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " Avoid listing of files like .pyc
 let NERDTreeIgnore = ['\.pyc$']
 
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " Python Mode General Settings
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+" -----------------------------------------------------------------------------
 " General help:
 " 1. Documentation: 
 " 	"K" in key word show help
@@ -204,32 +220,30 @@ let g:pymode_options_colorcolumn = 0
 " Disable python-mode Rope code completion, we use super tab.
 let g:pymode_rope = 0
 
-
-" ~~~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " SnipMate forked
-" ~~~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " http://stackoverflow.com/questions/6916250/can-we-use-multiple-snippet-files-for-given-filetype-in-vim
 " Available snippets: .vim/bundle/vim-snippets/snippets
 " Usage: <intert mode> cl <tab> 
 " Usage: https://github.com/honza/vim-snippets
 
-"~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " Fugitive plugin
-"~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 
-"~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " BuffExporer 
-"~~~~~~~~~~~~~~
-"
+" -----------------------------------------------------------------------------
 
-"~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " Commentify
-"~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " ESC v (visualmode selection) c
 
-"~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " IdentLine
-"~~~~~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " Note: display thin vertical lines at each indentation level for code
 
 " vertical line indentation for SPACES
@@ -240,10 +254,9 @@ let g:indentLine_char = '│'
 " vertical line indentation for TAB
 set list lcs=tab:\|\ 
 
-"~~~~~~~~~~
+" -----------------------------------------------------------------------------
 " ControlP
-"~~~~~~~~~~
-
+" -----------------------------------------------------------------------------
 " Use <leader>t to open ctrlp
 let g:ctrlp_map = '<leader>p'
 " Ignore these directories
@@ -251,15 +264,14 @@ set wildignore+=*/build/**
 " disable caching
 let g:ctrlp_use_caching=0
 
-"~~~~~~~~
+" -----------------------------------------------------------------------------
 " Airline enablement
-"~~~~~~~~
+" -----------------------------------------------------------------------------
 set laststatus=2
 
-
-"~~~~~~~~
+" -----------------------------------------------------------------------------
 " Vim-Go
-"~~~~~~~~
+" -----------------------------------------------------------------------------
 " By default when :GoInstallBinaries is called, 
 " the binaries are installed to $GOBIN or $GOPATH/bin. 
 " To change it:
@@ -267,13 +279,10 @@ set laststatus=2
 " let g:go_bin_path = expand("~/.gotools")
 let g:go_bin_path = expand("~/bin")
 
-"~~~~~~~~
-" Others
-"~~~~~~~~
-
+" -----------------------------------------------------------------------------
+" Misc
+" -----------------------------------------------------------------------------
 " cool colors
 set t_Co=256
 
-" indent for YAML files
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
