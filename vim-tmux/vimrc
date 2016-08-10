@@ -1,4 +1,14 @@
 " -----------------------------------------------------------------------------
+" vim -u NONE
+"
+" Vimscript:
+" http://learnvimscriptthehardway.stevelosh.com/
+"
+" Vim Colours:
+" http://www.gilesorr.com/blog/vim-colours.html
+"
+" -----------------------------------------------------------------------------
+"
 " Vimrc file based on the plug-in manager
 " https://github.com/VundleVim/Vundle.vim
 "
@@ -6,7 +16,6 @@
 " mkdir .vim/bundle
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 " :PluginInstall or from command line: vim +PluginInstall +qall
-" -----------------------------------------------------------------------------
 
 " -----------------------------------------------------------------------------
 " Plug-ins installation
