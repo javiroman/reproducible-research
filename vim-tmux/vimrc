@@ -129,6 +129,11 @@ set softtabstop=4
 " eight columns wide. 
 set tabstop=4
 
+" That will automatically wrap text as close to 79 characters as white space
+" allows without exceeding the 79 character limit. This option wraps at word
+" boundaries.
+set textwidth=79
+
 " indent for YAML files
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
