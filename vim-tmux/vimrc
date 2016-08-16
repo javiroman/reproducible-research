@@ -284,7 +284,9 @@ let g:ctrlp_use_caching=0
 set laststatus=2
 
 " -----------------------------------------------------------------------------
-" Vim-Go: Tutorial https://github.com/fatih/vim-go-tutorial
+" Vim-Go: 
+" Tutorial: https://github.com/fatih/vim-go-tutorial
+" HowTo: http://www.ascent.io/blog/2014/03/11/gvm-with-golang/
 " -----------------------------------------------------------------------------
 " By default when :GoInstallBinaries is called, 
 " the binaries are installed to $GOBIN or $GOPATH/bin. 
