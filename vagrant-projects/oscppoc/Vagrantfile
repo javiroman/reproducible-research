@@ -1,6 +1,18 @@
 # -*- mode: ruby -*-
 # vim: set ft=ruby ts=2 et :
 
+# Vagrant File tested in:
+#
+# CentOS Linux release 7.2.1511
+#
+# $ vagrant --version
+# Vagrant 1.8.1
+#
+# $ vagrant plugin list
+# vagrant-libvirt (0.0.35)
+# vagrant-registration (1.3.0)
+# vagrant-share (1.1.5, system)
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -16,59 +28,44 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     "subscription_user"  => ENV['SUB_USER'],
     "subscription_pass"  => ENV['SUB_PASS'],
     "num_nodes" => ENV['NUM_HOSTS'] || 2,
-    "mn_memory"  => ENV['MN_MEMORY'] || 512,
     "master_memory"  => ENV['MASTER_MEMORY'] || 512,
-    "node_memory"  => ENV['NODE_MEMORY'] || 512,
-    "etcd_memory"  => ENV['ETCD_MEMORY'] || 512,
-    "lb_memory"  => ENV['LB_MEMORY'] || 512
+    "node_memory"  => ENV['NODE_MEMORY'] || 512
   }
 
   config.vm.box = vagrant_cluster_config["box_name"]
 
+  # NOTE: vagrant-registration (1.3.0) is not working for me
+  
   if Vagrant.has_plugin?('vagrant-registration')
-    # enable or disable registration step.
-    config.registration.skip = vagrant_cluster_config["subscription_register"]
-    config.registration.username = vagrant_cluster_config["subscription_user"] 
-    config.registration.password = vagrant_cluster_config["subscription_pass"] 
-    # disables automatic unregistration on halt (on shut down).
-    # So the box will unregister only on destroy.
-    config.registration.unregister_on_halt = false
-    # disable auto-attach this will be provisioner task.
-    config.registration.auto_attach = false
+     # enable or disable registration step.
+     config.registration.skip = vagrant_cluster_config["subscription_register"]
+     config.registration.skip = true
+  #  config.registration.username = vagrant_cluster_config["subscription_user"] 
+  #  config.registration.password = vagrant_cluster_config["subscription_pass"] 
+     # disables automatic unregistration on halt (on shut down).
+     # So the box will unregister only on destroy.
+     config.registration.unregister_on_halt = false
+     # disable auto-attach this will be provisioner task.
+     config.registration.auto_attach = false
   end
 
   # Disabling the default /vagrant share
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  # 1: Management Node
-  # 2, 3, 4: Master Nodes
-  # 5, 6, 7, 8, 9, 10: Worker Nodes (included Infra nodes)
-  # 11, 12, 13: Load Balancer nodes
-  # 14, 15, 16: Etcd cluster nodes
+  # 1: Master Node
+  # 2, 3: Nodes
   
   N = (vagrant_cluster_config['num_nodes']).to_i
 
   (1..N).each do |i|
-    if i == 2 || i == 3 || i == 4
+    if i == 1
       # openshift master nodes
-      vm_name = "master#{i-1}"
+      vm_name = "oscppoc-master"
       vm_memory = vagrant_cluster_config['master_memory']
-    elsif i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 
-      # openshift workers nodes and infra nodes
-      vm_name = "node#{i-4}"
-      vm_memory = vagrant_cluster_config['node_memory']
-    elsif i == 11 || i == 12 || i == 13 
-      # Load balancers
-      vm_name = "lb#{i-10}"
-      vm_memory = vagrant_cluster_config['lb_memory']
-    elsif i == 14 || i == 15 || i == 16 
-      # Etcd nodes
-      vm_name = "etcd#{i-13}"
-      vm_memory = vagrant_cluster_config['etcd_memory']
     else
-      # management node
-      vm_name = "mn"
-      vm_memory = vagrant_cluster_config['mn_memory']
+      # openshift workers nodes
+      vm_name = "oscppoc-node#{i-1}"
+      vm_memory = vagrant_cluster_config['node_memory']
     end
 
     config.vm.define "#{vm_name}" do |node|
@@ -79,19 +76,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         domain.driver = 'kvm'
         domain.memory = "#{vm_memory}".to_i
         domain.cpus = 1
+        # additional disk for Docker backend storage
+        domain.storage :file, :size => '10G'
       end
-      # The Ansible provisioner is run every node
+      # The Ansible provisioner is executed on every node
       # The inventory file is re-created on each run.
       # FIXME: workers hosts must be a pattern. This
       # only works in Vagrant +1.8.0
-      #node.vm.provision :ansible do |ansible|
-      #  ansible.groups = {
-      #    "mn" => ["sparkmn"],
-      #    "master" => ["sparkmaster"],
-      #    "workers" => ["sparkworker1", "sparkworker2"],
-      #  }
-      #  ansible.playbook = "provisioning/site.yml"
-      #end
+      node.vm.provision :ansible do |ansible|
+        ansible.groups = {
+          "master-group" => ["oscppoc-master"],
+          "worker-group" => ["oscppoc-master", "oscppoc-node1", "oscppoc-node2"],
+          "all_groups:children" => ["master-group", 
+                                    "worker-group"]
+        }
+        ansible.playbook = "provisioning/site.yml"
+      end
     end
   end 
 end

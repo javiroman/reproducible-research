@@ -1,0 +1,20 @@
+---
+- name: vim installation
+  yum: 
+    name=vim
+    state=present
+  become: yes
+
+#- name: Install the prerequisites for Management Node in Master
+#  yum: name={{ item }} state=present
+#  with_items:
+  #    - python-yaml 
+  #  - python-jinja2
+  #become: yes
+  #
+  #- name: Install ansible sources from GitHub
+  #git: repo=https://github.com/ansible/ansible.git
+  #     dest=/srv/ansible
+  #become: yes
+
+

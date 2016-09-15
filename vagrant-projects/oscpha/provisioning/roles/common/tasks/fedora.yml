@@ -1,0 +1,11 @@
+---
+- name: Update system
+  dnf: name=* state=latest
+  sudo: yes
+
+- name: Install prerequisites
+  dnf: name={{ item }} state=present
+  with_items:
+    - vim
+    - tree
+  sudo: yes

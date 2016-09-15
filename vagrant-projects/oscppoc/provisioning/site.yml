@@ -1,0 +1,24 @@
+---
+# Play 1
+- hosts: master-group
+  roles:
+   - common
+   - openshift-master
+
+# Play 2
+- hosts: worker-group
+  # Strategies: Plays execution control for many hosts.
+  # linear (default): All hosts have to finish one task before any of them can 
+  #                   begin the next one. Using the number of forks (default 5)
+  #                   to parallelize.
+  # serial: Ensures one group of hosts finishes its work before another group 
+  #         can begin.
+  # free: Allows each host to run until the end of the play as fast as it can.
+  #       Allows all hosts to run independently of each other
+  strategy: free
+  roles:
+   - common
+   - openshift-worker
+
+
+

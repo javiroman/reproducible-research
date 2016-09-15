@@ -32,3 +32,10 @@ ANSIBLE_VERSION=`ansible --version | head -1`
 echo $ANSIBLE_VERSION
 echo "$NUM_HOSTS hosts ready for HA OpenShift Container Platform"
 echo "Vagrant Box used: $BOX_NAME"
+echo -ne "Subsription manager registration: "
+if [ "$SUB_REG" = "true"  ]
+then 
+    echo "ENABLED"
+else
+    echo "DISABLED"
+fi

@@ -1,34 +1,27 @@
-# Environment variables for OpenShift Container Plaform in HA mode:
+# Environment variables for OpenShift Container Platform simple PoC:
 #
-# 1 Management Node (with NFS Server as PVs, and DNS wildcards)
-# 3 Master nodes
-# 3 Etcd nodes
-# 3 Load balancer for Master multiplexing
-# 2 Infra nodes 
-# 4 Worker nodes
+# 1 Master(NFS for PVs, DNS wildcards, infra Node)
+# 2 Nodes
 
 BOX_NAME='rhel-7.2'
-NUM_HOSTS=16
+NUM_HOSTS=3
 
 SUB_REG=$RHREG
 SUB_USER=$RHUSER
 SUB_PASS=$RHPASS
 
-MN_MEMORY=1024
-MASTER_MEMORY=2048
-NODE_MEMORY=2048
-ETCD_MEMORY=1024
-LB_MEMORY=512
+MASTER_MEMORY=8192
+NODE_MEMORY=8192
 
 ANSIBLE_PATH=/home/jromanes/HACK/ansible.git/hacking
 
 source ${ANSIBLE_PATH}/env-setup &> /dev/null
 
-export BOX_NAME NUM_HOSTS MN_MEMORY SUB_USER SUB_PASS SUB_REG
-export MASTER_MEMORY NODE_MEMORY ETCD_MEMORY LB_MEMORY
+export BOX_NAME NUM_HOSTS SUB_USER SUB_PASS SUB_REG
+export MASTER_MEMORY NODE_MEMORY 
 
 ANSIBLE_VERSION=`ansible --version | head -1`
 
 echo $ANSIBLE_VERSION
-echo "$NUM_HOSTS hosts ready for HA OpenShift Container Platform"
+echo "$NUM_HOSTS hosts ready for Simple PoC OpenShift Container Platform"
 echo "Vagrant Box used: $BOX_NAME"

@@ -1,0 +1,3 @@
+---
+- name: touch file
+  file: path=/tmp/SOYMASTER state=touch
