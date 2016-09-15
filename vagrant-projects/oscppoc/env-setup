@@ -14,6 +14,7 @@ MASTER_MEMORY=8192
 NODE_MEMORY=8192
 
 ANSIBLE_PATH=/home/jromanes/HACK/ansible.git/hacking
+#ANSIBLE_PATH=$(which ansible)
 
 source ${ANSIBLE_PATH}/env-setup &> /dev/null
 

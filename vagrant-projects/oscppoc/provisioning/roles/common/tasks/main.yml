@@ -1,6 +1,28 @@
 ---
-- include: fedora.yml
-  when: ansible_distribution == 'Fedora'
+- name: Install the prerequisites
+  yum: 
+    name={{ item }} 
+    state=present
+  with_items:
+    - vim
+    - wget 
+    - git 
+    - net-tools 
+    - bind-utils 
+    - iptables-services 
+    - bridge-utils 
+    - bash-completion
+  become: yes
 
-- include: centos.yml
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+- name: Update the system
+  yum: 
+    name=* 
+    state=latest
+  become: yes
+
+- name: OpenShift Utils Installation
+  yum: 
+    name=atomic-openshift-utils 
+    state=present
+  become: yes
+
