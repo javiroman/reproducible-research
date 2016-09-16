@@ -7,3 +7,10 @@
     - bind
     - bind-utils
   become: yes
+
+- name: OpenShift Utils Installation
+  yum: 
+    name=atomic-openshift-utils 
+    state=present
+  become: yes
+

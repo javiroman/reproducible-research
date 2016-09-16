@@ -8,8 +8,8 @@ zone "168.192.in-addr.arpa" {
     file "/etc/named/zones/db.192.168";  # 192.168.121.0/24 subnet
 };
 
-zone "cloudapps-example.com" IN { 
-    type master;
-    file "/etc/named/zones/db.cloudapps-example.com";
-    allow-update { key cloudapps-example.com ; } ; 
-};
+#zone "cloudapps-example.com" IN { 
+#    type master;
+#    file "/etc/named/zones/db.cloudapps-example.com";
+#    allow-update { key cloudapps-example.com ; } ; 
+#};
