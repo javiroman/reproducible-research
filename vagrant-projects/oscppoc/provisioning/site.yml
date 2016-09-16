@@ -1,12 +1,19 @@
 ---
 # Play 1
+- hosts: mn-group
+  gather_facts: no
+  roles:
+   - common
+   - openshift-mn
+
+# Play 2
 - hosts: master-group
   gather_facts: no
   roles:
    - common
    - openshift-master
 
-# Play 2
+# Play 3
 - hosts: worker-group
   gather_facts: no
   # Strategies: Plays execution control for many hosts.
