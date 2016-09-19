@@ -88,16 +88,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "#{vm_name}" do |node|
       node.vm.hostname = "#{vm_name}"
       #node.vm.network :private_network, ip: "10.10.10.10#{i}", auto_config: false 
-      config.vm.provider :libvirt do |domain|
+      node.vm.provider :libvirt do |domain|
         domain.uri = 'qemu+unix:///system'
         domain.driver = 'kvm'
         domain.memory = "#{vm_memory}".to_i
         domain.cpus = 1
+        #domain.storage :file, :size => '10G'
       end
       # The Ansible provisioner is executed on every node
       # The inventory file is re-created on each run.
-      # FIXME: workers hosts must be a pattern. This
-      # only works in Vagrant +1.8.0
       node.vm.provision :ansible do |ansible|
         ansible.groups = {
           "mn" => ["sparkmn"],
