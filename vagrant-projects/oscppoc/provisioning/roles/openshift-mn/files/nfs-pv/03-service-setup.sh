@@ -5,6 +5,9 @@ systemctl start rpcbind nfs-server nfs-lock nfs-idmap
 exportfs -s
 showmount -e
 
+# NFS client
+mountstats
+
 DOMAIN=example.com
 
 for node in oscppoc-master.${DOMAIN} \

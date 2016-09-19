@@ -4,6 +4,7 @@ oc process metrics-deployer-template \
 IMAGE_VERSION=v3.2,\
 IMAGE_PREFIX=registry.access.redhat.com/openshift3/,\
 USE_PERSISTENT_STORAGE=true,\
-CASSANDRA_PV_SIZE=2Gi | oc create -f -
+CASSANDRA_PV_SIZE=2Gi | oc create -n openshift-infra -f - 
 
+# notes: https://bugzilla.redhat.com/show_bug.cgi?id=1322275
 

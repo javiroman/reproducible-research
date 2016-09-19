@@ -15,13 +15,16 @@
 
 # creating folder for PV exports
 mkdir -p /var/export/pvs/pv{1..10}
+mkdir -p /var/export/pvs/registry-storage
 chown -R nfsnobody:nfsnobody /var/export/pvs/
-chmod -R 700 /var/export/pvs/
-
+chmod -R 777 /var/export/pvs/
 
 # pupulating /etc/exports
 for volume in pv{1..10} ; do
         echo Creating export for volume $volume;
             echo "/var/export/pvs/${volume}
-            192.168.121.0/24(rw,sync,all_squash)" >> /etc/exports;
+            192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports;
 done
+
+echo "/var/exports/pvs/registry-storage
+192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports

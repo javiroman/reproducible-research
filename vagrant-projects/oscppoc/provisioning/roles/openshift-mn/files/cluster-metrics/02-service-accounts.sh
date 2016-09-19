@@ -1,12 +1,5 @@
 echo "Creating a metrics-deployer service account ..."
-cat <<! | oc create -f -
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: metrics-deployer
-  secrets:
-  - name: metrics-deployer
-!
+oc create serviceaccount metrics-deployer
 
 # the metrics-deployer service account must also be granted the edit permission
 # for the openshift-infra project
@@ -20,6 +13,5 @@ oc adm policy add-role-to-user edit system:serviceaccount:openshift-infra:metric
 # Metrics Components step.
 echo "Grant Heapster cluster-reader privileges to find all of the nodes and access their /stats endpoints"
 oc adm policy add-cluster-role-to-user cluster-reader system:serviceaccount:openshift-infra:heapster
-
 
 oc secrets new metrics-deployer nothing=/dev/null

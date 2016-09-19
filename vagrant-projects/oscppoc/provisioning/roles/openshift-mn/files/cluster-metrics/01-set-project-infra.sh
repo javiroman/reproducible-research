@@ -1,3 +1,12 @@
+# Verify the metrics service in /etc/origin/master/master-config.yaml for the master node:
+# 
+# assetConfig:
+#  logoutURL: ""
+#  masterPublicURL: https://oscppoc-master.example.com:8443
+#  publicURL: https://oscppoc-master.example.com:8443/console/
+#  metricsPublicURL: "https://metrics.cloudapps.example.com/hawkular/metrics"
+#  servingInfo:
+
 oc login -u system:admin 
 
 # You must deploy the components for cluster metrics in the openshift-infra
