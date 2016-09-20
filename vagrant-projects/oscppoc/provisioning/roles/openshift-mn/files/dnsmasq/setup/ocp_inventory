@@ -11,6 +11,61 @@ ansible_ssh_user=root
 # If ansible_ssh_user is not root, ansible_sudo must be set to true
 #ansible_sudo=true
 
+# Native high availbility cluster method with optional load balancer.
+# If no lb group is defined installer assumes that a load balancer has
+# been preconfigured. For installation the value of
+# openshift_master_cluster_hostname must resolve to the load balancer
+# or to one or all of the masters defined in the inventory if no load
+# balancer is present.
+# Note: The [lb] group configured by openshift-ansible is a single point of
+# failure. Any other load balancing solution should be used in a production
+# environment (elb, f5, haproxy+keepalived, ...) to balance the master API port
+# (default 8443).
+openshift_master_cluster_method=native
+
+# This variable overrides the public host name for the cluster, which defaults
+# to the host name of the master
+openshift_master_cluster_hostname=openshift-cluster.example.com
+openshift_master_cluster_public_hostname=openshift-cluster.example.com
+
+# openshift_master_default_subdomain:
+# If you do not change this variable and create a new application,
+# like my-php, within the project mytesting, the default created hostname would
+# be something along the lines of my-php-mytesting.router.default.svc.cluster.local.
+# This default hostname *.router.default.svc.cluster.local, where the * is the
+# name of the app/service followed by the name of the project in which the
+# app/service was created, separated by a hyphen, which might not be externally
+# routable.
+# But if you had used this variable during installation and set the default
+# subdomain to *.example.com, when you create the your-python application,
+# within the project yourtesting, the default hostname would be
+# your-python-yourtesting.example.com
+openshift_master_default_subdomain=cloudapps.example.com
+
+#osm_default_node_selector='region=primary'
+#openshift_install_examples=true
+
+# This variable configures which OpenShift Enterprise SDN plug-in to use for
+# the pod network, which defaults to redhat/openshift-ovs-subnet for the
+# standard SDN plug-in. Set the variable to redhat/openshift-ovs-multitenant to
+# use the multitenant plug-in.
+# The ovs-subnet plug-in is the original plug-in which provides a "flat" pod
+# network where every pod can communicate with every other pod and service.
+#
+# The ovs-multitenant plug-in provides OpenShift Enterprise project level
+# isolation for pods and services. Each project receives a unique Virtual
+# Network ID (VNID) that identifies traffic from pods assigned to the project.
+# Pods from different projects cannot send packets to or receive packets from
+# pods and services of a different project.
+#
+# However, projects which receive VNID 0 are more privileged in that they are
+# allowed to communicate with all other pods, and all other pods can
+# communicate with them. In OpenShift Enterprise clusters, the default project
+# has VNID 0. This facilitates certain services like the load balancer, etc. to
+# communicate with all other pods in the cluster and vice versa.
+#
+#os_sdn_network_plugin_name=redhat/openshift-ovs-multitenant
+
 deployment_type=openshift-enterprise
 
 # uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
