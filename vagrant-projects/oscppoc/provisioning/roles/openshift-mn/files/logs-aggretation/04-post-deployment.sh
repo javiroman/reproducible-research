@@ -10,6 +10,7 @@ oc get dc --selector logging-infra=elasticsearch
 
 
 # Elasticsearch Storage
+# ~~~~~~~~~~~~~~~~~~~~~
 # The deployer does not connect any persistent storage to the Elasticsearch
 # pods, so any stored data is lost upon restart (the deployer creates an
 # ephemeral deploymen). In a realistic scenario, some # kind of external 
@@ -17,12 +18,56 @@ oc get dc --selector logging-infra=elasticsearch
 # specifies a persistent storage volume for the Elasticsearch deployment.
 
 # NOTE: The best-performing volumes are local disks, if it is possible to use
-# them. 
+# them. Take a look here for instructions about this:
+# https://docs.openshift.com/enterprise/3.2/install_config/aggregate_logging.html
 
+#####################
+# Local Host Mounts #
+#####################
+# [TODO]
+
+##########################
+# Network Storage Mounts #
+##########################
+# If using host mounts is impractical or undesirable, it may be necessary to
+# attach block storage as a PersistentVolumeClaim based on a PV as in the 
+# following example:
+
+# in the master or mn remote client create the PV
+cat <<! | oc create -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch-volume
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    path: /var/export/pvs/elasticsearch-storage
+    server: oscppoc-mn.example.com
+  persistentVolumeReclaimPolicy: Recycle
+!
+
+# in the master or mn remote client create the PVC for use in the project.
+cat <<! | oc create -f -
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: elasticsearch-claim
+spec:
+  accessModes:
+    - ReadWriteOnce 
+  resources:
+    requests:
+      storage: 2Gi
+!
 
 # Look at the pods in the logging project:
-oc get pods
+oc get dc
 
+oc volume dc/logging-es-r5ip4fal --add --overwrite --name=elasticsearch-storage --type=persistentVolumeClaim --claim-name=elasticsearch-claim
 
 # Fluentd Scale-Out
 # ~~~~~~~~~~~~~~~~

@@ -14,8 +14,19 @@
 #  requests, from ALL users, to the anonymous uid and gid.
 
 # creating folder for PV exports
+
+# General PV for pods
 mkdir -p /var/export/pvs/pv{1..10}
+
+# PV for Internal Registry persistence
 mkdir -p /var/export/pvs/registry-storage
+
+# PV cassandra backend - Metrics persistence
+mkdir -p /var/export/pvs/cassandra-storage
+
+# PV elasticsearch backend - Logging persistence
+mkdir -p /var/export/pvs/elasticsearch-storage
+
 chown -R nfsnobody:nfsnobody /var/export/pvs/
 chmod -R 777 /var/export/pvs/
 
@@ -26,5 +37,9 @@ for volume in pv{1..10} ; do
             192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports;
 done
 
-echo "/var/exports/pvs/registry-storage
-192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
+echo "/var/export/pvs/registry-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
+echo "/var/export/pvs/cassandra-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
+echo "/var/export/pvs/elasticsearch-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
+
+exportfs -a
+
