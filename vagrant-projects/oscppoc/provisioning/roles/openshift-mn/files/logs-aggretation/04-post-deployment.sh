@@ -100,7 +100,8 @@ oc scale dc/logging-fluentd --replicas=3
 
 # Setting the loggingPublicURL parameter creates a View Archive button on the 
 # OpenShift Enterprise web console under the Browse → Pods → <pod_name> → Logs tab. 
-# This links to the Kibana console.
+# This links to the Kibana console. It's importante take into account this
+# publics URLs must be those resolved by the wildcard DNS record.
 
 systemctl restart atomic-openshift-master.service
 

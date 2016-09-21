@@ -43,7 +43,7 @@ openshift_master_cluster_public_hostname=openshift-cluster.example.com
 openshift_master_default_subdomain=cloudapps.example.com
 
 #osm_default_node_selector='region=primary'
-#openshift_install_examples=true
+openshift_install_examples=true
 
 # This variable configures which OpenShift Enterprise SDN plug-in to use for
 # the pod network, which defaults to redhat/openshift-ovs-subnet for the
