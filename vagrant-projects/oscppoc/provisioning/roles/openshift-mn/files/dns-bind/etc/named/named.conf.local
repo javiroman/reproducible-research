@@ -1,11 +1,11 @@
-zone "ocp.example.com" {
+zone "ocp.example.com" IN {
     type master;
     file "/etc/named/zones/db.ocp.example.com"; # zone file path
 };
 
-zone "168.192.in-addr.arpa" {
+zone "168.192.in-addr.arpa" IN {
     type master;
-    file "/etc/named/zones/db.192.168";  # 192.168.121.0/24 subnet
+    file "/etc/named/zones/db.192.168";  # 192.168.121.0/24 libvirt subnet
 };
 
 #zone "cloudapps-example.com" IN { 
