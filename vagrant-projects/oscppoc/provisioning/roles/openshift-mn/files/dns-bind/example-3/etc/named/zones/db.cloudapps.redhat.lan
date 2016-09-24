@@ -1,0 +1,18 @@
+$ORIGIN  .
+
+$TTL 1  ;  1 seconds (for testing only)
+
+cloudapps.redhat.lan IN    SOA    ose-mn.cloudapps.redhat.lan.  root.cloudapps.redhat.lan. (
+  2011112904  ; serial
+  60          ; refresh (1 minute)
+  15          ; retry (15 seconds)
+  1800        ; expire (30 minutes)
+  10          ; minimum (10 seconds)
+)
+
+NS ose-mn.cloudapps.redhat.lan.
+
+$ORIGIN cloudapps.redhat.lan.
+
+test A 192.168.121.221
+* A  192.168.121.221
