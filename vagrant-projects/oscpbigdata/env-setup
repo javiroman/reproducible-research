@@ -1,0 +1,29 @@
+# Environment variables for OpenShift Container Platform simple PoC:
+#
+# 1 Master(NFS for PVs, DNS wildcards, infra Node)
+# 2 Nodes
+
+BOX_NAME='rhel-7.2'
+NUM_HOSTS=5
+
+SUB_REG=$RHREG
+SUB_USER=$RHUSER
+SUB_PASS=$RHPASS
+
+MN_MEMORY=8192
+MASTER_MEMORY=8192
+NODE_MEMORY=8192
+
+ANSIBLE_PATH=/home/jromanes/HACK/ansible.git/hacking
+#ANSIBLE_PATH=$(which ansible)
+
+source ${ANSIBLE_PATH}/env-setup &> /dev/null
+
+export BOX_NAME NUM_HOSTS SUB_USER SUB_PASS SUB_REG
+export MN_MEMORY MASTER_MEMORY NODE_MEMORY 
+
+ANSIBLE_VERSION=`ansible --version | head -1`
+
+echo $ANSIBLE_VERSION
+echo "$NUM_HOSTS hosts ready for Simple PoC OpenShift Container Platform"
+echo "Vagrant Box used: $BOX_NAME"

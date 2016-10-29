@@ -1,0 +1,42 @@
+The base image used (RHEL vagrant box) need install:
+
+Firewall:
+
+sudo yum install firewalld -y
+sudo systemctl start firewalld.service
+sudo systemctl enable firewalld.service
+
+In the DNS server host:
+
+sudo iptables -I INPUT -p tcp --dport 53 -j ACCEPT
+sudo iptables -I INPUT -p udp --dport 53 -j ACCEPT
+sudo iptables-save
+
+SELinux:
+
+sudo yum install policycoreutils policycoreutils-python selinux-policy \
+selinux-policy-targeted libselinux-utils setroubleshoot-server setools \
+setools-console mcstrans -y
+
+sestatus
+
+sudo sed -i 's/permissive/enforcing/g' /etc/selinux/config
+
+About dnsmasq and libvirt:
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+http://wiki.libvirt.org/page/VirtualNetworking
+http://www.libvirt.org/formatnetwork.html
+
+On linux host servers, libvirtd uses dnsmasq to service the virtual networks,
+such as the default network. A new instance of dnsmasq is started for each
+virtual network, only accessible to guests in that specific network.
+
+sudo virsh net-list --all
+sudo virsh net-undefine vagrant-spark0
+
+net-destroy: Shuts down a running virtual network, as started with net-create
+or net-start.
+
+
+

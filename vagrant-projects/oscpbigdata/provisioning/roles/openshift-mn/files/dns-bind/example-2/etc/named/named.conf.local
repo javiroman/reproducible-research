@@ -1,0 +1,15 @@
+zone "ose.redhat.lan" IN {
+    type master;
+    file "/etc/named/zones/db.ose.redhat.lan"; # zone file path
+};
+
+zone "192.168.122.in-addr.arpa" IN {
+    type master;
+    file "/etc/named/zones/db.192.168.122";  # 192.168.122.0/24 libvirt subnet
+};
+
+zone "cloudapps.redhat.lan" IN { 
+    type master;
+    file "/etc/named/zones/db.cloudapps.redhat.lan";
+    allow-update { key cloudapps.redhat.lan ; } ; 
+};

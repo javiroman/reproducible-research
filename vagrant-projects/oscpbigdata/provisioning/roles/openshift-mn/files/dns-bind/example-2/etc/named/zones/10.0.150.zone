@@ -1,0 +1,14 @@
+$TTL 24H
+
+150.0.10.in-addr.arpa. IN SOA dns-server.bnkpoc.local. rhcons.bnkpoc.local. (
+        1 ; serial number
+        1000 ; refresh slaves in 1000 seconds
+        2000 ; retry in 2000 seconds
+        3000 ; expire after 3000 sexonds
+        4000 ; minimum TTL = 4000 seconds
+)
+
+@ IN NS dns-server.bnkpoc.local.
+84  IN PTR master-ext.bnkpoc.local.
+86  IN PTR node1-ext.bnkpoc.local.
+92  IN PTR cfme-ext.bnkpoc.local.
