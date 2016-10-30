@@ -1,0 +1,4 @@
+---
+openshift_version: "1.6.2-bin-hadoop2.6"
+openshift_mirror: "http://d3kbcqa49mib13.cloudfront.net"
+openshift_dir: "/home/vagrant"

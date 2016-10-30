@@ -1,0 +1,7 @@
+---
+# Play 1
+- hosts: producers-group
+  gather_facts: no
+  roles:
+   - common
+   - producers

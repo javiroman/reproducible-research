@@ -20,15 +20,13 @@ Vagrant.require_version ">= 1.7.2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  vagrant_cluster_config = {
+  vagrant_producers_config = {
     "box_name"  => ENV['BOX_NAME'] || "centos/7",
     "subscription_register"  => ENV['SUB_REG'],
     "subscription_user"  => ENV['SUB_USER'],
     "subscription_pass"  => ENV['SUB_PASS'],
     "num_nodes" => ENV['NUM_HOSTS'] || 2,
-    "mn_memory"  => ENV['MN_MEMORY'] || 512,
-    "master_memory"  => ENV['MASTER_MEMORY'] || 512,
-    "node_memory"  => ENV['NODE_MEMORY'] || 512
+    "node_memory"  => ENV['NODE_MEMORY'] || 512,
   }
 
   config.vm.box = vagrant_cluster_config["box_name"]
@@ -51,28 +49,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Disabling the default /vagrant share
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  # 1: Master Node
-  # 2, 3: Nodes
-  
-  #
-  # The OpenShift Container Platform Cluster
-  #
-  N = (vagrant_cluster_config['num_nodes']).to_i
+  N = (vagrant_producers_config['num_nodes']).to_i
 
   (1..N).each do |i|
-    if i == 1
-      # openshift master nodes
-      vm_name = "oscpbigdata-mn"
-      vm_memory = vagrant_cluster_config['mn_memory']
-    elsif i == 2
-      # openshift master nodes
-      vm_name = "oscpbigdata-master"
-      vm_memory = vagrant_cluster_config['master_memory']
-    else
-      # openshift workers nodes
-      vm_name = "oscpbigdata-node#{i-2}"
-      vm_memory = vagrant_cluster_config['node_memory']
-    end
+    vm_name = "producer-node#{i}"
+    vm_memory = vagrant_producers_config['node_memory']
 
     config.vm.define "#{vm_name}" do |node|
       node.vm.hostname = "#{vm_name}"
@@ -80,29 +61,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         domain.uri = 'qemu+unix:///system'
         domain.driver = 'kvm'
         domain.memory = "#{vm_memory}".to_i
-        domain.cpus = 2
-        # Worker nodes attached storage
-        if "#{vm_name}" == "oscpbigdata-node2" ||
-           "#{vm_name}" == "oscpbigdata-node3" ||
-           "#{vm_name}" == "oscpbigdata-node4"
-        
-            # Docker backend
-            domain.storage :file, :size => '10G'
-            # JBOD simulation backend
-            domain.storage :file, :size => '20G'
-            domain.storage :file, :size => '20G'
-            domain.storage :file, :size => '20G'
-
-        elsif "#{vm_name}" == "oscpbigdata-node1" ||
-              "#{vm_name}" == "oscpbigdata-master"
-            # additional disk for Docker backend storage for
-            # the infra node and master node
-            domain.storage :file, :size => '10G'
-
-        elsif "#{vm_name}" == "oscpbigdata-mn"
-            # NFS shared backend for PV common services.
-            domain.storage :file, :size => '100G'
-        end
+        domain.cpus = 1
       end
 
       # The Ansible provisioner is executed on every node
@@ -111,14 +70,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # only works in Vagrant +1.8.0
       node.vm.provision :ansible do |ansible|
         ansible.groups = {
-          "mn-group" => ["oscpbigdata-mn"],
-          "master-group" => ["oscpbigdata-master"],
-          "infra-group" => ["oscbigdatac-node1"],
-          "worker-group" => ["oscpbigdata-node2", "oscpbigdata-node3"],
-          "all_groups:children" => ["mn-group",
-                                    "master-group", 
-                                    "infra-group",
-                                    "worker-group"]
+          "producers-group" => ["producer-node1", "producer-node2"],
+          "all_groups:children" => ["producers-group"]
         }
         ansible.playbook = "provisioning/site.yml"
       end

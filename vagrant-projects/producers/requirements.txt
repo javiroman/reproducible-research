@@ -1,6 +1,4 @@
 vagrant (1.8.1)
-landrush (1.1.2)
-vagrant-dns (1.0.0)
 vagrant-libvirt (0.0.35)
 vagrant-registration (1.3.0)
 ansible
