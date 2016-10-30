@@ -29,16 +29,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     "node_memory"  => ENV['NODE_MEMORY'] || 512,
   }
 
-  config.vm.box = vagrant_cluster_config["box_name"]
+  config.vm.box = vagrant_producers_config["box_name"]
 
   # NOTE: vagrant-registration (1.3.0) is not working for me
   
   if Vagrant.has_plugin?('vagrant-registration')
      # enable or disable registration step.
-     config.registration.skip = vagrant_cluster_config["subscription_register"]
+     config.registration.skip = vagrant_producers_config["subscription_register"]
      config.registration.skip = true
-  #  config.registration.username = vagrant_cluster_config["subscription_user"] 
-  #  config.registration.password = vagrant_cluster_config["subscription_pass"] 
+  #  config.registration.username = vagrant_producers_config["subscription_user"] 
+  #  config.registration.password = vagrant_producers_config["subscription_pass"] 
      # disables automatic unregistration on halt (on shut down).
      # So the box will unregister only on destroy.
      config.registration.unregister_on_halt = false
