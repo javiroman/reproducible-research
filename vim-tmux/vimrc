@@ -13,7 +13,7 @@
 " https://github.com/VundleVim/Vundle.vim
 "
 " Vundle Setup:
-" mkdir .vim/bundle
+" mkdir -p .vim/bundle
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 " :PluginInstall or from command line: vim +PluginInstall +qall
 
