@@ -24,6 +24,9 @@ source ${ANSIBLE_PATH}/env-setup &> /dev/null
 export BOX_NAME NUM_HOSTS SUB_USER SUB_PASS SUB_REG
 export MN_MEMORY MASTER_MEMORY NODE_MEMORY 
 
+# avoid load VIM plugins when we are using "oc" for edit objects.
+export OC_EDITOR="vim -v"
+
 ANSIBLE_VERSION=`ansible --version | head -1`
 
 echo $PROJECT1
