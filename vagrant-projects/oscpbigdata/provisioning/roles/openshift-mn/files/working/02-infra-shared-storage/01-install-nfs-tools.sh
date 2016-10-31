@@ -6,14 +6,17 @@
 # MySQL desires that the volume belong to the mysql user and assumes that it
 # is, which causes errors later. 
 
-DOMAIN=example.com
+source ../01-infra-setup/00-hostnames
+
+hosts="${HOST_MASTER} \
+${HOST_NODE1} \
+${HOST_NODE2} \
+${HOST_NODE3}"
 
 # mn node
 yum -y install nfs-utils
 
-for node in oscppoc-master.${DOMAIN} \
-        oscppoc-node1.${DOMAIN} \
-        oscppoc-node2.${DOMAIN} ; do
-
-        ssh $node "yum -y install nfs-utils"
+for node in $hosts; do
+	echo "Executing in -> $node"
+    ssh $node "yum -y install nfs-utils"
 done

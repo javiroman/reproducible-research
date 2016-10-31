@@ -1,3 +1,10 @@
+source ../01-infra-setup/00-hostnames
+
+hosts="${HOST_MASTER} \
+${HOST_NODE1} \
+${HOST_NODE2} \
+${HOST_NODE3}"
+
 systemctl enable rpcbind nfs-server
 systemctl start rpcbind nfs-server nfs-lock nfs-idmap
 
@@ -8,14 +15,10 @@ showmount -e
 # NFS client
 mountstats
 
-DOMAIN=example.com
-
-for node in oscppoc-master.${DOMAIN} \
-            oscppoc-node1.${DOMAIN} \
-                    oscppoc-node2.${DOMAIN} ; do
-
-        ssh $node "showmount -e oscppoc-mn.${DOMAIN}"
-        ssh $node "mount oscppoc-mn.${DOMAIN}:/var/export/pvs/pv1 /mnt/"
-        ssh $node "umount /mnt/"
+for node in $hosts; do
+	echo "Executing in -> $node"
+    ssh $node "showmount -e ${HOST_MN}"
+	echo "Testing client mount ..."
+    ssh $node "mount ${HOST_MN}:/var/exports/pvs/pv1 /mnt/"
+    ssh $node "umount /mnt/"
 done
-

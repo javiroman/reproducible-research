@@ -15,31 +15,42 @@
 
 # creating folder for PV exports
 
+#mkdir -p /var/exports/
+
+# Create one big Linux partition
+#echo ';' | sfdisk /dev/vdb
+
+# Create filesystem
+#mkfs.ext4 /dev/vdb1
+
+# Mount partition
+#echo "/dev/vdb1    /var/exports    ext4    defaults    0  0" >> /etc/fstab
+# mount -a
+
 # General PV for pods
-mkdir -p /var/export/pvs/pv{1..10}
+mkdir -p /var/exports/pvs/pv{1..10}
 
 # PV for Internal Registry persistence
-mkdir -p /var/export/pvs/registry-storage
+mkdir -p /var/exports/pvs/registry-storage
 
 # PV cassandra backend - Metrics persistence
-mkdir -p /var/export/pvs/cassandra-storage
+mkdir -p /var/exports/pvs/cassandra-storage
 
 # PV elasticsearch backend - Logging persistence
-mkdir -p /var/export/pvs/elasticsearch-storage
+mkdir -p /var/exports/pvs/elasticsearch-storage
 
-chown -R nfsnobody:nfsnobody /var/export/pvs/
-chmod -R 777 /var/export/pvs/
+chown -R nfsnobody:nfsnobody /var/exports/pvs/
+chmod -R 777 /var/exports/pvs/
 
 # pupulating /etc/exports
 for volume in pv{1..10} ; do
         echo Creating export for volume $volume;
-            echo "/var/export/pvs/${volume}
-            192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports;
+        echo "/var/exports/pvs/${volume} 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports;
 done
 
-echo "/var/export/pvs/registry-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
-echo "/var/export/pvs/cassandra-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
-echo "/var/export/pvs/elasticsearch-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
+echo "/var/exports/pvs/registry-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
+echo "/var/exports/pvs/cassandra-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
+echo "/var/exports/pvs/elasticsearch-storage 192.168.121.0/24(rw,sync,no_root_squash)" >> /etc/exports
 
 exportfs -a
 

@@ -3,14 +3,18 @@
 # the nodes where the pod could land (the infra node for infra pods, and the
 # regular nodes, primary for application pods):
 
-DOMAIN=example.com
 
-for node in oscppoc-master.${DOMAIN} \
-            oscppoc-node1.${DOMAIN} \
-            oscppoc-node2.${DOMAIN} ; do
+source ../01-infra-setup/00-hostnames
 
-        ssh $node "setsebool -P virt_use_nfs 1;"
-        ssh $node "setsebool -P virt_sandbox_use_nfs 1;"
+hosts="${HOST_MASTER} \
+${HOST_NODE1} \
+${HOST_NODE2} \
+${HOST_NODE3}"
+
+for node in $hosts; do
+	echo "Executing in -> $node"
+    ssh $node "setsebool -P virt_use_nfs 1;"
+    ssh $node "setsebool -P virt_sandbox_use_nfs 1;"
 done
 
 # Note:
