@@ -1,0 +1,21 @@
+Notes for a properly DNS setup in Vagrant VM running
+on top of libvirtd KVM host.
+
+1. Create a /etc/hosts file an copy it in all VM hosts.
+2. Setup a proper Bind DNS server in one of VMs (mn)
+3. Modify the HOST dhsmasq to inject the step 2 DNS ip:
+
+Note: The VMs must be stopped!!
+
+sudo virsh
+    net-list
+    net-edit vagrant-libvirt
+        ....
+        <mac ....>
+        <dns>
+            <forwarder addr="192.168.121.218" /> ===> IP of MN with DNS Bind.
+        </dns>
+        ...
+    net-destroy vagrant-libvirt
+    net-start vagrant-libvirt
+

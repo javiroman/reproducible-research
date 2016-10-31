@@ -9,5 +9,5 @@ echo "distributing file ...."
 
 for node in $hosts; do
 	echo "Copy to -> $node"
-	scp $1 root@$node:
+	scp $1 root@$node:$2/$1
 done

@@ -153,3 +153,4 @@ prepend domain-name-servers ${IP_MN};
 
 sudo systemctl start named
 sudo systemctl enable named
+sudo systemctl restart NetworkManager

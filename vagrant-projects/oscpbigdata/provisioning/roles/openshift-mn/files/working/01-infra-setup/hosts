@@ -1,0 +1,7 @@
+127.0.0.1   oscpbigdata-mn localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.121.145 	oscpbigdata-mn.redhat.lan oscpbigdata-mn
+192.168.121.163 oscpbigdata-master.redhat.lan oscpbigdata-master
+192.168.121.235  oscpbigdata-node1.redhat.lan oscpbigdata-node1
+192.168.121.239  oscpbigdata-node2.redhat.lan oscpbigdata-node2
+192.168.121.141  oscpbigdata-node3.redhat.lan oscpbigdata-node3

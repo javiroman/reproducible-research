@@ -35,8 +35,6 @@ sudo yum install atomic-openshift-utils -y
 #
 # Prerequisites SELinux and local Firewall
 #
-sudo systemctl start firewalld.service
-sudo systemctl enable firewalld.service
 sudo sed -i 's/permissive/enforcing/g' /etc/selinux/config
 
 #
