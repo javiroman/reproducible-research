@@ -3,6 +3,8 @@
 # 1 Master(NFS for PVs, DNS wildcards, infra Node)
 # 2 Nodes
 
+PROJECT1="Producers Project"
+PROJECT2="-----------------"
 BOX_NAME='rhel-7.2'
 NUM_HOSTS=2
 
@@ -22,6 +24,9 @@ export NODE_MEMORY
 
 ANSIBLE_VERSION=`ansible --version | head -1`
 
+echo $PROJECT1
+echo $PROJECT2
+echo "Base Box: $BOX_NAME"
+echo -ne "Ansible version: "
 echo $ANSIBLE_VERSION
-echo "$NUM_HOSTS hosts ready for data ingestion simulation"
-echo "Vagrant Box used: $BOX_NAME"
+echo -ne "Number of hosts configured: $NUM_HOSTS\n"
