@@ -17,6 +17,9 @@
 # docker-registry-1-di62p   1/1       Running   0          1d
 # router-1-0n8gl            1/1       Running   0          1d
 
+# Other alternative is:
+# oc adm manage-node --selector=”region=infra” --list-pods
+
 
 oc project default
 
@@ -27,12 +30,12 @@ metadata:
   name: registry-storage
 spec:
   capacity:
-    storage: 5Gi
+    storage: 10Gi
   accessModes:
   - ReadWriteOnce
   nfs:
-    path: /var/export/pvs/registry-storage
-    server: masterop.antena3tv.es
+    path: /var/exports/pvs/registry-storage
+    server: oscpbigdata-mn.redhat.lan
   persistentVolumeReclaimPolicy: Recycle
 !
 
