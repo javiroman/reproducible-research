@@ -1,3 +1,7 @@
+#
+# Note: This step is not mandatory, only for
+#       special DHCP configurations.
+#
 source ./00-hostnames
 
 sudo tee /etc/dhcp/dhclient.conf <<!
