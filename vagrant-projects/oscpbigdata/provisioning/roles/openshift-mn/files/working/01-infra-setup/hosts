@@ -5,3 +5,4 @@
 192.168.121.235  oscpbigdata-node1.redhat.lan oscpbigdata-node1
 192.168.121.239  oscpbigdata-node2.redhat.lan oscpbigdata-node2
 192.168.121.141  oscpbigdata-node3.redhat.lan oscpbigdata-node3
+192.168.121.21   oscpbigdata-node4.redhat.lan oscpbigdata-node4

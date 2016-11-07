@@ -3,7 +3,8 @@ source ./00-hostnames
 hosts="${HOST_MASTER} \
 ${HOST_NODE1} \
 ${HOST_NODE2} \
-${HOST_NODE3}"
+${HOST_NODE3} \
+${HOST_NODE4}"
 
 ssh-keygen -f /root/.ssh/id_rsa -N ''
 

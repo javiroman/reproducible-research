@@ -114,7 +114,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           "mn-group" => ["oscpbigdata-mn"],
           "master-group" => ["oscpbigdata-master"],
           "infra-group" => ["oscbigdatac-node1"],
-          "worker-group" => ["oscpbigdata-node2", "oscpbigdata-node3"],
+          "worker-group" => ["oscpbigdata-node2", "oscpbigdata-node3", "oscpbigdata-node4"],
           "all_groups:children" => ["mn-group",
                                     "master-group", 
                                     "infra-group",
