@@ -100,6 +100,7 @@ ${HOST_MASTER}.  IN A ${IP_MASTER}
 ${HOST_NODE1}.  IN A ${IP_NODE1}
 ${HOST_NODE2}.  IN A ${IP_NODE2}
 ${HOST_NODE3}.  IN A ${IP_NODE3}
+${HOST_NODE4}.  IN A ${IP_NODE4}
 !
 
 sudo tee /etc/named/zones/db.${IP_REV} <<!
@@ -121,6 +122,7 @@ ${IP_MASTER_INV} IN        PTR     ${HOST_MASTER}.
 ${IP_NODE1_INV} IN        PTR     ${HOST_NODE1}.     
 ${IP_NODE2_INV} IN        PTR     ${HOST_NODE2}.     
 ${IP_NODE3_INV} IN        PTR     ${HOST_NODE3}.     
+${IP_NODE4_INV} IN        PTR     ${HOST_NODE4}.     
 !
 
 sudo tee /etc/named/zones/db.cloudapps.${DOMAIN} <<!
