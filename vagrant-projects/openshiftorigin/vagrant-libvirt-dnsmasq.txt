@@ -1,0 +1,60 @@
+Notes for a properly DNS setup in Vagrant VM running
+on top of libvirtd KVM host.
+
+1. Create a /etc/hosts file an copy it in all VM hosts.
+2. Setup a proper Bind DNS server in one of VMs (mn)
+3. Modify the HOST dhsmasq to inject the step 2 DNS ip:
+
+Note: The VMs must be stopped!!
+
+sudo virsh
+
+    net-list
+    net-edit vagrant-libvirt
+        ....
+        <mac ....>
+        <dns>
+            <forwarder addr="192.168.121.218" /> ===> IP of MN with DNS Bind.
+        </dns>
+        ...
+    net-destroy vagrant-libvirt
+    net-start vagrant-libvirt
+
+
+Note: domain feature available since 2.2.0
+
+If both domain and addr are specified, then all requests that match the given 
+domain will be forwarded to the DNS server at addr. 
+
+
+<network ipv6='yes'>
+  <name>vagrant-libvirt</name>
+  <uuid>6b9eaa00-811a-4891-92e3-73756d38fa80</uuid>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <mac address='52:54:00:2f:7c:1e'/>
+  <dns>
+    <forwarder domain='redhat.lan' addr='192.168.121.59'/>
+    <forwarder domain='origin.lan' addr='192.168.121.54'/>
+    <forwarder addr='8.8.8.8'/>
+  </dns>
+  <ip address='192.168.121.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.121.1' end='192.168.121.254'/>
+    </dhcp>
+  </ip>
+</network>
+
+In order to achieve this feature we have to update libvirt version in Fedora
+following this url:
+
+https://fedoraproject.org/wiki/Virtualization_Preview_Repository
+
+Basically:
+
+sudo curl --output /etc/yum.repos.d/fedora-virt-preview.repo https://fedorapeople.org/groups/virt/virt-preview/fedora-virt-preview.repo
+sudo dnf upgrade
