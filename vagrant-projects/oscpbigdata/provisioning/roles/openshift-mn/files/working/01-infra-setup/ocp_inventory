@@ -20,6 +20,6 @@ oscpbigdata-master.redhat.lan
 [nodes]
 oscpbigdata-master.redhat.lan  openshift_schedulable=false
 oscpbigdata-node1.redhat.lan   openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-oscpbigdata-node2.redhat.lan   openshift_node_labels="{'region': 'primary', 'zone': 'A'}"
+oscpbigdata-node2.redhat.lan   openshift_node_labels="{'region': 'primary', 'zone': 'A'}
 oscpbigdata-node3.redhat.lan   openshift_node_labels="{'region': 'primary', 'zone': 'B'}"
 
