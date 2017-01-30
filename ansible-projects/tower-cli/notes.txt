@@ -1,0 +1,191 @@
+Setup
+~~~~~
+ssh-keygen -t rsa -f id_rsa.ansible
+ssh-copy-id -i /home/jromanes/.ssh/id_rsa.ansible.pub spark-node1
+
+source hacking/env-setup
+export ANSIBLE_INVENTORY=./ansible_hosts
+
+Notes
+~~~~~
+ansible all -m ping
+
+ansible all -m shell -a "uname -a"
+
+Ad-hoc Commands
+~~~~~~~~~~~~~~~
+ansible all -m command -a "uptime"
+
+  - name: ensure telegraf is running (and enable it at boot)
+    service: 
+      name=nginx 
+      state=started 
+      enabled=yes
+
+
+# using sudo for installaton running ansible as unprivileged user
+ansible all -m yum -a "name=vim state=present" --become
+ansible all -m yum -a "name=redhat-lsb state=present" --become
+ansible all -m shell -a "lsb_release -si"
+ansible --private-key=.ssh/id_rsa web -m shell -a "df -h"
+
+Blue-Green Deployments
+~~~~~~~~~~~~~~~~~~~~~~
+http://martinfowler.com/bliki/BlueGreenDeployment.html
+
+Documentation
+~~~~~~~~~~~~~
+
+# list all modules availables
+ansible-doc -l
+ansible-doc azure
+ansible-doc openstack
+
+Key components in Ansible
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modules/Tasks: Single things (intall a package for example is a task, configure is other task)
+Inventory
+Plays: A list of Tasks
+Playbooks: A list of Plays
+
+Modules: Commonly Used
+~~~~~~~~~~~~~~~~~~~~~~
+Bits of code copied to the target system to carry out the task.
+
+apt/yum
+copy
+file
+get_url
+git
+ping
+wait_for
+
+Modules: run commands
+~~~~~~~~~~~~~~~~~~~~~~
+
+command: Takes the command and executes it. More secure.
+shell: Executes command throuh a shell like /bin/sh, so you can use pipes and so forth, is not very secure.
+script: runs a local script in target after transferring it.
+raw: executes a straight-up SSH (simple ssh connection) command without goint throug the Anisble module subsystem.
+
+Recomentations: Always use command first. Shell is based on local SHELL. Raw uses no python.
+
+
+Testbed
+~~~~~~~
+
+redoop: Fedora 21 - Ansible Controller
+spark-node1: CentOS 7.x
+spark-node2: CentOS 7.x
+spark-node3: CentOS 7.x
+centos6-testbed: CentOS 6.x
+
+
+Practise-0
+~~~~~~~--~
+
+ansible $target_froup -m $module_name -a $args
+
+- Getting available facts in the target system: this facts can be used by Plays.
+
+ansible-doc setup
+ansible localhost -m setup --connection=local (don't have to use ssh connection, is direct connection)
+ansible all -m setup 
+
+Practise-1
+~~~~~~~~~
+- update epel-release:
+
+ansible all -m yum -a "name=epel-release state=latest" --become
+
+- Install Nginx:
+
+ansible web -m yum -a "name=nginx state=present" --become
+ansible haproxy -m yum -a "name=nginx state=present" --become
+ansible web,haproxy -m yum -a "name=nginx state=present" --become 
+
+- Start Nginx:
+
+ansible web -m service -a "name=nginx state=status" --become
+ansible haproxy -m service -a "name=nginx state=status" --become
+
+Inventory
+~~~~~~~~
+
+Concetps:
+	hosts -> the individual hosts in the ansible host file
+	groups -> the grups in brackets: web, controller ..... and always the special group "all"
+	inventory-specifig data
+	static or dynamic sources
+
+Special Task: Handler -> run at the end of the task
+
+Practise-2
+~~~~~~~~~~
+
+To see what hosts would be affected by a playbook before you run it, you can do this:
+
+ansible-playbook example-playbook.yml --list-hosts
+
+TOWER
+~~~~~
+
+sudo tower-manage inventory_import --inventory-name=javi --source=jromanes-instances.txt
+
+A tool much better for that:
+
+https://github.com/ansible/tower-cli/
+
+$ sudo pip install ansible-tower-cli
+
+$ tower-cli config host localhost
+$ tower-cli config username admin
+$ tower-cli config password adm
+$ tower-cli config verify_ssl false
+
+$ tower-cli user list --insecure
+== ======== ================= ========== ========= ============ 
+id username       email       first_name last_name is_superuser 
+== ======== ================= ========== ========= ============ 
+ 1 admin    admin@example.com                              true
+== ======== ================= ========== ========= ============ 
+
+$ tower-cli inventory list --insecure
+== ================ ============ 
+id       name       organization 
+== ================ ============ 
+ 1 Course Inventory            1
+ 2 javi                        1
+== ================ ============ 
+
+$  tower-cli inventory create --name CLInventory --organization 1 --insecure                                               
+== =========== ============ 
+id    name     organization 
+== =========== ============ 
+ 3 CLInventory            1
+== =========== ============ 
+
+$ tower-cli host create --name node-1 --inventory 3 --insecure
+== ====== ========= ======= 
+id  name  inventory enabled 
+== ====== ========= ======= 
+10 node-1         3    true
+== ====== ========= ======= 
+
+$ tower-cli credential list
+== ======== ==== ==== ======== ============= 
+id   name   team kind username become_method 
+== ======== ==== ==== ======== ============= 
+ 1 jromanes      ssh  jromanes sudo
+== ======== ==== ==== ======== ============= 
+
+$ tower-cli ad_hoc launch \
+        --inventory 1 \
+        --module-name command \
+        --module-args "uname -a" \
+        --machine-credential jromanes \
+        --verbosity debug
+
+
+
