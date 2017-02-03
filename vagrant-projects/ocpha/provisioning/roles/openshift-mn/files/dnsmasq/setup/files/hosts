@@ -1,0 +1,8 @@
+127.0.0.1   oscppoc-mn localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.121.228 oscppoc-mn.example.com oscppoc-mn
+192.168.121.153 oscppoc-master.example.com oscppoc-master
+192.168.121.62  oscppoc-node1.example.com oscppoc-node1
+192.168.121.216 oscppoc-node2.example.com oscppoc-node2
+

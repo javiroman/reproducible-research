@@ -1,0 +1,21 @@
+$TTL 24H
+
+bnkpoc.local. IN SOA dns-server.bnkpoc.local. rhcons.bnkpoc.local. (
+	1 ; serial number
+	1000 ; refresh slaves in 1000 seconds
+	2000 ; retry in 2000 seconds 
+	3000 ; expire after 3000 sexonds
+	4000 ; minimum TTL = 4000 seconds
+)
+
+@ IN NS dns-server.bnkpoc.local.
+
+dns-server   IN A 172.16.10.9;
+master       IN A 172.16.10.10;
+node1        IN A 172.16.10.11;
+cfme         IN A 172.16.10.15;
+cfme-ext     IN A 10.0.150.92;
+master-ext   IN A 10.0.150.84;
+node1-ext    IN A 10.0.150.86;
+*.cloudapps.bnkpoc.local 300  IN A 10.0.150.84;
+

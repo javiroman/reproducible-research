@@ -1,0 +1,21 @@
+$TTL 604800 ; 1 week
+@ IN SOA ose-mn.redhat.lan. admin.redhat.lan. (
+    3         ; Serial
+    604800    ; Refresh
+    86400     ; Retry
+    2419200   ; Expire
+    604800 )  ; Negative Cache TTL
+
+; name servers
+@    IN      NS      ose-mn.redhat.lan.
+
+; PTR Records
+54  IN       PTR     openshirt-cluster.redhat.lan.      ;192.168.122.54
+232 IN       PTR     ose-mn.redhat.lan.      ;192.168.122.232 
+54  IN       PTR     ose-lb.redhat.lan.      ;192.168.122.54
+245 IN       PTR     ose-master1.redhat.lan. ;192.168.122.245 
+251 IN       PTR     ose-master2.redhat.lan. ;192.168.122.251 
+227 IN       PTR     ose-master3.redhat.lan. ;192.168.122.227
+221 IN       PTR     ose-node1.redhat.lan.   ;192.168.122.221 
+49  IN       PTR     ose-node2.redhat.lan.   ;192.168.122.49  
+6   IN       PTR     ose-node3.redhat.lan.   ;192.168.122.6  

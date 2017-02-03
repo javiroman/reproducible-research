@@ -1,0 +1,15 @@
+---
+- name: vim installation
+  yum: 
+    name=vim
+    state=present
+  become: yes
+
+- name: OpenShift Utils Installation
+  yum: 
+    name=atomic-openshift-utils 
+    state=present
+  become: yes
+
+
+

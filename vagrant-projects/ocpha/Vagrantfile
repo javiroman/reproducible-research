@@ -1,0 +1,131 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby ts=2 et :
+
+# Vagrant File tested in:
+#
+# CentOS Linux release 7.2.1511
+#
+# $ vagrant --version
+# Vagrant 1.8.1
+#
+# $ vagrant plugin list
+# vagrant-libvirt (0.0.35)
+# vagrant-registration (1.3.0)
+# vagrant-share (1.1.5, system)
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+# Require a recent version of vagrant otherwise some have reported errors 
+# setting host names on boxes
+Vagrant.require_version ">= 1.7.2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  vagrant_cluster_config = {
+    "box_name"  => ENV['BOX_NAME'] || "centos/7",
+    "subscription_register"  => ENV['SUB_REG'],
+    "subscription_user"  => ENV['SUB_USER'],
+    "subscription_pass"  => ENV['SUB_PASS'],
+    "num_nodes" => ENV['NUM_HOSTS'] || 2,
+    "mn_memory"  => ENV['MN_MEMORY'] || 512,
+    "master_memory"  => ENV['MASTER_MEMORY'] || 512,
+    "node_memory"  => ENV['NODE_MEMORY'] || 512,
+    "lb_memory"  => ENV['LB_MEMORY'] || 512
+  }
+
+  config.vm.box = vagrant_cluster_config["box_name"]
+
+  # NOTE: vagrant-registration (1.3.0) is not working for me
+  
+  #if Vagrant.has_plugin?('vagrant-registration')
+  #  # enable or disable registration step.
+  #  config.registration.skip = vagrant_cluster_config["subscription_register"]
+     config.registration.skip = true
+  #  config.registration.username = vagrant_cluster_config["subscription_user"] 
+  #  config.registration.password = vagrant_cluster_config["subscription_pass"] 
+  #  # disables automatic unregistration on halt (on shut down).
+  #  # So the box will unregister only on destroy.
+     config.registration.unregister_on_halt = false
+  #  # disable auto-attach this will be provisioner task.
+     config.registration.auto_attach = false
+  #end
+
+  # Disabling the default /vagrant share
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+ 
+  # 1: Management Node (bastion node)
+  # 2, 3, 4: Master Nodes (include etc cluster)
+  # 5, 6, 7, 8, 9: Worker Nodes (included two infra nodes)
+  # 10: Load Balancer Node
+  N = (vagrant_cluster_config['num_nodes']).to_i
+
+  (1..N).each do |i|
+    if i == 2 || i == 3 || i == 4
+      # OCP Master Nodes
+      vm_name = "master#{i-1}"
+      vm_memory = vagrant_cluster_config['master_memory']
+    elsif i == 5 || i == 6 || i == 7 || i == 8 || i == 9 
+      # OCP workers nodes and infra nodes
+      vm_name = "node#{i-4}"
+      vm_memory = vagrant_cluster_config['node_memory']
+    elsif i == 10 
+      # Load balancers
+      vm_name = "lb"
+      vm_memory = vagrant_cluster_config['lb_memory']
+    else
+      # management node
+      vm_name = "mn"
+      vm_memory = vagrant_cluster_config['mn_memory']
+    end
+
+    config.vm.define "#{vm_name}" do |node|
+      node.vm.hostname = "#{vm_name}"
+      node.vm.provider :libvirt do |domain|
+        domain.uri = 'qemu+unix:///system'
+        domain.driver = 'kvm'
+        domain.memory = "#{vm_memory}".to_i
+        domain.cpus = 2
+        # Worker nodes attached storage
+        if "#{vm_name}" == "node1" ||
+           "#{vm_name}" == "node2" ||
+           "#{vm_name}" == "node3" ||
+           "#{vm_name}" == "node4" ||
+           "#{vm_name}" == "node5"
+        
+            # Docker storage backend
+            domain.storage :file, :size => '10G'
+
+        elsif "#{vm_name}" == "master1" ||
+              "#{vm_name}" == "master2" ||
+              "#{vm_name}" == "master3"
+            # Docker Storage backend and additional 
+            # disc for Etcd storage.
+            domain.storage :file, :size => '10G'
+            domain.storage :file, :size => '10G'
+
+        elsif "#{vm_name}" == "oscpbigdata-mn"
+            # NFS shared backend for PV common services.
+            domain.storage :file, :size => '100G'
+        end
+      end # config.vm.define
+
+      # The Ansible provisioner is executed on every node
+      # The inventory file is re-created on each run.
+      node.vm.provision :ansible do |ansible|
+        ansible.groups = {
+          "mn-group" => ["mn"],
+          "lb-group" => ["lb"],
+          "master-group" => ["master1", "master2", "master3"],
+          "infra-group" => ["node1", "node2"],
+          "worker-group" => ["node3", "node4", "node5"],
+          "all_groups:children" => ["mn-group",
+                                    "master-group", 
+                                    "infra-group",
+                                    "worker-group"]
+        }
+        ansible.playbook = "provisioning/site.yml"
+      end
+    end
+  end 
+end
