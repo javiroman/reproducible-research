@@ -31,6 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     "mn_memory"  => ENV['MN_MEMORY'] || 512,
     "master_memory"  => ENV['MASTER_MEMORY'] || 512,
     "node_memory"  => ENV['NODE_MEMORY'] || 512,
+    "registry_memory"  => ENV['REGISTRY_MEMORY'] || 512,
     "lb_memory"  => ENV['LB_MEMORY'] || 512
   }
 
@@ -58,6 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # 2, 3, 4: Master Nodes (include etc cluster)
   # 5, 6, 7, 8, 9: Worker Nodes (included two infra nodes)
   # 10: Load Balancer Node
+  # 11, 12, 13
   N = (vagrant_cluster_config['num_nodes']).to_i
 
   (1..N).each do |i|
@@ -73,6 +75,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Load balancers
       vm_name = "lb"
       vm_memory = vagrant_cluster_config['lb_memory']
+    elsif i == 11 || i == 12 || i == 13
+      # Registry dedicated cluster
+      vm_name = "registry#{i-10}"
+      vm_memory = vagrant_cluster_config['registry_memory']
     else
       # management node
       vm_name = "mn"
@@ -91,7 +97,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
            "#{vm_name}" == "node2" ||
            "#{vm_name}" == "node3" ||
            "#{vm_name}" == "node4" ||
-           "#{vm_name}" == "node5"
+           "#{vm_name}" == "node5" ||
+           "#{vm_name}" == "registry1" ||
+           "#{vm_name}" == "registry2" ||
+           "#{vm_name}" == "registry3" 
         
             # Docker storage backend
             domain.storage :file, :size => '10G'
@@ -103,10 +112,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             # disc for Etcd storage.
             domain.storage :file, :size => '10G'
             domain.storage :file, :size => '10G'
-
-        elsif "#{vm_name}" == "oscpbigdata-mn"
-            # NFS shared backend for PV common services.
-            domain.storage :file, :size => '100G'
         end
       end # config.vm.define
 
@@ -119,6 +124,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           "master-group" => ["master1", "master2", "master3"],
           "infra-group" => ["node1", "node2"],
           "worker-group" => ["node3", "node4", "node5"],
+          "registry-group" => ["registry1", "registry2", "registry3"],
           "all_groups:children" => ["mn-group",
                                     "master-group", 
                                     "infra-group",

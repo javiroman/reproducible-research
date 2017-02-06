@@ -8,7 +8,7 @@
 # 3 Worker nodes
 
 BOX_NAME='rhel-7.2'
-NUM_HOSTS=10
+NUM_HOSTS=13
 
 SUB_REG=$RHREG
 SUB_USER=$RHUSER
@@ -22,6 +22,8 @@ MASTER_MEMORY=4096
 NODE_MEMORY=2048
 # Memory for Load Balancer for Master and Routers balancing
 LB_MEMORY=512
+# Registry Cluster
+REGISTRY_MEMORY=2048
 
 ANSIBLE_PATH=/home/jromanes/HACK/ansible.git/hacking
 
@@ -49,6 +51,7 @@ echo "~~~~~~~~~~~~~~~~~~~~"
 echo "Management Node (1) Memory: $MN_MEMORY"
 echo "Master Nodes (3) Memory: $MASTER_MEMORY"
 echo "Worker Nodes (5) Memory: $NODE_MEMORY"
+echo "Registry Nodes (3) Memory: $REGISTRY_MEMORY"
 echo "Load Balancer (1) Memory: $LB_MEMORY"
 echo
 echo -ne "Subsription manager registration: "
