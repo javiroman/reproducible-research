@@ -1,0 +1,15 @@
+---
+- hosts: all
+  tasks:
+  - name: NetworkManager plugin to enable DNS using dnsmasq. 
+    lineinfile:
+      dest: /etc/NetworkManager/NetworkManager.conf
+      backup: yes
+      insertafter: '\[main\]'
+      line: "dns=dnsmasq"
+      state: present
+  - service:
+      name: NetworkManager
+      state: restarted
+...
+

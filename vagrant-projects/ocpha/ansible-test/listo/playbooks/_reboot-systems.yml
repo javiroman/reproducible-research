@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+  - name: Restarting Node
+    shell: sleep 5 && systemctl reboot
+    async: 1
+    poll: 0
+    ignore_errors: true
+...
+

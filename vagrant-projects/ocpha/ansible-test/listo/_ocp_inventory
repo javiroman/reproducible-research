@@ -1,0 +1,25 @@
+[OSEv3:children]
+masters
+nodes
+
+[OSEv3:vars]
+ansible_ssh_user=root
+deployment_type=openshift-enterprise
+
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+
+openshift_master_cluster_hostname=openshift-cluster.redhat.lan
+openshift_master_cluster_public_hostname=openshift-cluster.redhat.lan
+openshift_master_default_subdomain=cloudapps.redhat.lan
+os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+openshift_clock_enabled=true
+
+[masters]
+oscpbigdata-master.redhat.lan
+
+[nodes]
+oscpbigdata-master.redhat.lan  openshift_schedulable=false
+oscpbigdata-node1.redhat.lan   openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+oscpbigdata-node2.redhat.lan   openshift_node_labels="{'region': 'primary', 'zone': 'A'}
+oscpbigdata-node3.redhat.lan   openshift_node_labels="{'region': 'primary', 'zone': 'B'}"
+

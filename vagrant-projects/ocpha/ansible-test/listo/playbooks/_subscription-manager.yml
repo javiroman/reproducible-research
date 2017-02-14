@@ -1,0 +1,10 @@
+---
+- name: SubscriptionManager
+  hosts: lb
+  tasks:
+  - redhat_subscription:
+    state: present
+    username: "{{ lookup('env','SUB_USER') }}"
+    password: "{{ lookup('env','SUB_PASS') }}"
+    pool: "{{ lookup('env','SUB_USER') }}"
+

@@ -1,0 +1,9 @@
+---
+- hosts: masters, registries, nodes
+  tasks:
+  - name: Checking Docker Storage Pool
+    command: lsblk
+    register: docker
+  - debug: var=docker.stdout_lines
+...
+
