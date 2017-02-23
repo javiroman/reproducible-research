@@ -79,6 +79,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Registry dedicated cluster
       vm_name = "registry#{i-10}"
       vm_memory = vagrant_cluster_config['registry_memory']
+    elsif i == 14
+      # Load balancers
+      vm_name = "lbregistry"
+      vm_memory = vagrant_cluster_config['lb_memory']
     else
       # management node
       vm_name = "mn"
@@ -120,7 +124,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.provision :ansible do |ansible|
         ansible.groups = {
           "mn-group" => ["mn"],
-          "lb-group" => ["lb"],
+          "lb-group" => ["lb", "lbregistry"],
           "master-group" => ["master1", "master2", "master3"],
           "infra-group" => ["node1", "node2"],
           "worker-group" => ["node3", "node4", "node5"],
