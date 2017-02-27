@@ -1,16 +1,18 @@
-vagrant ssh-config > /tmp/ssh-config.dat
+INVENTORY=.vagrant/inventory
+SSH_CONF_TEMP=/tmp/ssh-config.dat
+vagrant ssh-config > $SSH_CONF_TEMP
 
 host_list=$(cat /tmp/ssh-config.dat | grep ^Host | cut -d' ' -f2)
 
-echo "[all:vars]" > inventory
-echo "ansible_ssh_user=vagrant" >> inventory
-echo "ansible_become=yes" >> inventory
-echo "[hosts]" >> inventory
+echo "[all:vars]" > $INVENTORY
+echo "ansible_ssh_user=vagrant" >> $INVENTORY
+echo "ansible_become=yes" >> $INVENTORY
+echo "[hosts]" >> $INVENTORY
 for i in $host_list; do
     echo -ne "$i ansible_ssh_private_key_file=.vagrant/machines/$i/libvirt/private_key ansible_host="
-    cat /tmp/ssh-config.dat | grep -A 1 "^Host ${i}$" | grep HostName | cut -d' ' -f4
-done >> inventory
+    cat $SSH_CONF_TEMP | grep -A 1 "^Host ${i}$" | grep HostName | cut -d' ' -f4
+done >> $INVENTORY
 
-rm /tmp/ssh-config.dat
+rm $SSH_CONF_TEMP
 
 # http://stackoverflow.com/questions/32297456/how-to-ignore-ansible-ssh-authenticity-checking
