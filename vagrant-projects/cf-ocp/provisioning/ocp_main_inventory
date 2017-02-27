@@ -1,0 +1,62 @@
+# Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
+# The lb group lets Ansible configure HAProxy as the load balancing solution.
+# Comment lb out if your load balancer is pre-configured.
+[OSEv3:children]
+masters
+nodes
+etcd
+lb
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+ansible_ssh_user=root
+deployment_type=openshift-enterprise
+
+# Uncomment the following to enable htpasswd authentication; defaults to
+# DenyAllPasswordIdentityProvider.
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+
+# Native high availbility cluster method with optional load balancer.
+# If no lb group is defined installer assumes that a load balancer has
+# been preconfigured. For installation the value of
+# openshift_master_cluster_hostname must resolve to the load balancer
+# or to one or all of the masters defined in the inventory if no load
+# balancer is present.
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=openshift-cluster.redhat.lan
+openshift_master_cluster_public_hostname=openshift-cluster.redhat.lan
+openshift_master_default_subdomain=cloudapps.redhat.lan
+os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+
+# override the default controller lease ttl
+#osm_controller_lease_ttl=30
+
+# enable ntp on masters to ensure proper failover
+openshift_clock_enabled=true
+
+# host group for masters
+[masters]
+master1.redhat.lan
+master2.redhat.lan
+master3.redhat.lan
+
+# Clustering of OpenShift Enterprise’s embedded etcd is not supported.
+# To use etcd in master nodes is the minimal supported.
+[etcd]
+master1.redhat.lan
+master2.redhat.lan
+master3.redhat.lan
+
+# Specify load balancer host
+[lb]
+lb.redhat.lan 
+
+# host group for nodes, includes region info
+[nodes]
+master[1:3].redhat.lan  openshift_schedulable=false
+node1.redhat.lan openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+node2.redhat.lan openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+node3.redhat.lan openshift_node_labels="{'region': 'primary', 'zone': 'dev'}"
+node4.redhat.lan openshift_node_labels="{'region': 'primary', 'zone': 'pre'}"
+node5.redhat.lan openshift_node_labels="{'region': 'primary', 'zone': 'pro'}"
+

@@ -1,0 +1,62 @@
+---
+- hosts: all
+  tasks:
+  # The first thing an upgrade of minimal system
+  - name: Upgrading all packages
+    yum: name='*' state=latest
+
+  # Installing base packages for a RHEL 7 system
+  - name: Installing base packages RHEL 7 systems
+    yum: name={{item}} state=installed
+    with_items:
+       - wget
+       - git
+       - net-tools
+       - bind-utils
+       - iptables-services 
+       - bridge-utils 
+       - bash-completion
+
+  # Install missing packages of particular Vagrant Box used
+  - name: Installing base packages Vagrant Box rhel-7.2
+    yum: name={{item}} state=installed
+    with_items:
+       - vim
+       - tree 
+       - policycoreutils 
+       - policycoreutils-python 
+       - selinux-policy 
+       - selinux-policy-targeted 
+       - libselinux-utils 
+       - setroubleshoot-server 
+       - setools-console 
+       - mcstrans
+
+  # Base Packages in all hosts for OpenShift 3.4
+  - name: Installing base packages OpenShift 3.4
+    yum: name={{item}} state=installed
+    with_items:
+       - atomic-openshift-utils
+       - atomic-openshift-excluder
+       - atomic-openshift-docker-excluder
+
+  # The *-excluder packages add entries to the exclude directive in the 
+  # host’s /etc/yum.conf file when installed. The following command on 
+  # each host to remove the atomic-openshift packages from the list 
+  # for the duration of the installation. 
+  - name: Ensure correct versions of atomic-openshift and docker packages
+    command: atomic-openshift-excluder unexclude
+
+- hosts: masters, registries, nodes
+  tasks:
+  # The atomic-openshift-docker-excluder package that was installed 
+  # should ensure that the correct version of Docker is installed in this step
+  - name: Installing Docker
+    yum: name=docker state=installed
+
+  - name: Getting Docker version
+    shell: docker version 2> /dev/null | grep Version
+    register: docker
+  - debug: var=docker.stdout_lines
+...
+

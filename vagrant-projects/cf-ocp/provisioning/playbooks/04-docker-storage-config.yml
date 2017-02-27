@@ -1,0 +1,16 @@
+---
+- hosts: masters, registries, nodes
+  tasks:
+  # NOTE: Option A) Use an additional block device.
+  # Option A is the most robust option, however it requires 
+  # adding an additional block device to your host before 
+  # configuring Docker storage. 
+  - name: Usin an additional block device for docker-pool volume 
+    blockinfile:
+      dest: /etc/sysconfig/docker-storage-setup
+      backup: yes
+      block: |
+        DEVS=/dev/vdb
+        VG=docker-vg
+...
+

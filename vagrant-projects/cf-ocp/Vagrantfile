@@ -1,0 +1,115 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby ts=2 et :
+
+# Vagrant File tested in:
+#
+# $ vagrant --version
+# Vagrant 1.8.1
+#
+# $ vagrant plugin list
+# vagrant-libvirt (0.0.35)
+# vagrant-registration (1.3.0)
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+# Require a recent version of vagrant otherwise some have reported errors 
+# setting host names on boxes
+Vagrant.require_version ">= 1.7.2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  vagrant_cluster_config = {
+    "box_name"  => ENV['BOX_NAME'] || "centos/7",
+    "subscription_register"  => ENV['SUB_REG'],
+    "subscription_user"  => ENV['SUB_USER'],
+    "subscription_pass"  => ENV['SUB_PASS'],
+    "num_nodes" => ENV['NUM_HOSTS'] || 2,
+    "mn_memory"  => ENV['MN_MEMORY'] || 512,
+    "master_memory"  => ENV['MASTER_MEMORY'] || 512,
+    "node_memory"  => ENV['NODE_MEMORY'] || 512,
+    "lb_memory"  => ENV['LB_MEMORY'] || 512,
+    "cf_memory"  => ENV['CF_MEMORY'] || 512
+  }
+
+  config.vm.box = vagrant_cluster_config["box_name"]
+
+  # NOTE: vagrant-registration (1.3.0) is not working for me
+  
+  #if Vagrant.has_plugin?('vagrant-registration')
+  #  # enable or disable registration step.
+  #  config.registration.skip = vagrant_cluster_config["subscription_register"]
+     config.registration.skip = true
+  #  config.registration.username = vagrant_cluster_config["subscription_user"] 
+  #  config.registration.password = vagrant_cluster_config["subscription_pass"] 
+  #  # disables automatic unregistration on halt (on shut down).
+  #  # So the box will unregister only on destroy.
+     config.registration.unregister_on_halt = false
+  #  # disable auto-attach this will be provisioner task.
+     config.registration.auto_attach = false
+  #end
+
+  # Disabling the default /vagrant share
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+ 
+  # 1: Management Node (bastion node)
+  # 2: Master Node (include etcd)
+  # 3, 4: Infra Nodes 
+  # 5, 6: App Nodes
+  # 7: Load Balancer Node
+  # 8: CloudForms Node
+  N = (vagrant_cluster_config['num_nodes']).to_i
+
+  (1..N).each do |i|
+    if i == 2 
+      # OCP Master Node
+      vm_name = "master"
+      vm_memory = vagrant_cluster_config['master_memory']
+    elsif i == 3 || i == 4 
+      # OCP Infra Nodes
+      vm_name = "infra#{i-2}"
+      vm_memory = vagrant_cluster_config['node_memory']
+    elsif i == 5 || i == 6
+      # OCP Application Nodes
+      vm_name = "app#{i-4}"
+      vm_memory = vagrant_cluster_config['node_memory']
+    elsif i == 7
+      # Load Balancer for Infra nodes (App routes balancing)
+      vm_name = "lb"
+      vm_memory = vagrant_cluster_config['lb_memory']
+    elsif i == 8
+      # CloudForms appliance
+      vm_name = "cf"
+      vm_memory = vagrant_cluster_config['cf_memory']
+    else
+      # management node
+      vm_name = "mn"
+      vm_memory = vagrant_cluster_config['mn_memory']
+    end
+
+    config.vm.define "#{vm_name}" do |node|
+      node.vm.hostname = "#{vm_name}"
+      node.vm.provider :libvirt do |domain|
+        domain.uri = 'qemu+unix:///system'
+        domain.driver = 'kvm'
+        domain.memory = "#{vm_memory}".to_i
+        domain.cpus = 2
+        # Worker nodes attached storage
+        if "#{vm_name}" == "master" ||
+           "#{vm_name}" == "infra1" ||
+           "#{vm_name}" == "infra2" ||
+           "#{vm_name}" == "app1" ||
+           "#{vm_name}" == "app2"
+            # Extra disk for Docker storage backend
+            domain.storage :file, :size => '10G'
+        end # if
+      end # provider
+
+      if i == N
+        node.vm.provision "shell", path: "provisioning/bootstrap.sh"
+      end # if
+
+    end # config.vm.define
+  end # (1..N).each
+end # Vagrant.configure
+

@@ -1,0 +1,58 @@
+# Environment variables for OpenShift Container Plaform in HA mode
+# with the following infrastructure blueprint:
+#
+
+BOX_NAME='rhel-7.2'
+NUM_HOSTS=8
+
+SUB_REG=$RHREG
+SUB_USER=$RHUSER
+SUB_PASS=$RHPASS
+
+# Memory for the Management Node (bastion)
+MN_MEMORY=1024
+# Memory for CloudForms Appliance
+CF_MEMORY=8096
+# Memory for the Master Nodes
+MASTER_MEMORY=4096
+# Memory for the Worker Nodes (infra and application nodes)
+NODE_MEMORY=2048
+# Load Balancer memory
+LB_MEMORY=2048
+
+ANSIBLE_PATH=/home/jromanes/HACK/ansible.git/hacking
+
+source ${ANSIBLE_PATH}/env-setup &> /dev/null
+
+export BOX_NAME NUM_HOSTS SUB_USER SUB_PASS SUB_REG
+export MN_MEMORY CF_MEMORY MASTER_MEMORY NODE_MEMORY LB_MEMORY
+
+ANSIBLE_VERSION=`ansible --version | head -1`
+
+echo "Ansible Version:"
+echo "~~~~~~~~~~~~~~~~"
+echo "$ANSIBLE_VERSION"
+echo
+echo "Architecture Blueprint:"
+echo "~~~~~~~~~~~~~~~~~~~~~~~"
+echo "$NUM_HOSTS hosts ready for CF and OpenShift Container Platform"
+echo
+echo "Vagrant Box:"
+echo "~~~~~~~~~~~~"
+echo "$BOX_NAME"
+echo
+echo "VM Roles and sizing:"
+echo "~~~~~~~~~~~~~~~~~~~~"
+echo "Management Node (1) Memory: $MN_MEMORY"
+echo "CloudForms Appliance (1) Memory: $CF_MEMORY"
+echo "Loab Balancer (1) Memory: $LB_MEMORY"
+echo "Master Nodes (1) Memory: $MASTER_MEMORY"
+echo "Worker Nodes (2 infra + 2 app = 4) Memory: $NODE_MEMORY"
+echo
+echo -ne "Subsription manager registration: "
+if [ "$SUB_REG" = "true"  ]
+then 
+    echo "ENABLED"
+else
+    echo "DISABLED"
+fi

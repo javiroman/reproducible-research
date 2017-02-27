@@ -1,0 +1,19 @@
+---
+- hosts: all
+  tasks:
+  # The --insecure-registry option instructs the Docker daemon 
+  # to trust any Docker registry on the indicated subnet, 
+  # rather than requiring a certificate.
+  - name: Adding insecure-registry to Docker 
+    lineinfile:
+      dest: /etc/sysconfig/docker
+      backup: yes
+      regexp: 'OPTIONS=.*'
+      # Sometimes a container’s log file 
+      # (the /var/lib/docker/containers/<hash>/<hash>-json.log file 
+      # on the node where the container is running) can increase to 
+      # a problematic size. to set the maximum file size to 1MB and 
+      # always keep the last three log files, configure max-size=1M and max-file=3
+      line: "OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --selinux-enabled --insecure-registry 172.30.0.0/16 --log-opt max-size=1M --log-opt max-file=3'"
+...
+

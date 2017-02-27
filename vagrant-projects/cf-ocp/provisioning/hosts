@@ -1,0 +1,16 @@
+127.0.0.1   mn localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.121.238 	mn.redhat.lan mn
+192.168.121.15  lb.redhat.lan lb
+192.168.121.25  lbregistry.redhat.lan lbregistry
+192.168.121.142 master1.redhat.lan master1
+192.168.121.243 master2.redhat.lan master2
+192.168.121.253 master3.redhat.lan master3
+192.168.121.181 registry1.redhat.lan registry1
+192.168.121.168 registry2.redhat.lan registry2
+192.168.121.85 registry3.redhat.lan registry3
+192.168.121.105  node1.redhat.lan node1
+192.168.121.32  node2.redhat.lan node2
+192.168.121.21  node3.redhat.lan node3
+192.168.121.162  node4.redhat.lan node4
+192.168.121.224  node5.redhat.lan node5

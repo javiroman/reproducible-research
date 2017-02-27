@@ -1,0 +1,13 @@
+[masters]
+master[1:3].redhat.lan 
+
+[registries]
+registry[1:3].redhat.lan 
+
+[lb]
+lb.redhat.lan 
+lbregistry.redhat.lan 
+
+[nodes]
+node[1:5].redhat.lan 
+
