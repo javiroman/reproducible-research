@@ -1,0 +1,37 @@
+---
+- name: Create /var/marathon
+  file: path=/var/marathon/  state=directory
+
+- name: Set docker daemon options
+  copy:
+    content: "DOCKER_OPTS=\"{{ docker_opts }}\""
+    dest: /etc/default/docker
+    owner: root
+    group: root
+    mode: 0644
+  when: docker_opts != ""
+
+- name: Add env file to Systemd config
+  lineinfile:
+    dest: /lib/systemd/system/docker.service
+    insertafter: '^\[Service\]'
+    line: "EnvironmentFile=/etc/default/docker"
+    state: present
+  register: docker_conf_updated_env
+
+- name: Change docker command to run with DOCKER_OPTS
+  lineinfile:
+    dest: /lib/systemd/system/docker.service
+    regexp: "^ExecStart"
+    line: "ExecStart=/usr/bin/docker -d -H fd:// $DOCKER_OPTS"
+    state: present
+  register: docker_conf_updated_opts
+
+- name: Reload systemd immediately ## https://github.com/ansible/ansible-modules-core/issues/191
+  sudo: yes
+  command: systemctl daemon-reload
+  when: docker_conf_updated_env.changed or docker_conf_updated_opts.changed
+
+- name: Restart docker immediately
+  service: name=docker state=restarted
+  when: docker_conf_updated_env.changed or docker_conf_updated_opts.changed

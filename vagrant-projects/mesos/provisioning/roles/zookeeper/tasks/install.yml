@@ -1,0 +1,8 @@
+---
+- name: Create zookeeper data folder
+  file: path={{zookeeper_data}} state=directory
+
+- name: Pull zookeeper docker image
+  docker:
+    image: "{{zookeeper_docker_image}}"
+    state: present

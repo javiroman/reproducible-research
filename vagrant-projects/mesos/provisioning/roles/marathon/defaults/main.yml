@@ -1,0 +1,5 @@
+---
+marathon_version: "v0.14.2"
+marathon_docker_image: "mesosphere/marathon:{{marathon_version}}"
+marathon_name: "marathon"
+marathon_task_launch_timeout: 600000

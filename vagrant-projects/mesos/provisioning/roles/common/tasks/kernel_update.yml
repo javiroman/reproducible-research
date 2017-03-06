@@ -1,0 +1,26 @@
+---
+- name: install kernel updates
+  apt: pkg={{kernel_package}} update_cache=yes
+  register: kernelup
+
+- name: install other updates
+  apt: upgrade=dist
+
+- name: reboot the system
+  command: reboot
+  ignore_errors: true
+  when: kernelup.changed
+
+- name: waiting for server to come back
+  local_action: wait_for host={{ host_ip }} state=started
+  sudo: false
+  when: kernelup.changed
+
+- name: Wait for SSH to come up
+  wait_for:
+    host: "{{ host_ip }}"
+    port: 22
+    delay: 60
+    timeout: 120
+    state: started
+  when: kernelup.changed

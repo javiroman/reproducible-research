@@ -1,0 +1,6 @@
+---
+zookeeper_version: 3.4.6
+zookeeper_docker_image: "mesoscloud/zookeeper:{{zookeeper_version}}-ubuntu-14.04"
+zookeeper_name: "zookeeper"
+zookeeper_data: /var/lib/zookeeper
+zookeeper_myid_path: "{{zookeeper_data}}/myid"

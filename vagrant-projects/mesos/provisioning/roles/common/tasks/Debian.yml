@@ -1,0 +1,7 @@
+---
+- include: kernel_update.yml
+  when: kernel_package is defined
+  
+- include: apt.yml
+
+- include: hostname.yml

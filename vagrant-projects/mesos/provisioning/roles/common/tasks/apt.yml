@@ -1,0 +1,7 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Apt install required system packages.
+  apt: pkg={{item}} state=latest update_cache=yes
+  with_items: "{{apt_system_packages}}"
