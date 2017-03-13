@@ -1,0 +1,8 @@
+---
+# If you want Zookeeper deployment
+# using Docker containers setup this
+# variable to False. Otherwise the
+# deployment will be based on native
+# Java Zookeeper process.
+zookeeper_native: True
+
