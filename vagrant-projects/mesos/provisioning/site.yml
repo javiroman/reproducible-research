@@ -1,0 +1,15 @@
+---
+# Play 1
+- hosts: mesos-masters
+  roles:
+   - common
+   #   - mesosphere
+   #  - marathon
+- hosts: mesos-slaves
+  roles:
+   - common
+   #   - mesosphere
+   #  - marathon
+- hosts: zk-quorum
+   - common
+   - zookeeper

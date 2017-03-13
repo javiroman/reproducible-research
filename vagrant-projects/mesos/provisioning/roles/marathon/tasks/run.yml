@@ -1,0 +1,23 @@
+---
+- name: Make sure marathon is running and config is up-to-date
+  sudo: yes
+  docker:
+    image: "{{marathon_docker_image}}"
+    name: "{{marathon_name}}"
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    env:
+      LIBPROCESS_IP: "{{host_ip}}"
+      MARATHON_HOSTNAME: "{{inventory_hostname}}"
+      MARATHON_HTTPS_ADDRESS: "{{host_ip}}"
+      MARATHON_HTTP_ADDRESS: "{{host_ip}}"
+      MARATHON_LOGGING_LEVEL: "{{marathon_logging_level}}"
+      MARATHON_MASTER: "{{mesos_zk}}"
+      MARATHON_TASK_LAUNCH_TIMEOUT: "{{marathon_task_launch_timeout}}"
+      MARATHON_ZK: "{{marathon_zk}}"
+    privileged: True
+    net: host
+    restart_policy: always
+    state: reloaded

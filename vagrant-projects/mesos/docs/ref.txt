@@ -1,0 +1,3 @@
+https://github.com/everpeace/vagrant-mesos
+https://github.com/mesosphere/playa-mesos
+https://github.com/Woorank/vagrant-mesos-cluster

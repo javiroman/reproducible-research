@@ -1,0 +1,13 @@
+---
+mesos_version: "0.26.0"
+mesos_docker_tag: "{{mesos_version}}-0.2.145.ubuntu1404"
+mesos_master_docker_image: "mesosphere/mesos-master:{{mesos_docker_tag}}"
+mesos_agent_docker_image: "woorank/mesos-slave:{{mesos_docker_tag}}"
+mesos_master_name: mesos_cluster
+mesos_agent_name: mesos_agent
+mesos_log_dir: "/var/log/mesos"
+mesos_containerizers: "docker,mesos"
+mesos_executor_registration_timeout: "5mins"
+mesos_docker_stop_timeout: "30secs"
+mesos_cluster_name: "mesos_cluster"
+mesos_isolation: "cgroups/cpu,cgroups/mem"

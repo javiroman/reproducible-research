@@ -1,0 +1,5 @@
+---
+- name: Pull mesos-master docker image
+  docker:
+    image: "{{mesos_master_docker_image}}"
+    state: present
