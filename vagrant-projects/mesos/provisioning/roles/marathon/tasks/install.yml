@@ -1,4 +1,0 @@
-- name: Pull marathon docker image
-  docker:
-    image: "{{marathon_docker_image}}"
-    state: present

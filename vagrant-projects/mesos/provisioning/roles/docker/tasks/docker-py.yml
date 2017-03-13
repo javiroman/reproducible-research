@@ -1,3 +1,0 @@
----
-- name: Install Docker module
-  pip: name=docker-py version=1.7.0
