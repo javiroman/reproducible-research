@@ -1,0 +1,291 @@
+# Based on https://open.mesosphere.com/advanced-course/
+
+[master] sudo rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
+[master] sudo yum -y install mesos marathon
+
+[master] sudo rpm -Uvh http://archive.cloudera.com/cdh4/one-click-install/redhat/6/x86_64/cloudera-cdh-4-0.x86_64.rpm
+[master] sudo yum -y install zookeeper zookeeper-server
+[master] sudo -u zookeeper zookeeper-server-initialize --myid=1
+[master] sudo service zookeeper-server start
+
+[master] sudo yum install net-tools -y
+[master] sudo systemctl start mesos-master
+[master] sudo systemctl start mesos-slave
+[master] sudo netstat -putoa | grep mesos
+- web browser (http://mesos-master1:5050/)
+
+[master] export MASTER=$(mesos-resolve `cat /etc/mesos/zk` 2>/dev/null)
+[master] mesos-execute --master=$MASTER --name="cluster-test" --command="sleep 40"
+# hit ctrl-z
+[master] bg 
+[master] mesos ps --master=$MASTER
+
+[master] sudo systemctl start marathon
+- web browser (http://mesos-master1:8080/)
+
+- web browser -> Marathon -> new app -> test -> python -m SimpleHTTPServer
+[master] sudo netstat -nlp | grep 8000
+[master] curl http://mesos-master1:8000
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
+<title>Directory listing for /</title>
+<body>
+<h2>Directory listing for /</h2>
+<hr>
+<ul>
+<li><a href="stderr">stderr</a>
+<li><a href="stdout">stdout</a>
+</ul>
+<hr>
+</body>
+</html>
+[master] curl http://mesos-master1:8000/stderr
+[master] curl http://mesos-master1:8000/stdout
+
+#
+# Marathon REST API (Marathon Mesos Framework)
+#
+
+# http://mesosphere.github.io/marathon/docs/rest-api.html
+
+
+# get metrics on the running apps
+[master] curl http://mesos-master1:8080/metrics | python -m json.tool | less
+
+# look at the apps you have installed
+[master] curl http://mesos-master1:8080/v2/apps | python -m json.tool
+
+# look at a specific app, named test from Ex4 and Ex5
+[master] curl http://mesos-master1:8080/v2/apps/test | python -m json.tool
+
+# delete that app
+[master] curl -X DELETE http://mesos-master1:8080/v2/apps/test | python -m json.tool
+
+# show that the app is gone
+[master] curl http://mesos-master1:8080/v2/apps/test | python -m json.tool
+
+# ??? destroy deployment
+curl http://mesos-master1:8080/v2/deployments | python -m json.tool
+curl -X DELETE http://mesos-master1:8080/v2/deployments/41a4c57c-9a76-48d2-b840-9b0b59d23b84
+
+
+#
+# Mesos-DNS Marathon Application
+#
+
+# http://mesosphere.github.io/mesos-dns/docs/
+
+[master] sudo yum -y install golang git bind-utils
+[master] mkdir ~/go
+[master] export GOPATH=$HOME/go
+[master] export PATH=$PATH:$GOPATH/bin
+[master] go get github.com/tools/godep
+[master] go get github.com/mesosphere/mesos-dns
+[master] cd $GOPATH/src/github.com/mesosphere/mesos-dns
+[master] godep go build .
+
+- New app DNS (mem 32, CPU 0.5):
+sudo /home/vagrant/go/src/github.com/mesosphere/mesos-dns/mesos-dns -v=1 -config=/home/vagrant/config.json
+- Optional -> Constraints
+hostname:CLUSTER:mesos-master1
+
+[master] dig dns.marathon.mesos +short
+[master] dig test.marathon.mesos +short
+
+# You can also use the SRV records to get ports by using the app name and the
+# port type with underscores like _NAME._PORT so _test._tcp is for the test app's
+# TCP port:
+
+[master] dig _test._tcp.marathon.mesos SRV +short
+0 0 31752 test-9mn19-s0.marathon.mesos.
+[master] sudo netstat -putona | grep 31752
+tcp        0      0 0.0.0.0:31752           0.0.0.0:*               LISTEN 3392/python          off (0.00/0/0)
+
+# However that's not very useful because SRV records are disconnected from the
+# hosts they belong to. A better way is to use the REST API to get an exact
+# mapping:
+
+[master] curl http://mesos-master1:8123/v1/hosts/dns.marathon.mesos
+[master] curl http://mesos-master1:8123/v1/services/_test._tcp.marathon.mesos
+[
+    {
+       "service": "_test._tcp.marathon.mesos",
+       "host": "test-9mn19-s0.marathon.mesos.",
+       "ip": "100.0.10.100",
+       "port": "31752"
+      
+    }
+]
+[master] curl http://test-9mn19-s0.marathon.mesos:31752
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
+<title>Directory listing for /</title>
+<body>
+<h2>Directory listing for /</h2>
+<hr>
+<ul>
+<li><a href="stderr">stderr</a>
+<li><a href="stdout">stdout</a>
+</ul>
+<hr>
+</body>
+</html>
+
+#
+# Mesos Framework: Chronos
+#
+[master] sudo yum -y install chronos
+[master] sudo systemctl start chronos
+
+- Now you can go to the web UI for Chronos at http://mesos-master1:4400/ and
+start a job.
+
+
+
+#
+# Mesos Slaves installations
+#
+
+[slave1] sudo rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
+[slave1] sudo yum -y install mesos
+[slave1] sudo sed -i 's/localhost/mesos-master1/' /etc/mesos/zk
+[slave1] sudo systemctl start mesos-slave
+[slave1] sudo systemctl enable mesos-slave
+[slave1] sudo systemctl disable mesos-master
+
+#
+# Using Docker
+#
+
+[master] sudo yum install -y device-mapper-event-libs docker
+[master] sudo systemctl start docker
+[master] sudo systemctl enable docker
+[master] lsblk 
+NAME                          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+vda                           252:0    0   41G  0 disk 
+├─vda1                        252:1    0    1M  0 part 
+├─vda2                        252:2    0    1G  0 part /boot
+└─vda3                        252:3    0   39G  0 part 
+  ├─VolGroup00-LogVol00       253:0    0 37.5G  0 lvm  /
+  └─VolGroup00-LogVol01       253:1    0  1.5G  0 lvm  [SWAP]
+loop0                           7:0    0  100G  0 loop 
+└─docker-253:0-100975148-pool 253:2    0  100G  0 dm   
+loop1                           7:1    0    2G  0 loop 
+└─docker-253:0-100975148-pool 253:2    0  100G  0 dm  
+[master] sudo docker info
+[master] export GOPATH=~/go
+[master] go get github.com/golang/example/outyet
+[master] cd $GOPATH/src/github.com/golang/example/outyet
+[master] sudo docker build -t outyet .
+
+[master] sudo docker run --publish 6060:8080 --name test --rm outyet
+- Go to web browser -> http://mesos-master1:6060/
+
+# Enabling mesos for using Docker as containerized technology.
+[master] echo 'docker,mesos' | sudo tee /etc/mesos-slave/containerizers
+[master] sudo systemctl restart mesos-slave
+(using marathon GUI for running the application)
+[master] sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED
+STATUS              PORTS                    NAMES
+f7bc0d8a7063        outyet              "go-wrapper run"    26 seconds ago
+Up 26 seconds       0.0.0.0:6060->8080/tcp   test
+
+- we are going to destroy the application right now and running again using the API
+
+# get running applications
+[master] curl http://mesos-master1:8080/v2/apps | python -m json.tool | grep id
+[master] curl -X DELETE http://mesos-master1:8080/v2/apps/testdocker
+
+- Running the marathon Docker based application from cli:
+
+[master] cat testdocker.json
+{
+  "id": "testdocker",
+  "cpus": 0.5,
+  "mem": 32.0,
+  "instances": 1,
+  "constraints": [["hostname", "UNIQUE", ""]],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "outyet",
+      "network": "BRIDGE",
+      "portMappings": [
+        { "containerPort": 8080, "hostPort": 0, "servicePort": 0, "protocol": "tcp" }
+      ]
+    }
+  }
+}
+
+[master] curl -X POST http://mesos-master1:8080/v2/apps -d @testdocker.json -H "Content-type: application/json"
+[master] sudo docker events
+[master] sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS                     NAMES
+c1517724c5a6        outyet              "go-wrapper run"    About a minute ago   Up About a minute   0.0.0.0:31648->8080/tcp   mesos-c1be3bdb-d603-4d0a-b1ed-1687a4347adc-S0.312d698e-307a-407e-acee-912fbf0c7a68
+
+
+#
+#  Distributing Docker To Multiple Nodes
+#
+
+- You have to install Docker damemon in all slave nodes
+
+[slave1, slave2, slave3] sudo yum install device-mapper-event-libs docker -y
+[slave1, slave2, slave3] sudo systemctl start docker 
+[slave1, slave2, slave3] sudo systemctl enable docker 
+[slave1, slave2, slave3] echo 'docker,mesos' | sudo tee /etc/mesos-slave/containerizers
+[slave1, slave2, slave3] sudo systemctl restart mesos-slave
+
+[master] sudo docker save --output=testdocker.tar.gz outyet
+
+(copy in all slave hosts)
+
+[slave1, slave2, slave3] sudo docker load --input=testdocker.tar.gz
+
+(now we can scale up the application on the nodes)
+
+#
+# Installing Mesos new client DC/OS CLI
+#
+
+[master] curl "https://bootstrap.pypa.io/get-pip.py" -o get-pip.py
+[master] sudo python get-pip.py
+[master] sudo pip install virtualenv
+
+sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+sudo yum install python35u python35u-devel openssl-devel libffi-devel
+sudo yum -y install python35u-pip  
+sudo pip3.5 install virtualenv
+
+- Go to instructions at https://github.com/dcos/dcos-cli#setup
+
+[master] git clone https://github.com/dcos/dcos-cli.git
+[master] cd dcos-cli
+[master] make env
+[master] cd cli
+[master] make env
+[master] source bin/env-setup-dev
+[master] dcos
+
+- Usage: https://docs.mesosphere.com/1.8/usage/cli/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
