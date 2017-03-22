@@ -1,3 +1,6 @@
+echo $0
+
+exit 
 INVENTORY=.vagrant/inventory
 SSH_CONF_TEMP=/tmp/ssh-config.dat
 vagrant ssh-config > $SSH_CONF_TEMP
