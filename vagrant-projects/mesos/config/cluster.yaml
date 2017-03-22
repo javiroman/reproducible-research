@@ -1,14 +1,19 @@
 ---
 - name: mesos-master1
   box: centos/7
-  ip: 100.0.10.11
-  mem: 1024
+  ip: 100.0.10.100
+  mem: 2048
 - name: mesos-slave1
   box: centos/7
   ip: 100.0.10.101
-  mem: 1024
+  mem: 2048
 - name: mesos-slave2
   box: centos/7
   ip: 100.0.10.102
-  mem: 1024
+  mem: 2048
+- name: mesos-slave3
+  box: centos/7
+  ip: 100.0.10.103
+  mem: 2048
+
 
