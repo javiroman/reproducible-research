@@ -1,3 +1,5 @@
+# Based on https://open.mesosphere.com/advanced-course/
+
 [master] sudo rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
 [master] sudo yum -y install mesos marathon
 
@@ -224,6 +226,47 @@ c1517724c5a6        outyet              "go-wrapper run"    About a minute ago  
 #
 #  Distributing Docker To Multiple Nodes
 #
+
+- You have to install Docker damemon in all slave nodes
+
+[slave1, slave2, slave3] sudo yum install device-mapper-event-libs docker -y
+[slave1, slave2, slave3] sudo systemctl start docker 
+[slave1, slave2, slave3] sudo systemctl enable docker 
+[slave1, slave2, slave3] echo 'docker,mesos' | sudo tee /etc/mesos-slave/containerizers
+[slave1, slave2, slave3] sudo systemctl restart mesos-slave
+
+[master] sudo docker save --output=testdocker.tar.gz outyet
+
+(copy in all slave hosts)
+
+[slave1, slave2, slave3] sudo docker load --input=testdocker.tar.gz
+
+(now we can scale up the application on the nodes)
+
+#
+# Installing Mesos new client DC/OS CLI
+#
+
+[master] curl "https://bootstrap.pypa.io/get-pip.py" -o get-pip.py
+[master] sudo python get-pip.py
+[master] sudo pip install virtualenv
+
+sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+sudo yum install python35u python35u-devel openssl-devel libffi-devel
+sudo yum -y install python35u-pip  
+sudo pip3.5 install virtualenv
+
+- Go to instructions at https://github.com/dcos/dcos-cli#setup
+
+[master] git clone https://github.com/dcos/dcos-cli.git
+[master] cd dcos-cli
+[master] make env
+[master] cd cli
+[master] make env
+[master] source bin/env-setup-dev
+[master] dcos
+
+- Usage: https://docs.mesosphere.com/1.8/usage/cli/
 
 
 
