@@ -35,6 +35,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         domain.uri = 'qemu+unix:///system'
         domain.driver = 'kvm'
         domain.memory = servers["mem"]
+        domain.cpus = servers['cpu']
+        domain.storage :file, :size => servers['aditional_disk']
       end
       node.vm.provision :ansible do |ansible|
         ansible.verbose = "v"
