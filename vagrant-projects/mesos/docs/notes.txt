@@ -271,8 +271,11 @@ sudo pip3.5 install virtualenv
 
 
 
-
-
+# 
+# Notes about device mapper and Docker Storage
+#
+http://docs.docker.com/engine/userguide/storagedriver/device-mapper-driver/#image-layering-and-sharing
+http://unpoucode.blogspot.com.es/2015/06/docker-and-devicemappers-thinpool-in.html
 
 
 
