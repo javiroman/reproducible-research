@@ -1,0 +1,16 @@
+---
+- name: Make sure haproxy is running and config is up-to-date
+  sudo: yes
+  docker:
+    image: "{{haproxy_docker_image}}"
+    name: "{{haproxy_name}}"
+    ports:
+      - "9090:9090"
+    expose:
+      - 9090
+    env:
+      ZK: "{{zk_dns_endpoint}}"
+    privileged: True
+    net: host
+    restart_policy: always
+    state: restarted

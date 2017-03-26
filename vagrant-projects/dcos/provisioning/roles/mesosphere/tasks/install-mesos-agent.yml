@@ -1,0 +1,5 @@
+---
+- name: Pull mesos-agent docker image
+  docker:
+    image: "{{mesos_agent_docker_image}}"
+    state: present

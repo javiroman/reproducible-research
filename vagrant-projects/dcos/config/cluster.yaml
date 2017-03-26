@@ -1,0 +1,27 @@
+---
+- name: mesos-master1
+  box: centos/7
+  ip: 100.0.10.100
+  mem: 2048
+  cpu: 2
+  aditional_disk: 10G
+- name: mesos-slave1
+  box: centos/7
+  ip: 100.0.10.101
+  mem: 2048
+  cpu: 2
+  aditional_disk: 10G
+- name: mesos-slave2
+  box: centos/7
+  ip: 100.0.10.102
+  mem: 2048
+  cpu: 2
+  aditional_disk: 10G
+- name: mesos-slave3
+  box: centos/7
+  ip: 100.0.10.103
+  mem: 2048
+  cpu: 2
+  aditional_disk: 10G
+
+

@@ -1,0 +1,4 @@
+---
+haproxy_version: "1.5.14"
+haproxy_docker_image: "mesoscloud/haproxy:{{haproxy_version}}-ubuntu-14.04"
+haproxy_name: "haproxy"

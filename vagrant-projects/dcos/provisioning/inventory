@@ -1,0 +1,28 @@
+# There are two default groups: all and ungrouped. all contains every host.
+# ungrouped contains all hosts declared without an explicit section, even if
+# they belong to another group.
+
+[all:children]
+mesos-masters
+mesos-slaves
+mesos-masters-dns
+
+[all:vars]
+ansible_user = vagrant
+ansible_become = true
+
+[mesos-masters]
+mesos-master1 
+
+[mesos-masters-dns]
+mesos-master1 
+
+[mesos-slaves]
+mesos-slave1 
+mesos-slave2
+
+[zk-quorum]
+mesos-master1
+mesos-slave1
+mesos-slave2
+
