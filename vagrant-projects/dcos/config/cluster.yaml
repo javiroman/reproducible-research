@@ -1,27 +1,40 @@
 ---
-- name: mesos-master1
+- name: boot
+  type: boot
   box: centos/7
   ip: 100.0.10.100
   mem: 2048
   cpu: 2
   aditional_disk: 10G
-- name: mesos-slave1
+- name: m1
+  type: master
   box: centos/7
   ip: 100.0.10.101
   mem: 2048
   cpu: 2
   aditional_disk: 10G
-- name: mesos-slave2
+- name: a1
+  type: agent-private
   box: centos/7
   ip: 100.0.10.102
   mem: 2048
   cpu: 2
   aditional_disk: 10G
-- name: mesos-slave3
+- name: a2
+  type: agent-private
   box: centos/7
   ip: 100.0.10.103
   mem: 2048
   cpu: 2
   aditional_disk: 10G
+- name: p1
+  type: agent-public
+  box: centos/7
+  ip: 100.0.10.104
+  mem: 2048
+  cpu: 2
+  aditional_disk: 10G
+
+
 
 

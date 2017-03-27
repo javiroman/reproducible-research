@@ -6,14 +6,14 @@
     - debug: msg="Zookeeper native service to {{ zookeeper_native }}"
 
 # Play 1
-- hosts: mesos-masters
+- hosts: masters
   roles:
    - common
    #   - mesosphere
    #  - marathon
 
 # Play 2
-- hosts: mesos-slaves
+- hosts: agents
   roles:
    - common
    #   - mesosphere

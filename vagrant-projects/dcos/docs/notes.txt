@@ -42,7 +42,8 @@ F. Executor: launched on agent nodes to run tasks for a service (framework).
    the following containerizers:
    - Composing containerizer
    - Docker containerizer
-   - Mesos containerizer (default: own container technology)
+   - Mesos containerizer (default: own container technology, the Mesos Universal
+     Container Runtime).
 G. Task: a unit of work scheduled by a Mesos framework and executed on a Mesos
    agent (using the framwork executor).
 H. User: also known as Client, is an application either internal or external to
@@ -74,6 +75,31 @@ and include the following:
 - ZooKeeper
 
 
+Software Management
+~~~~~~~~~~~~~~~~~~~
+
+- Package: A DC/OS package is a bundle of metadata that describes how to
+configure, install, and uninstall a DC/OS service using Marathon.
+
+- Package Manager: The DC/OS package manager (Cosmos) is a component that 
+manages installing and uninstalling packages on a DC/OS cluster:
+
+        a. The DC/OS GUI and DC/OS CLI act as clients to interact with 
+           the DC/OS package manager.
+        b. The DC/OS package manager API allows programmatic interaction.
+
+- Package Registry: A DC/OS package registry is a repository of packages.
+The DC/OS package manager may be configured to install packages from one or
+more package registries.
+
+- Mesosphere Universe: The Mesosphere Universe is a public package registry, 
+managed by Mesosphere.
 
 
+Pods in DC/OS (Mesos)
+~~~~~~~~~~~~~~~~~~~~
+Pods enable the popular “sidecar” pattern where multiple containers are
+scheduled together on the same host and with shared resources. Pods allows
+co-scheduling of monitoring agents, service registration clients, and more with
+the main application process.
 
