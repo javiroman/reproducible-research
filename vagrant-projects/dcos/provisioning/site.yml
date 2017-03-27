@@ -2,15 +2,19 @@
 - hosts: bootstrap 
   roles:
    - common
+   - bootstrap
 
-- hosts: masters
+- hosts: dcos-masters
   roles:
    - common
+   - masters
 
-- hosts: agents-private
+- hosts: dcos-agents-private
   roles:
    - common
+   - agents-public
 
-- hosts: agents-public
+- hosts: dcos-agents-public
   roles:
    - common
+   - agents-private
