@@ -1,25 +1,16 @@
 ---
-- hosts: all
-  vars_files:
-    - vars/defaults.yml
-  tasks:
-    - debug: msg="Zookeeper native service to {{ zookeeper_native }}"
+- hosts: bootstrap 
+  roles:
+   - common
 
-# Play 1
 - hosts: masters
   roles:
    - common
-   #   - mesosphere
-   #  - marathon
 
-# Play 2
-- hosts: agents
+- hosts: agents-private
   roles:
    - common
-   #   - mesosphere
-   #  - marathon
 
-# Play 3
-- hosts: zk-quorum
+- hosts: agents-public
+  roles:
    - common
-   - zookeeper

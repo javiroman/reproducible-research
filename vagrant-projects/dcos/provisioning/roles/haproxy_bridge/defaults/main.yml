@@ -1,3 +1,0 @@
----
-haproxy_bridge_bin_folder: "/opt/haproxy-bridge"
-marathon_port: 8080

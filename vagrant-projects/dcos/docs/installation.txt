@@ -113,6 +113,14 @@ https://dcos.io/docs/1.8/administration/installing/custom/configuration-paramete
 mkdir -p HACK/genconf
 cd HACK
 
+curl -O https://downloads.dcos.io/dcos/stable/dcos_generate_config.sh
+
+sudo sh dcos_generate_config.sh --hash-password 
+    Password: adm
+    ====> HASHING PASSWORD TO SHA512
+    $6$rounds=656000$J1uOqAb95/iblDzm$ejRz.4wZiBJyKK0Wlmv4zH4c1bRbO0/P1KbOLSm8NJfQChzWcDJ.twmbCq9LS83bWrt7S6ZaOzicwN/bBnC3S1
+
+
 cat genconf/ip-detect 
    #!/usr/bin/env bash
    set -o nounset -o errexit
@@ -133,10 +141,12 @@ cat genconf/config.yaml
     - 8.8.8.8
     ssh_port: 22
     ssh_user: vagrant
+    superuser_username: admin
+    superuser_password_hash: "the HASHING PASSWORD TO SHA512 generated before"
     check_time: false
 
-curl -O https://downloads.dcos.io/dcos/stable/dcos_generate_config.sh
 sudo bash dcos_generate_config.sh
+
 # sudo docker run -d -p 8080:80 -v $PWD/genconf/serve:/usr/share/nginx/html:ro nginx
 sudo docker run -d -p 100.0.10.100:8080:80 --name bootstrap-nginx -v $PWD/genconf/serve:/usr/share/nginx/html:ro nginx
 
