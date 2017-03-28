@@ -64,7 +64,13 @@ Created deployment eea68324-c9b3-47da-9689-5b73b00a4eb5
 $ dcos marathon app list
 ID      MEM   CPUS   TASKS  HEALTH  DEPLOYMENT  WAITING  CONTAINER  CMD                         
 /nginx  128  0.0625   1/1    ---       ---      False      DOCKER   None                        
-/other   32   0.5     1/1    ---       ---      False      mesos    python -m SimpleHTTPServer 
+$ curl -O https://raw.githubusercontent.com/mesosphere/marathon/master/examples/labels.json
+$ dcos marathon app add labels.json 
+Created deployment 2f2d0add-247e-457c-80d3-2c73fec30841
+$ $ dcos marathon app list 
+ID       MEM  CPUS  TASKS  HEALTH  DEPLOYMENT  WAITING  CONTAINER  CMD                               
+/nginx   128  0.0625   1/1    ---       ---      False      DOCKER   None                        
+/labels  50   0.1      1/1    ---       ---      False      mesos    python -m SimpleHTTPServer $PORT  
 ```
 
 
