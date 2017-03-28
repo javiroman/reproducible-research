@@ -35,18 +35,36 @@ sys     0m50.552s
 ```
 ![DC/OS Dashboard](https://github.com/javiroman/reproducible-research/blob/master/vagrant-projects/dcos/img/dashboard.png)
 
-# TODO
+# Testing
 
-1. Improving the timeout in long download tasks. The dependents tasks must be
-   reworked in order to use notify and handlers.
+From boot machine:
 
-2. Create operations folder with playbook for health checking.
+```
+$ vagrant ssh boot
+$ dcos auth login
 
-3. Install DCOS CLI bash completion in bootstrap host.
+Please go to the following link in your browser:
 
+    http://m1/login?redirect_uri=urn:ietf:wg:oauth:2.0:oob
+OpenID Connect ID Token: .....
+Login successful!
 
+$ dcos node
+  HOSTNAME         IP                          ID                    
+100.0.10.102  100.0.10.102  88b2713d-af8f-4026-8c8b-ab7745f5523c-S0  
+100.0.10.103  100.0.10.103  88b2713d-af8f-4026-8c8b-ab7745f5523c-S1  
+100.0.10.104  100.0.10.104  3cde9319-810a-4afa-8b82-851f9e84895e-S0 
+```
 
+Running a Docker based application (similar to docker run):
 
-
+```
+$ dcos marathon app add https://dcos.io/docs/latest/usage/nginx.json
+Created deployment eea68324-c9b3-47da-9689-5b73b00a4eb5
+$ dcos marathon app list
+ID      MEM   CPUS   TASKS  HEALTH  DEPLOYMENT  WAITING  CONTAINER  CMD                         
+/nginx  128  0.0625   1/1    ---       ---      False      DOCKER   None                        
+/other   32   0.5     1/1    ---       ---      False      mesos    python -m SimpleHTTPServer 
+```
 
 
