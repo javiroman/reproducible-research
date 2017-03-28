@@ -41,6 +41,8 @@ sys     1m9.542s
 
 2. Create operations folder with playbook for health checking.
 
+3. Install DCOS CLI bash completion in bootstrap host.
+
 
 
 
