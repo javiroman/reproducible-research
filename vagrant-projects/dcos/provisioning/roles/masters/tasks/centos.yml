@@ -4,6 +4,14 @@
     name: nogroup
     state: present
 
+- name: Wait for Master healthy state
+  wait_for:
+    host: boot
+    port: 8080
+    delay: 5
+    timeout: 1200
+  notify: Download dcos_install.sh installer
+
 - name: Download dcos_install.sh installer 
   get_url:
     url: http://boot:8080/dcos_install.sh

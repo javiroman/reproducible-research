@@ -1,19 +1,26 @@
 ---
+# Roles are just abstractions around tasks
+# Plays are map roles to hosts
+
+# Play 1
 - hosts: bootstrap 
   roles:
    - common
    - bootstrap
 
+# Play 2
 - hosts: dcos-masters
   roles:
    - common
    - masters
 
+# Play 3
 - hosts: dcos-agents-private
   roles:
    - common
    - agents-public
 
+# Play 4
 - hosts: dcos-agents-public
   roles:
    - common
