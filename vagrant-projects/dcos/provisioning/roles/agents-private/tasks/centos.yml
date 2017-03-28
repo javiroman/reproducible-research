@@ -10,18 +10,23 @@
     port: 8080
     delay: 5
     timeout: 1200
-  notify: Download dcos_install.sh installer
 
-- name: Download dcos_install.sh installer 
-  get_url:
-    url: http://boot:8080/dcos_install.sh
-    dest: /home/vagrant/dcos_install.sh
-    mode: 0655
-
-- name: Executing DC/OS Private Angent installation
-  shell: bash dcos_install.sh slave && touch .skip
+#
+# The prior "Waiting for Master healthy state" sleep
+# the playbook for waiting Nginx installer connectivity.
+# This tasks is for creating a control file for only once
+# execution of agent installer. This installer download
+# and execution is based on handlers triggered with notify.
+#
+- name: Raise handlers workaround
+  shell: touch .handlers
   args:
     chdir: /home/vagrant
-    creates: .skip
+    creates: .handlers
+  notify: 
+      - Download dcos_install.sh installer
+      - Executing DC/OS Private Angent installation
+
+
 
 

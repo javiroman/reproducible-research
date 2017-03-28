@@ -12,6 +12,15 @@
     port: 8080
     delay: 5
     timeout: 1200
+
+#
+#
+#
+- name: Raise handlers workaround
+  shell: touch .handlers
+  args:
+    chdir: /home/vagrant
+    creates: .handlers
   notify: 
       - Download dcos_install.sh installer
       - Executing DC/OS Public Angent installation
