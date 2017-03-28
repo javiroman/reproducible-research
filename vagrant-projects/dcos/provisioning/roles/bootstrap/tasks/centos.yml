@@ -81,19 +81,21 @@
     chdir: /home/vagrant
     creates: .cliskip
 
-- name: Stat dcos executable
-  stat: path=/usr/local/bin
-  register: dcos_stat
+- name: Copy DC/OS CLI to suitable PATH location
+  shell: cp dcos /usr/local/bin/dcos && chmod 755 /usr/local/bin/dcos && touch .skipcopy
+  args:
+    chdir: /home/vagrant
+    creates: .skipcopy
 
-- name: Move DC/OS CLI to suitable PATH location
-  command: mv dcos /usr/local/bin 
-  when: dcos_stat.exists
-
-- name: Set executable permissions to DC/OS CLI
-  command: chmod +x /usr/local/bin/dcos
+- name: Delete DC/OS CLI downloaded
+  file: 
+    path: /home/vagrant/dcos
+    state: absent
 
 - name: Configure current configuration for master
-  command: "dcos config set core.dcos_url http://m1"
+  shell: /usr/local/bin/dcos config set core.dcos_url http://m1
+  become: yes
+  become_user: vagrant
 
 
 

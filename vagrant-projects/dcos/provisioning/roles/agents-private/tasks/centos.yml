@@ -10,7 +10,7 @@
     dest: /home/vagrant/dcos_install.sh
     mode: 0655
 
-- name: Executing Master installation
+- name: Executing DC/OS Private Angent installation
   shell: bash dcos_install.sh slave && touch .skip
   args:
     chdir: /home/vagrant
