@@ -4,7 +4,7 @@
     name: nogroup
     state: present
 
-- name: Wait for Master healthy state
+- name: Waiting for Master healthy state
   wait_for:
     host: boot
     port: 8080

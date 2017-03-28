@@ -34,6 +34,13 @@ user    9m37.775s
 sys     1m9.542s
 
 ```
+# TODO
+
+1. Improving the timeout in long download tasks. The dependents tasks must be
+   reworked in order to use notify and handlers.
+
+2. Create operations folder with playbook for health checking.
+
 
 
 

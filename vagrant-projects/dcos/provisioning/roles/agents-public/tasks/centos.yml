@@ -6,7 +6,7 @@
 
 # This task waits "delay" seconds on each poll attempt.
 # The task is timeout after "timeout" seconds.
-- name: Wait for Master healthy state
+- name: Waiting for Master healthy state
   wait_for:
     host: boot
     port: 8080
@@ -16,10 +16,6 @@
       - Download dcos_install.sh installer
       - Executing DC/OS Public Angent installation
 
-#
-# TODO: Move those handlers to folder location
-#
- 
 # Notify actions are triggered at the end of each block of tasks in a play,
 # and will only be triggered once even if notified by multiple different tasks.
 # The things listed in the notify section of a task are called handlers.
@@ -28,16 +24,4 @@
 # If nothing notifies a handler, it will not run. Regardless of how many tasks
 # notify a handler, it will run only once, after all of the tasks complete in a
 # particular play.
-handlers:
-  - name: Download dcos_install.sh installer 
-    get_url:
-      url: http://boot:8080/dcos_install.sh
-      dest: /home/vagrant/dcos_install.sh
-      mode: 0655
-
-  - name: Executing DC/OS Public Angent installation
-    shell: bash dcos_install.sh slave_public && touch .skip
-    args:
-      chdir: /home/vagrant
-      creates: .skip
 
