@@ -29,9 +29,10 @@ This test was run in a Intel(R) Core(TM) i7-6500U CPU @ 2.50GHz with 16GiB.
 ```
 time vagrant up
 [...]
-real    23m12.764s
-user    9m37.775s
-sys     1m9.542s
+real    16m43.492s
+user    7m18.357s
+sys     0m50.552s
+
 
 ```
 # TODO
