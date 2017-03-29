@@ -76,7 +76,7 @@
       - /home/vagrant/genconf/serve:/usr/share/nginx/html
 
 - name: Downloading DC/OS CLI
-  shell: curl -fLsS --retry 20 -Y 100000 -y 60 https://downloads.dcos.io/binaries/cli/linux/x86-64/dcos-1.8/dcos -o dcos && touch .cliskip
+  shell: curl -fLsS --retry 20 -Y 100000 -y 60 https://downloads.dcos.io/binaries/cli/linux/x86-64/latest/dcos -o dcos && touch .cliskip
   args:
     chdir: /home/vagrant
     creates: .cliskip
