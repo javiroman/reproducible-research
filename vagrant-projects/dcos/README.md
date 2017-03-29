@@ -74,4 +74,21 @@ ID       MEM  CPUS  TASKS  HEALTH  DEPLOYMENT  WAITING  CONTAINER  CMD
 /labels  50   0.1      1/1    ---       ---      False      mesos    python -m SimpleHTTPServer $PORT  
 ```
 
+# For Ubuntu desktop users
+
+```
+wget https://releases.hashicorp.com/vagrant/1.8.4/vagrant_1.8.4_x86_64.deb
+sudo dpkg -i vagrant_1.8.4_x86_64.deb
+sudo apt-get update
+
+sudo apt-get install qemu-kvm libvirt-bin libvirt-dev
+sudo adduser $USER libvirtd
+sudo usermod -G libvirt -a $USER
+
+sudo add-apt-repository ppa:ansible/ansible sudo apt-get update         
+sudo apt-get --only-upgrade install ansible
+
+vagrant up --provider=libvirt
+
+```
 
