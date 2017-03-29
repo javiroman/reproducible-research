@@ -18,10 +18,10 @@
 - hosts: dcos-agents-private
   roles:
    - common
-   - agents-public
+   - agents-private
 
 # Play 4
 - hosts: dcos-agents-public
   roles:
    - common
-   - agents-private
+   - agents-public

@@ -29,9 +29,9 @@ This test was run in a Intel(R) Core(TM) i7-6500U CPU @ 2.50GHz with 16GiB.
 ```
 time vagrant up
 [...]
-real    16m43.492s
-user    7m18.357s
-sys     0m50.552s
+real    18m46.697s
+user    8m4.940s
+sys     0m51.935s
 ```
 ![DC/OS Dashboard](https://github.com/javiroman/reproducible-research/blob/master/vagrant-projects/dcos/img/dashboard.png)
 
