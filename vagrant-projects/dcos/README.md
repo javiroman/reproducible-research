@@ -9,6 +9,7 @@ This project was tested in Fedora 24 system with the following utilities:
 ```
 $ sudo dnf install vagrant vagrant-libvirt ansible -y
 ```
+For other systems you will need at least the following tool versions:
 
 ```
 $ vagrant version
