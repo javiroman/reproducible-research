@@ -1,0 +1,20 @@
+$ORIGIN  .
+
+$TTL 1  ;  1 seconds (for testing only)
+
+cloudapps.comodoo.dcos IN  SOA  dcos-cluster.cloudapps.comodoo.dcos. root.cloudapps.comodoo.dcos. (
+  2011112904  ; serial
+  60          ; refresh (1 minute)
+  15          ; retry (15 seconds)
+  1800        ; expire (30 minutes)
+  10          ; minimum (10 seconds)
+)
+
+; the prepend space is important here!
+      NS dcos-cluster.cloudapps.comodoo.dcos.
+
+$ORIGIN cloudapps.comodoo.dcos.
+
+; OpenShift Container Platform router host, or load balancer.
+test  A  101.0.10.100 
+*     A  101.0.10.100 

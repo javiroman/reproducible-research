@@ -1,0 +1,105 @@
+DC/OS Linux terminology simile: kernel space and user space.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- The kernel space is a protected area that is not accessible to users and
+  involves low-level operations such as resource allocation, security, and
+  process isolation.
+- The user space is where the user applications and higher order services live,
+  for example the GUI of your OS.
+
+In DC/OS:
+~~~~~~~~
+
+- DC/OS kernel space is comprised of Mesos masters and Mesos agents.
+- The user space includes System Components such as Mesos-DNS, Distributed DNS
+  Proxy, and services such as Marathon or Spark. The user space also includes
+  processes that are managed by the services, for example a Marathon application.
+
+Terminology foundations:
+~~~~~~~~~~~~~~~~~~~~~~~
+
+A. Mesos: is made of three components: Masters, Agents and Frameworks.
+B. Master: aggregates resource offers from all agent nodes and provides them to 
+   registered frameworks.
+C. Agent: runs a discrete Mesos task on behalf of a framework. It is an agent
+   instance registered with the Mesos master. The synonym of agent node is worker
+   or slave node. You can have private or public agent nodes.  Private agent
+   nodes run the deployed apps and services through a non-routable network. Public
+   agent nodes run DC/OS apps and services in a publicly accessible network. 
+D. Framework: Applications that run on Mesos are called frameworks. A framework 
+   has two parts: the controller portion, which is called the scheduler, and the 
+   worker portion, which are called the executors.
+E. Scheduler: the scheduler component of a service (framework), for example the 
+   Marathon scheduler. A scheduler is responsible for deciding whether to
+   accept or reject the resource offers.
+F. Executor: launched on agent nodes to run tasks for a service (framework).
+   Executors are resource consumers and run on slaves and are responsible for
+   running tasks. When a scheduler wants to do some work, it launches an
+   executor. The executor is simply the scheduler’s worker: the scheduler then 
+   decides to send one or more tasks to the executor, which will work on those 
+   tasks independently, sending status updates to the scheduler until the tasks 
+   are complete. An Executor to launch a Task via containerizers. Mesos implements 
+   the following containerizers:
+   - Composing containerizer
+   - Docker containerizer
+   - Mesos containerizer (default: own container technology, the Mesos Universal
+     Container Runtime).
+G. Task: a unit of work scheduled by a Mesos framework and executed on a Mesos
+   agent (using the framwork executor).
+H. User: also known as Client, is an application either internal or external to
+   the cluster that kicks off a process, for example a human user that submits a
+   Marathon app spec.
+I. Process: a logical collection of tasks initiated by a Client, for example a
+   Marathon app or a Chronos job.
+
+DC/OS Kernel Space
+~~~~~~~~~~~~~~~~~~
+- Mesos masters: The mesos-master process
+- Mesos agents: The mesos-slave process on a Mesos agent manages its local
+  resources (CPU cores, RAM, etc.) and registers these resources with the Mesos 
+  masters. It also accepts schedule requests from the Mesos master and invokes an
+  Executor to launch a Task via Mesos containerizers.
+
+DC/OS User Space
+~~~~~~~~~~~~~~~~
+
+DC/OS System Components are installed and are running by default in the DC/OS cluster
+and include the following:
+
+- Admin Router Agent
+- Exhibitor 
+- Mesos-DNS 
+- Minuteman
+- Distributed DNS Proxy
+- DC/OS Marathon
+- ZooKeeper
+
+
+Software Management
+~~~~~~~~~~~~~~~~~~~
+
+- Package: A DC/OS package is a bundle of metadata that describes how to
+configure, install, and uninstall a DC/OS service using Marathon.
+
+- Package Manager: The DC/OS package manager (Cosmos) is a component that 
+manages installing and uninstalling packages on a DC/OS cluster:
+
+        a. The DC/OS GUI and DC/OS CLI act as clients to interact with 
+           the DC/OS package manager.
+        b. The DC/OS package manager API allows programmatic interaction.
+
+- Package Registry: A DC/OS package registry is a repository of packages.
+The DC/OS package manager may be configured to install packages from one or
+more package registries.
+
+- Mesosphere Universe: The Mesosphere Universe is a public package registry, 
+managed by Mesosphere.
+
+
+Pods in DC/OS (Mesos)
+~~~~~~~~~~~~~~~~~~~~
+Pods enable the popular “sidecar” pattern where multiple containers are
+scheduled together on the same host and with shared resources. Pods allows
+co-scheduling of monitoring agents, service registration clients, and more with
+the main application process.
+

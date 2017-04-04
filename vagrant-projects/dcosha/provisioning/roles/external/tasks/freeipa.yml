@@ -1,0 +1,30 @@
+---
+- name: Install FreeIPA (IdM)
+  yum: name=ipa-server state=latest
+
+- name: Install RNG tools
+  yum: name=rng-tools state=latest
+
+#
+# Get size of the entropy pool:
+# cat /proc/sys/kernel/random/entropy_avail
+#
+- name: Increase the system entropy 
+  command: /usr/sbin/rngd -r /dev/urandom
+
+- name: Run the ipa-server-install command
+  shell: >
+    ipa-server-install -U
+    --hostname=ext.stratio.lan
+    --domain=stratio.lan
+    --realm=STRATIO.LAN
+    --ds-password=DS12345678 
+    --admin-password=AD12345678 &&
+    touch .skip_ipa
+  args:
+    chdir: /home/vagrant
+    creates: .skip_ipa
+
+
+
+

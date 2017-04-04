@@ -1,0 +1,22 @@
+$TTL    604800
+@       IN      SOA     ext.comodoo.dcos. admin.comodoo.dcos. (
+             3          ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800 )   ; Negative Cache TTL
+
+; name servers - NS records
+    IN      NS      .
+
+; name servers - A records
+ext.comodoo.dcos.   IN      A       101.0.10.100
+
+; 192.168.121.0/24 - A records
+dcos-cluster.comodoo.dcos.  IN A 101.0.10.100 ; for load balancing
+boot.comodoo.dcos.       IN A 101.0.10.101
+m1.comodoo.dcos.  IN A 101.0.10.102
+a1.comodoo.dcos.  IN A 101.0.10.103
+a2.comodoo.dcos.  IN A 101.0.10.104
+p1.comodoo.dcos.  IN A 101.0.10.105
+p2.comodoo.dcos.  IN A 101.0.10.106

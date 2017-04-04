@@ -1,0 +1,9 @@
+---
+- name: Update system
+  dnf: name=* state=latest
+
+- name: Install prerequisites
+  dnf: name={{ item }} state=present
+  with_items:
+    - vim
+    - tree 

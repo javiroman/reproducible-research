@@ -1,0 +1,16 @@
+- name: Install Bind DNS server
+  yum: name=bind state=latest
+
+- name: Bind configuration files
+  copy:
+    src: etc
+    owner: root
+    group: named
+    dest: /
+    mode: 0644
+    backup: yes
+
+- name: Starting Bind DNS server
+  service: name=named state=started enabled=yes
+
+

@@ -1,0 +1,230 @@
+##########
+# ALL Nodes
+##########
+
+#
+# Minimal staff 
+#
+sudo yum install tree vim net-tools bind-utils -y
+
+#
+# Prefer the OverlayFS storage driver. OverlayFS avoids known issues with
+# devicemapper in loop-lvm mode and allows containers to use docker-in-docker.
+#
+sudo tee /etc/modules-load.d/overlay.conf <<-'EOF'
+overlay
+EOF
+
+#
+# Reboot to reload kernel modules:
+#
+reboot
+lsmod | grep overlay
+
+#
+# Important: Version 1.12.x is not supported.
+# Recommendations: Docker 1.9.x - 1.11.x is recommended for stability reasons.
+#
+sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+
+#
+# Configure systemd to run the Docker Daemon with OverlayFS
+#
+sudo mkdir -p /etc/systemd/system/docker.service.d 
+sudo tee /etc/systemd/system/docker.service.d/override.conf <<-'EOF'
+[Service]
+ExecStart=
+ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
+EOF
+
+#
+# Docker installation and enabling
+#
+sudo yum install -y docker-engine-1.11.2
+sudo systemctl start docker
+sudo systemctl enable docker
+
+#
+# Enabling NTP: Network Time Protocol (NTP) must be enabled on all nodes for
+# clock synchronization. By default, during DC/OS startup you will receive an
+# error if this is not enabled.
+# 
+sudo yum install ntp -y
+sudo systemctl start ntpd 
+sudo systemctl enable ntpd 
+ntpq -p
+
+################
+# Bootstrap node
+################
+
+#
+# For advanced install only, install the Docker Nginx image.
+#
+sudo docker pull nginx
+sudo sed -i s/SELINUX=enforcing/SELINUX=permissive/g /etc/selinux/config
+sestatus
+sudo reboot
+sestatus
+
+###############
+# Cluster nodes
+###############
+
+#
+# For advanced install only, your cluster nodes must have the following
+# prerequisites. 
+#
+
+#
+# data compression utilities (advanced installer)
+#
+sudo yum install -y tar xz unzip curl ipset
+
+#
+# Cluster permissions (advanced installer)
+#
+# On each of your cluster nodes, use the following command to:
+#
+# 1. Disable SELinux or set it to permissive mode.
+# 2. Add nogroup to each of your Mesos masters and agents.
+# 3. Reboot your cluster for the changes to take affect
+
+sudo sed -i s/SELINUX=enforcing/SELINUX=permissive/g /etc/selinux/config
+sudo groupadd nogroup 
+sestatus
+sudo reboot
+sestatus
+
+#################################
+# Advanced Installation         #
+#################################
+
+# Configuration parameters:
+https://dcos.io/docs/1.8/administration/installing/custom/configuration-parameters/
+
+mkdir -p HACK/genconf
+cd HACK
+
+curl -O https://downloads.dcos.io/dcos/stable/dcos_generate_config.sh
+
+sudo sh dcos_generate_config.sh --hash-password 
+    Password: adm
+    ====> HASHING PASSWORD TO SHA512
+    $6$rounds=656000$J1uOqAb95/iblDzm$ejRz.4wZiBJyKK0Wlmv4zH4c1bRbO0/P1KbOLSm8NJfQChzWcDJ.twmbCq9LS83bWrt7S6ZaOzicwN/bBnC3S1
+
+
+cat genconf/ip-detect 
+   #!/usr/bin/env bash
+   set -o nounset -o errexit
+   export PATH=/usr/sbin:/usr/bin:$PATH
+   echo $(ip addr show eth1 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+
+cat genconf/config.yaml 
+    ---
+    bootstrap_url: http://boot:8080
+    cluster_name: 'dcos-vagrant'
+    exhibitor_storage_backend: static
+    ip_detect_filename: /genconf/ip-detect
+    master_discovery: static
+    master_list:
+    - 100.0.10.101
+    resolvers:
+    - 8.8.4.4
+    - 8.8.8.8
+    ssh_port: 22
+    ssh_user: vagrant
+    superuser_username: admin
+    superuser_password_hash: "the HASHING PASSWORD TO SHA512 generated before"
+    check_time: false
+
+sudo bash dcos_generate_config.sh
+
+# sudo docker run -d -p 8080:80 -v $PWD/genconf/serve:/usr/share/nginx/html:ro nginx
+sudo docker run -d -p 100.0.10.100:8080:80 --name bootstrap-nginx -v $PWD/genconf/serve:/usr/share/nginx/html:ro nginx
+
+#
+# On each cluster node
+#
+mkdir /tmp/dcos && cd /tmp/dcos
+curl -O http://boot:8080/dcos_install.sh
+sudo bash dcos_install.sh master
+
+#
+# On Masters
+#
+sudo bash dcos_install.sh master
+
+# 
+# On Private agent nodes (a*)
+#
+sudo bash dcos_install.sh slave
+
+# 
+# On Public agent nodes (p*)
+#
+sudo bash dcos_install.sh slave_public
+
+
+######
+# Ready to go ahead!
+######
+
+# Exhibitor for Zookeeper dashboard
+http://m1:8181/exhibitor/v1/ui/index.html
+
+# DC/OS Dashboard
+http://m1
+
+
+######
+# CLI Tool for boot node
+######
+
+#
+# Install dcos cli from web interface
+#
+curl -fLsS --retry 20 -Y 100000 -y 60 https://downloads.dcos.io/binaries/cli/linux/x86-64/dcos-1.8/dcos -o dcos 
+sudo mv dcos /usr/local/bin 
+sudo chmod +x /usr/local/bin/dcos 
+dcos config set core.dcos_url http://m1 
+dcos
+
+#
+# Install dcos cli bash autocompletion
+#
+sudo curl -o /etc/bash_completion.d/dcos_completion.sh https://raw.githubusercontent.com/stuartleeks/bash-dcos/master/dcos_completion.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

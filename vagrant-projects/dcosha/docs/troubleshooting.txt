@@ -1,0 +1,93 @@
+1. Check the correct configuration of entry points of installer:
+
+    - genconf/config.yaml: In particular master_list
+    - genconf/ip_detect: In particular the interface for detection
+
+2. It is recommended that you have forward and reverse lookups for FQDNs, short
+   hostnames, and IP addresses. It is possible for DC/OS to function in
+   environments without valid DNS support, but the following must work to support
+   DC/OS services, including Spark:
+
+    - "hostname -f" returns the FQDN
+    - ""hostname -s" returns the short hostname
+
+3. When troubleshooting problems with a DC/OS installation, you should explore
+   the components in this sequence:
+
+    a. Exhibitor
+    b. Mesos master
+    c. Mesos DNS
+    d. DNS Forwarder (Spartan)
+    e. DC/OS Marathon
+    f. Jobs
+    g. Admin Router
+
+4. Checking NTP: Network Time Protocol (NTP) must be enabled on all nodes for
+   clock synchronization. By default, during DC/OS startup you will receive an
+   error if this is not enabled. You can check if NTP is enabled by running one of
+   these commands, depending on your OS and configuration: ntptime, adjtimex -p, 
+   or timedatectl.
+
+5. Firewall: Ensure that firewalls and any other connection-filtering
+   mechanisms are not interfering with cluster component communications. TCP, UDP,
+   and ICMP must be permitted.
+
+6. DNSmasq: Ensure that services that bind to port 53, which is required by DNS
+   Forwarder (dcos-spartan.service), are disabled and stopped. For example:
+
+   - sudo systemctl disable dnsmasq && sudo systemctl stop dnsmasq
+
+a. Exhibitor
+~~~~~~~~~~~~
+
+Verify that Exhibitor is up and running at 
+http://<MASTER_IP>:8181/exhibitor. If Exhibitor is not up and running:
+
+- SSH to your master node and enter this command to check the Exhibitor
+  service logs: "journalctl -flu dcos-exhibitor"
+
+- Verify that /tmp is mounted without noexec. If it is mounted with noexec,
+  Exhibitor will fail to bring up ZooKeeper because Java JNI won’t be able
+  to exec a file it creates in /tmp and you will see multiple permission denied
+  errors in the log. To repair /tmp mounted with noexec:
+
+  mount -o remount,exec /tmp
+
+- Check the output of /exhibitor/v1/cluster/status and verify that it shows
+  the correct number of masters and that all of them are "serving" but only
+  one of them is designated as "isLeader": true
+
+curl -fsSL http://localhost:8181/exhibitor/v1/cluster/status | python -m json.tool
+
+Note: Running this command in multi-master configurations can take up to
+10-15 minutes to complete. If it doesn’t complete after 10-15 minutes, you
+should carefully review the journalctl -flu dcos-exhibitor logs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

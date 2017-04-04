@@ -1,0 +1,15 @@
+zone "comodoo.dcos" IN {
+    type master;
+    file "/etc/named/zones/db.comodoo.dcos"; 
+};
+
+zone "10.0.101.in-addr.arpa" IN {
+    type master;
+    file "/etc/named/zones/db.101.0.10"; 
+};
+
+zone "cloudapps.comodoo.dcos" IN { 
+    type master;
+    file "/etc/named/zones/db.cloudapps.comodoo.dcos";
+    allow-update { key cloudapps.comodoo.dcos ; } ; 
+};
