@@ -1,3 +1,28 @@
+#########
+General notes about installation
+#########
+
+1. Overview of dcos_generate_config.sh:
+
+So dcos_generate_config.sh is a self-extracting and executing docker container
+(A bash script with a docker container appended to it).
+
+Inside that docker container, is a python interpreter, and all the code in the
+dcos/dcos repository.
+
+The docker container also contains all the bits for DC/OS so it can be used for
+fully isolated / offline installation.
+
+
+2.  dcos_generate_config.sh if you're following the Web, SSH, or Advanced
+installation instructions is fully self contained, no internet connection is
+needed. All the components we build and ship using our own package manager
+(pkgpanda). They are 100% independent of the base system packages. Most of
+dc/os lives in `/opt/mesosphere` which is it's own isolated root. There's a
+little put other places (systemd units) because they have to be because of
+requirements of the pieces that use them.
+
+
 ##########
 # ALL Nodes
 ##########
