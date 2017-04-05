@@ -17,6 +17,7 @@
     chdir: /home/vagrant
     creates: .installerskip
 
+# FIXME: This must by a template
 - name: Configure ip-detect helper for correct interface attaching
   blockinfile:
     dest: /home/vagrant/genconf/ip-detect
@@ -28,6 +29,7 @@
       export PATH=/usr/sbin:/usr/bin:$PATH
       echo $(ip addr show eth1 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 
+# FIXME: This must by a template
 - name: Configure config.yaml for DC/OS deployment
   blockinfile:
     dest: /home/vagrant/genconf/config.yaml
@@ -39,11 +41,9 @@
       cluster_name: 'dcos-vagrant'
       exhibitor_storage_backend: static
       ip_detect_filename: /genconf/ip-detect
-      master_discovery: static
-      master_list:
-      - 103.0.10.101
-      - 103.0.10.102
-      - 103.0.10.103
+      master_discovery: master_http_loadbalancer
+      exhibitor_address: ext
+      num_masters: 3
       resolvers:
       - 103.0.10.99
       - 8.8.8.8

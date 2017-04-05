@@ -1,0 +1,37 @@
+Note Important: The IP address of a node must not change after DC/OS is
+installed on the node. For example, the IP address must not change when a node
+is rebooted or if the DHCP lease is renewed. If the IP address of a node does
+change, the node must be wiped and reinstalled.
+
+Note: so the "static" backend is a new backend we added to exhibitor which
+takes the master list which is statically provided at config time and just
+writes it into the zookeeper.conf. Does that once, works with the assumption
+the static master list never ever changes (and changing it will likely cause
+inconsistent zookeeper badness for at least short windows, there is no
+integrity / consistency checking).
+
+The other zookeeper storage backends all use a "shared" storage place (NFS,
+another zookeeper, s3 bucket, acs storage bucket, gce storage bucket).
+Exhibitor on one host generates a zookeeper config, than "proposes" it to all
+the other zookeepers by posting it to the shared storage location. When new
+hosts want to add themselves to the cluster (a master is replaced), it will
+grab the zookeeper.cfg out of the bucket, check which hosts are likely down,
+and send out a new proposal. Iterate a couple of times until it's proposal is
+accepted.
+
+Note: DC/OS master IP (or qty) can not be changed after installation. You will
+need to reinstall the cluster.  Now if you want to have "dynamice IPs" in 
+the Masters you may want to use master_discovery: master_http_loadbalancer 
+in your config.yaml
+
+ZK Exhibitor: 
+
+DCOS -> https://github.com/dcos/exhibitor
+Netflix -> https://github.com/soabase/exhibitor/wiki
+
+Each Exhibitor instance monitors the ZooKeeper server running on the same
+server. If ZooKeeper is not running, Exhibitor will write the zoo.cfg file (see
+Cluster-wide Configuration below) and start it. If ZooKeeper crashes for some
+reason, Exhibitor will restart it.
+
+
