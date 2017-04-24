@@ -29,12 +29,17 @@ wget https://releases.hashicorp.com/vagrant/1.8.4/vagrant_1.8.4_x86_64.deb
 sudo dpkg -i vagrant_1.8.4_x86_64.deb
 sudo apt-get update
 
+sudo apt-get build-dep ruby-libvirt
+sudo apt-get install libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ebtables dnsmasq
 sudo apt-get install qemu-kvm libvirt-bin libvirt-dev
-sudo adduser $USER libvirtd
-sudo usermod -G libvirt -a $USER
 
 sudo add-apt-repository ppa:ansible/ansible 
 sudo apt-get --only-upgrade install ansible
+
+vagrant plugin install vagrant-libvirt
+
+sudo adduser $USER libvirtd
+sudo usermod -G libvirt -a $USER
 
 vagrant up --provider=libvirt
 
