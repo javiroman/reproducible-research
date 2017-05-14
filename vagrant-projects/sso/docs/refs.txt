@@ -1,0 +1,5 @@
+https://github.com/ubc/vagrant-cas
+https://github.com/louisicard/vagrant-cas
+https://github.com/cloudkick/cast-vagrant
+https://github.com/ndoit/vagrant-rails-cas
+
