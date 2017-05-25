@@ -39,13 +39,15 @@ $ git merge master
 
 ## Tips
 
-* Check diffs before commit within the $EDITOR
+### Check diffs before commit within the $EDITOR
 ```
 $ git commit -v
 ```
 
-* A simple ‘git fetch’ will basically give you a TODO list of what every is
-  currently working on:
+### TODO list about current works
+
+A simple ‘git fetch’ will basically give you a TODO list of what every is currently working on:
+
 ```
 $ git fetch --all
 ```
@@ -53,14 +55,14 @@ It also lets everyone see, by looking at the GitHub Branch List page, what
 everyone else is working on so they can inspect them and see if they want to
 help with something.
 
-* Delete local branch and remote branch:
+### Delete local branch and remote branch:
 
 ```
 local branch: git branch -d fix_flume_dockerfile
 remote branch: git push origin --delete fix_flume_dockerfile
 ```
 
-* Remove all your local branches which are remotely deleted.
+### Remove all your local branches which are remotely deleted.
 ```
 $ git fetch -p
 ```
@@ -72,18 +74,38 @@ or
 git config --global fetch.prune true
 ```
 
-* Get just one file from another branch
+### Get just one file from another branch
 ```
 git checkout targetbranch
 git checkout master -- filefrommaster
 ```
 This command make a checkout of filefromaster file to targetbranch.
 
-* Create local branch from an already created remote branch:
+### Create local branch from an already created remote branch:
 ```
 git checkout -b blueprints origin/blueprints
 ```
+### Keeping a fork up to date with original repo
 
+1. Clone your fork:
+
+```
+    git clone git@github.com:YOUR-USERNAME/YOUR-FORKED-REPO.git
+```
+
+2. Add remote from original repository in your forked repository: 
+
+```
+    cd into/cloned/fork-repo
+    git remote add upstream git://github.com/ORIGINAL-DEV-USERNAME/REPO-YOU-FORKED-FROM.git
+    git fetch upstream
+```
+
+3. Updating your fork from original repo to keep up with their changes:
+
+```
+    git pull upstream master
+```
 
 References:
 * GitHub workflow: https://help.github.com/articles/what-is-a-good-git-workflow/
