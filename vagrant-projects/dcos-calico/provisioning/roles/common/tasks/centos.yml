@@ -1,0 +1,87 @@
+---
+#- name: Update system
+#  yum: name=* state=latest
+
+- name: Install CentOS prerequisites
+  yum: name={{ item }} state=latest
+  with_items:
+    - vim
+    - tree
+    - ntp
+    - net-tools
+    - bind-utils
+    - tar 
+    - xz 
+    - unzip 
+    - curl 
+    - ipset
+
+- name: Disabling SELinux (anti-pattern)
+  lineinfile:
+    dest: /etc/selinux/config
+    backup: yes
+    regexp: '^SELINUX='
+    line: 'SELINUX=permissive'
+
+- name: Effective disabling of SELinux (avoiting reboot)
+  command: /usr/sbin/setenforce 0
+
+- name: Stopping Firewall rules (anti-pattner)
+  service: name=firewalld state=stopped enabled=no
+
+- name: Configure /etc/host files
+  template: src=hosts.j2 dest=/etc/hosts
+
+- name: Configure ntp servers
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify: Restart ntp
+
+- name: Enabled ntpd service
+  service: name=ntpd enabled=yes
+
+- name: Setup OverlayFS storage driver automatic loading
+  lineinfile: 
+    dest: /etc/modules-load.d/overlay.conf
+    create: yes
+    state: present
+    line: overlay
+
+- name: Load overlay kernel module (avoiting reboot)
+  modprobe: name=overlay state=present
+
+- name: Setup offial Docker repository
+  blockinfile:
+    dest: /etc/yum.repos.d/docker.repo
+    backup: yes
+    create: yes
+    block: |
+      [dockerrepo]
+      name=Docker Repository
+      baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://yum.dockerproject.org/gpg
+
+- name: Configure systemd to run the Docker Daemon with OverlayFS (folder)
+  file: path=/etc/systemd/system/docker.service.d state=directory
+
+- name: Configure systemd to run the Docker Daemon with OverlayFS (control file)
+  blockinfile:
+    dest: /etc/systemd/system/docker.service.d/override.conf
+    backup: yes
+    create: yes
+    block: |
+      [Service]
+      ExecStart=
+      ExecStart=/usr/bin/docker daemon --storage-driver=overlay -H fd://
+
+- name: Installing Docker 1.11.12 version
+  yum: name=docker-engine-1.11.2 state=installed
+
+- name: Starting Docker daemon
+  service: name=docker state=started
+
+- name: Enabling Docker daemon
+  service: name=docker enabled=yes
+
+

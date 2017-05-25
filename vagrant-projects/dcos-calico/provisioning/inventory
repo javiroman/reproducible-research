@@ -1,0 +1,25 @@
+# There are two default groups: all and ungrouped. all contains every host.
+# ungrouped contains all hosts declared without an explicit section, even if
+# they belong to another group.
+[all:children]
+bootstrap
+dcos-masters
+dcos-agents-private
+dcos-agents-public
+
+[all:vars]
+ansible_user = vagrant
+ansible_become = true
+
+[bootstrap]
+boot
+
+[dcos-masters]
+m1
+
+[dcos-agents-private]
+a1
+a2
+
+[dcos-agents-public]
+p1

@@ -1,0 +1,15 @@
+- name: Restart ntp
+  service: name=ntpd state=restarted
+
+- name: Download dcos_install.sh installer 
+  get_url:
+    url: http://boot:8080/dcos_install.sh
+    dest: /home/vagrant/dcos_install.sh
+    mode: 0655
+
+- name: Executing DC/OS Public Angent installation
+  shell: bash dcos_install.sh slave_public && touch .skip
+  args:
+    chdir: /home/vagrant
+    creates: .skip
+

@@ -1,0 +1,32 @@
+---
+- name: Adding group nogroup (similar to nobody)
+  group:
+    name: nogroup
+    state: present
+
+- name: Waiting for Master healthy state
+  wait_for:
+    host: boot
+    port: 8080
+    delay: 5
+    timeout: 1200
+
+#
+# The prior "Waiting for Master healthy state" sleep
+# the playbook for waiting Nginx installer connectivity.
+# This tasks is for creating a control file for only once
+# execution of agent installer. This installer download
+# and execution is based on handlers triggered with notify.
+#
+- name: Raise handlers workaround
+  shell: touch .handlers
+  args:
+    chdir: /home/vagrant
+    creates: .handlers
+  notify: 
+      - Download dcos_install.sh installer
+      - Executing DC/OS Private Angent installation
+
+
+
+

@@ -1,0 +1,29 @@
+---
+- name: Adding group nogroup (similar to nobody)
+  group:
+    name: nogroup
+    state: present
+
+- name: Waiting for Master healthy state
+  wait_for:
+    host: boot
+    port: 8080
+    delay: 5
+    timeout: 1200
+  notify: Download dcos_install.sh installer
+
+- name: Download dcos_install.sh installer 
+  get_url:
+    url: http://boot:8080/dcos_install.sh
+    dest: /home/vagrant/dcos_install.sh
+    mode: 0655
+
+- name: Executing Master installation
+  shell: bash dcos_install.sh master && touch .skip
+  args:
+    chdir: /home/vagrant
+    creates: .skip
+
+
+
+

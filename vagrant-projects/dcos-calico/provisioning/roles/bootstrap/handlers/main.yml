@@ -1,0 +1,6 @@
+#
+# This tasks can spend a lot of time, you have
+# to take this into account.
+#
+- name: Restart ntp
+  service: name=ntpd state=restarted

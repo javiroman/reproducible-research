@@ -1,0 +1,36 @@
+---
+- name: Adding group nogroup (similar to nobody)
+  group:
+    name: nogroup
+    state: present
+
+# This task waits "delay" seconds on each poll attempt.
+# The task is timeout after "timeout" seconds.
+- name: Waiting for Master healthy state
+  wait_for:
+    host: boot
+    port: 8080
+    delay: 5
+    timeout: 1200
+
+#
+#
+#
+- name: Raise handlers workaround
+  shell: touch .handlers
+  args:
+    chdir: /home/vagrant
+    creates: .handlers
+  notify: 
+      - Download dcos_install.sh installer
+      - Executing DC/OS Public Angent installation
+
+# Notify actions are triggered at the end of each block of tasks in a play,
+# and will only be triggered once even if notified by multiple different tasks.
+# The things listed in the notify section of a task are called handlers.
+# Handlers are lists of tasks (not different from regular tasks) that are 
+# referenced by a globally unique name, and are notified by notifiers.
+# If nothing notifies a handler, it will not run. Regardless of how many tasks
+# notify a handler, it will run only once, after all of the tasks complete in a
+# particular play.
+
