@@ -253,6 +253,25 @@ Take a look to this good explanation:
 
 https://blog.gopheracademy.com/advent-2015/vendor-folder/
 
+With Go1.6, vendoring is built in as you read. What does this mean? Only one
+thing to keep in mind:
+
+When using the go tools such as go build or go run, they first check to see if
+the dependencies are located in ./vendor/. If so, use it. If not, revert to the
+$GOPATH/src/ directory. The actual "lookup paths" in Go 1.6 are, in order:
+
+./vendor/github.com/zenazn/goji
+$GOPATH/src/github.com/zenazn/goji
+$GOROOT/src/github.com/zenazn/goji
+
+## Vendoring management tools
+
+https://github.com/kardianos/govendor
+https://github.com/golang/dep
+https://github.com/tools/godep
+https://github.com/Masterminds/glide
+
+
 # Go Code Organization
 
 https://talks.golang.org/2014/organizeio.slide#1
