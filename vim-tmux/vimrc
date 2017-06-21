@@ -100,6 +100,10 @@ Plugin 'flazz/vim-colorschemes.git'
 " github.com/pearofducks/ansible-vim
 Plugin 'pearofducks/ansible-vim'
 
+" A better JSON for Vim
+" github.com/elzr/vim-json
+Plugin 'elzr/vim-json'
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
@@ -228,6 +232,9 @@ let NERDTreeIgnore = ['\.pyc$']
 " Disable python-mode folders
 "let g:pymode_folding = 0
 
+" For disabling syntax checkers
+" let g:pymode_lint = 0
+
 " Disable python-mode colorcolum and set own.
 let g:pymode_options_colorcolumn = 0
 
@@ -293,8 +300,18 @@ set laststatus=2
 " To change it:
 
 " let g:go_bin_path = expand("~/.gotools")
-" let g:go_bin_path = expand("~/bin")
+" Ready for working with GVM tool
 let g:go_bin_path = expand("$GOROOT/bin")
+
+
+" -----------------------------------------------------------------------------
+" Better JSON for Vim
+" -----------------------------------------------------------------------------
+" Most trouble, little as it is, has to do with Vim's newfangled concealing,
+" which most people aren't yet familiar with, as it was introduced as recently
+" as Vim 7.3+.
+" If you just don't care for concealing you can easily disable it adding 
+" let g:vim_json_syntax_conceal = 0
 
 " -----------------------------------------------------------------------------
 " Misc
