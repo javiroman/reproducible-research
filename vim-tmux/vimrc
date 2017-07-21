@@ -1,4 +1,5 @@
 " -----------------------------------------------------------------------------
+" Disable plugins:
 " vim -u NONE
 "
 " Vimscript:
@@ -8,6 +9,8 @@
 " http://www.gilesorr.com/blog/vim-colours.html
 "
 " -----------------------------------------------------------------------------
+"
+" Vim environment installation instructions:
 "
 " Vimrc file based on the plug-in manager
 " https://github.com/VundleVim/Vundle.vim
@@ -30,7 +33,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" [Plug-in handling ... BEGIN]
+" [BEGIN  ... Plug-in handling ... BEGIN]
 
 " NERDTree plugin: (Folder explorer)
 " github.com/scrooloose/nerdtree.git
@@ -108,7 +111,7 @@ Plugin 'elzr/vim-json'
 call vundle#end()
 filetype plugin indent on
 
-" [Plug-in handling ... END]
+" [END ... Plug-in handling ... END]
 
 " -----------------------------------------------------------------------------
 " General Settings
@@ -161,6 +164,10 @@ else
 	colorscheme jelleybeans
 endif
 
+" -----------------------------------------------------------------------------
+" Custom key bindings
+" -----------------------------------------------------------------------------
+
 " Change leader key
 let mapleader=","
 
@@ -186,13 +193,25 @@ highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v', 100) 
 
 " -----------------------------------------------------------------------------
-"  NERDTree settings
+" NERDTree Plugin settings:
+"
+" The NERD tree allows you to explore your filesystem and to open files and
+" directories. It presents the filesystem to you in the form of a tree which
+" you manipulate with the keyboard and/or mouse. It also allows you to perform
+" simple filesystem operations.
 " -----------------------------------------------------------------------------
 " Avoid listing of files like .pyc
 let NERDTreeIgnore = ['\.pyc$']
 
 " -----------------------------------------------------------------------------
-" Python Mode General Settings
+" Python Mode General Settings:
+"
+" Python-mode is a vim plugin that helps you to create python code very quickly
+" by utilizing libraries including pylint, rope, pydoc, pyflakes, pep8,
+" autopep8, pep257 and mccabe for features like static analysis, refactoring,
+" folding, completion, documentation, and more.
+"
+" The plugin contains all you need to develop python applications in Vim.
 " -----------------------------------------------------------------------------
 " General help:
 " 1. Documentation: 
@@ -250,12 +269,47 @@ let g:pymode_rope = 0
 " Usage: https://github.com/honza/vim-snippets
 
 " -----------------------------------------------------------------------------
-" Fugitive plugin
+" Fugitive plugin:
+"
+" Plugin that empowers you to manage many git commands from Vim.
 " -----------------------------------------------------------------------------
 
 " -----------------------------------------------------------------------------
-" BuffExporer 
+" BuffExporer Plugin:
+"
+" Once the bufexplorer window is open you can use the normal movement keys
+" (hjkl) to move around and then use or to select the buffer you would like to
+" open. If you would like to have the selected buffer opened in a new tab,
+" simply press either or 't'. 
+"
+" Note about VIM Tabs:
+" 
+" :tabs         list all tabs including their displayed windows
+" :tabm 0       move current tab to first
+" :tabm         move current tab to last
+" :tabn         go to next tab
+" :tabp         go to previous tab
+" :tabfirst     go to first tab
+" :tablast      go to last tab
+"
+" In normal mode:
+"
+" gt            go to next tab
+" gT            go to previous tab
+" {i}gt         go to tab in position i
+"
+" More here:
+"
+" http://vim.wikia.com/wiki/Using_tab_pages
 " -----------------------------------------------------------------------------
+" To start exploring in the current window, use:
+"  <Leader>be  or :BufExplorer
+" To toggle bufexplorer on or off in the current window, use:
+"  <Leader>bt  or :ToggleBufExplorer
+" To start exploring in a newly split horizontal window, use:
+"  <Leader>bs  or :BufExplorerHorizontalSplit
+" To start exploring in a newly split vertical window, use:
+" <Leader>bv   or :BufExplorerVerticalSplit
 
 " -----------------------------------------------------------------------------
 " Commentify
@@ -271,6 +325,7 @@ let g:pymode_rope = 0
 let g:indentLine_color_term = 239
 let g:indentLine_color_gui = '#09AA08'
 let g:indentLine_char = '│'
+let g:indentLine_noConcealCursor="nc"
 
 " vertical line indentation for TAB
 set list lcs=tab:\|\ 
