@@ -107,6 +107,13 @@ Plugin 'pearofducks/ansible-vim'
 " github.com/elzr/vim-json
 Plugin 'elzr/vim-json'
 
+" Erlang IDE
+" http://vim-erlang.github.io/
+Plugin 'vim-erlang/vim-erlang-runtime.git'
+Plugin 'vim-erlang/vim-erlang-compiler.git'
+Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
+Plugin 'vim-erlang/vim-erlang-tags.git'
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
@@ -367,6 +374,12 @@ let g:go_bin_path = expand("$GOROOT/bin")
 " as Vim 7.3+.
 " If you just don't care for concealing you can easily disable it adding 
 " let g:vim_json_syntax_conceal = 0
+
+" -----------------------------------------------------------------------------
+" Erlang IDE
+" -----------------------------------------------------------------------------
+" Notes:
+" Control X Control O -> autocompletion for Erlangs
 
 " -----------------------------------------------------------------------------
 " Misc
