@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+  - name: Enabling and staring Docker Daemon
+    systemd:
+      name: docker
+      state: started
+      enabled: True
+...
+

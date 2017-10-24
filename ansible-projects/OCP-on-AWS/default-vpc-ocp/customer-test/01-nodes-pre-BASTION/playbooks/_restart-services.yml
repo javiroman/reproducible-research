@@ -1,0 +1,12 @@
+---
+- hosts: master
+  tasks:
+  - name: Restarting OCP services
+    service: name=atomic-openshift-master state=restarted
+
+- hosts: infra, apps
+  tasks:
+  - name: Restarting OCP services
+    service: name=atomic-openshift-node state=restarted
+...
+

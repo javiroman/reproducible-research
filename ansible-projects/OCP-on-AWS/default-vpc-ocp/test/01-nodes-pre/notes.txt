@@ -1,0 +1,37 @@
+Master
+~~~~~~
+Connection from inet: ssh -i /home/jromanes/.ssh/bastion1.pem ec2-user@ec2-34-248-223-111.eu-west-1.compute.amazonaws.com
+Elastic IP: host 34.248.223.111 
+Internal hostname: ip-172-31-46-214.eu-west-1.compute.internal
+
+- SSH Config Master
+
+Host *.eu-west-1.compute.internal
+        User ec2-user
+        IdentityFile ~/.ssh/bastion1.pem
+
+
+
+Infra
+~~~~~
+
+Connection from inet: ssh -i /home/jromanes/.ssh/bastion1.pem ec2-user@ec2-34-251-8-251.eu-west-1.compute.amazonaws.com
+Elastic IP: host 34.251.8.251 (Elastic IP)
+Internal hostname: ip-172-31-29-89.eu-west-1.compute.internal
+
+
+App1 
+~~~~
+
+ssh -i /home/jromanes/.ssh/bastion1.pem ec2-34-251-37-46.eu-west-1.compute.amazonaws.com
+Internal hostname: ip-172-31-27-85.eu-west-1.compute.internal
+
+App2 (no public)
+~~~~~~~~~~~~~~~
+
+ssh -i /home/jromanes/.ssh/bastion1.pem ec2-34-251-56-190.eu-west-1.compute.amazonaws.com
+Internal hostname: ip-172-31-24-131.eu-west-1.compute.internal
+
+
+
+

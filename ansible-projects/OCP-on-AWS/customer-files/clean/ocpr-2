@@ -1,0 +1,50 @@
+[OSEv3:children]
+masters
+nodes
+etcd
+
+[OSEv3:vars]
+ansible_ssh_user=rhel
+ansible_become=yes
+debug_level=2
+deployment_type=openshift-enterprise
+openshift_release=v3.4
+openshift_image_tag=v3.4.1.2
+openshift_pkg_version=-3.4.1.2
+openshift_install_examples=false
+openshift_master_identity_providers=[{'name': 'internal', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+openshift_master_htpasswd_users={'admin': '$apr1$hYLxH8bm$6bdDbAHp0ErsRt2BMm4IC1'}
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=master-cluster.ocpr.internal.barceloviajes.com
+openshift_master_cluster_public_hostname=master-cluster.ocpr.internal.barceloviajes.com
+openshift_master_default_subdomain=default.ocpr.internal.barceloviajes.com
+openshift_hosted_router_selector='role=master'
+openshift_hosted_registry_selector='role=master'
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host=fs-00000000.efs.eu-west-1.amazonaws.com
+openshift_hosted_registry_storage_nfs_directory=/
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=1000Gi
+osm_cluster_network_cidr=10.128.0.0/14
+openshift_portal_net=172.31.0.0/16
+osm_host_subnet_length=9
+openshift_dns_ip=172.31.0.1
+openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['90'], 'image-gc-low-threshold': ['80']}
+
+deployment_subtype=registry
+
+[masters]
+ocpr-master01.ads.internal.barceloviajes.com
+ocpr-master02.ads.internal.barceloviajes.com
+ocpr-master03.ads.internal.barceloviajes.com
+
+[etcd]
+ocpr-master01.ads.internal.barceloviajes.com
+ocpr-master02.ads.internal.barceloviajes.com
+ocpr-master03.ads.internal.barceloviajes.com
+
+[nodes]
+ocpr-master01.ads.internal.barceloviajes.com containerized=true openshift_node_labels="{'region':'eu-west-1','role':'master','zone':'private_app_a'}" openshift_public_hostname=ocpr-master01.ads.internal.barceloviajes.com
+ocpr-master02.ads.internal.barceloviajes.com containerized=true openshift_node_labels="{'region':'eu-west-1','role':'master','zone':'private_app_b'}" openshift_public_hostname=ocpr-master02.ads.internal.barceloviajes.com
+ocpr-master03.ads.internal.barceloviajes.com containerized=true openshift_node_labels="{'region':'eu-west-1','role':'master','zone':'private_app_a'}" openshift_public_hostname=ocpr-master03.ads.internal.barceloviajes.com

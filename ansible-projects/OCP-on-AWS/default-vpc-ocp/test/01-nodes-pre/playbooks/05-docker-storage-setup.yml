@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+  - name: Creating the docker-pool volume with docker-storage-setup
+    command: docker-storage-setup
+...
+

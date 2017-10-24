@@ -1,0 +1,22 @@
+# Usage:
+#
+# ansible-playbook -i inventory -e 'ip_mn_node=192.168.121.238' playbooks/prepend.yml
+#
+# In order to configure your broker host to use a specific DNS server, 
+# you will need to edit the /etc/dhcp/dhclient-\{$network device}.conf 
+# file or create the file if it does not exist. Without this step, 
+# the DNS server information in /etc/resolv.conf would default back 
+# the server returned from your DHCP server on the next boot of the server.
+---
+- hosts: all
+  tasks:
+  - name: DHCP client prepend
+    blockinfile:
+      dest: /etc/dhcp/dhclient-eth0.conf
+      create: yes
+      backup: yes
+      block: |
+        # The custom DNS server IP
+        prepend domain-name-servers "{{ ip_mn_node }}";
+...
+

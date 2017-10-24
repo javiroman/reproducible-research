@@ -1,0 +1,31 @@
+---
+# Play 1
+- hosts: bastion-group
+  gather_facts: no
+  # Strategies: Plays execution control for many hosts.
+  # linear (default): All hosts have to finish one task before any of them can 
+  #                   begin the next one. Using the number of forks (default 5)
+  #                   to parallelize.
+  # serial: Ensures one group of hosts finishes its work before another group 
+  #         can begin.
+  # free: Allows each host to run until the end of the play as fast as it can.
+  #       Allows all hosts to run independently of each other
+  strategy: free
+  roles:
+   - common
+   - bastion
+
+# Play 2
+- hosts: ocp-group
+  gather_facts: no
+  strategy: free
+  roles:
+   - common
+   - ocp-cluster
+
+# Play 3
+- hosts: registry-group
+  strategy: free
+  roles:
+   - common
+   - ocp-registry

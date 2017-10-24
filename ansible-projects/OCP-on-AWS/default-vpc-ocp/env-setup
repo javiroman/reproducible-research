@@ -1,0 +1,11 @@
+FUNCTIONS=$PWD/common/functions
+
+AWS_DEFAULT_REGION=eu-west-1
+AWS_VPC=vpc-690d260d
+
+export AWS_DEFAULT_REGION AWS_VPC
+
+echo "Default Region: $AWS_DEFAULT_REGION"
+echo "Default VPC: $AWS_VPC"
+
+

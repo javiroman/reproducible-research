@@ -1,0 +1,35 @@
++-------------------------------------------+
+    Available Subscriptions
++-------------------------------------------+
+Subscription Name:   60 Day Supported OpenShift Enterprise, 2 Cores Evaluation
+Provides:            Red Hat OpenShift Enterprise Application Node
+                     Red Hat JBoss Core Services
+                     Red Hat Software Collections (for RHEL Server)
+                     Red Hat JBoss A-MQ Clients
+                     Red Hat Beta
+                     Red Hat OpenShift Enterprise JBoss EAP add-on
+                     Red Hat OpenShift Container Platform
+                     JBoss Enterprise Application Platform
+                     Red Hat OpenShift Enterprise JBoss A-MQ add-on
+                     Red Hat OpenShift Enterprise JBoss FUSE add-on
+                     JBoss Enterprise Web Server
+                     Oracle Java (for RHEL Server)
+                     Red Hat OpenShift Enterprise Client Tools
+                     Red Hat CloudForms Beta
+                     Red Hat Enterprise Linux Server
+                     Red Hat Enterprise Linux Atomic Host
+                     Red Hat Software Collections Beta (for RHEL Server)
+                     Red Hat OpenShift Enterprise Infrastructure
+                     Red Hat CloudForms
+SKU:                 SER0424
+Contract:            11301043
+Pool ID:             8a85f9815a47682d015a477d23306e04
+Provides Management: Yes
+Available:           3
+Suggested:           1
+Service Level:       Premium
+Service Type:        L1-L3
+Subscription Type:   Stackable
+Ends:                04/16/2017
+System Type:         Physical
+

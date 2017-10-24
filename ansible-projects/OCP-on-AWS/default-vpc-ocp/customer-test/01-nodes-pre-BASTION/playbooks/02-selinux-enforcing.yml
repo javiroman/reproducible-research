@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+  # The --insecure-registry option instructs the Docker daemon 
+  # to trust any Docker registry on the indicated subnet, 
+  # rather than requiring a certificate.
+  - name: Adding insecure-registry to Docker 
+    lineinfile:
+      dest: /etc/selinux/config
+      backup: yes
+      regexp: '^SELINUX='
+      line: 'SELINUX=enforcing'
+...
+

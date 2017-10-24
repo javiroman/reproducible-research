@@ -1,0 +1,14 @@
+[all:vars]
+ansible_ssh_user=ec2-user
+ansible_become=yes
+
+[master]
+ip-172-31-46-214.eu-west-1.compute.internal
+
+[infra]
+ip-172-31-29-89.eu-west-1.compute.internal
+
+[apps]
+ip-172-31-27-85.eu-west-1.compute.internal
+ip-172-31-24-131.eu-west-1.compute.internal
+

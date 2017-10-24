@@ -1,0 +1,54 @@
+The final deployment is similar to this:
+
+
+$ oc adm manage-node oscpbigdata-node1.redhat.lan --list-pods                                                                                                         
+
+Listing matched pods on node: oscpbigdata-node1.redhat.lan
+
+NAME                         READY     STATUS    RESTARTS   AGE
+docker-registry-2-y05eu      1/1       Running   0          18h
+router-1-0n8gl               1/1       Running   0          1d
+hawkular-cassandra-1-vkqis   1/1       Running   0          17h  <==== Hawkular backend Cassandra
+hawkular-metrics-0p6jb       1/1       Running   0          17h  <==== Hawkular metrics
+heapster-gmfdr               1/1       Running   1          17h  <==== Heapster
+
+
+The Metrics compoentes are deployed in the region=infra nodes, as we setup in
+the early steps.
+
+Scaling OpenShift Container Platform Metrics Pods
+-------------------------------------------------
+
+One set of metrics pods (Cassandra/Hawkular/Heapster) is able to monitor at
+least 10,000 pods. Pay attention to system load on nodes where OpenShift
+Container Platform metrics pods run. Use that information to determine if it is
+necessary to scale out a number of OpenShift Container Platform metrics pods
+and spread the load across multiple OpenShift Container Platform nodes. Scaling
+OpenShift Container Platform metrics "heapster pods" is not recommended.
+
+- Scaling the Cassandra Components
+
+If persistent storage was used to deploy OpenShift Container Platform metrics,
+then you must create a persistent volume (PV) for the new Cassandra pod to use
+before you can scale out the number of OpenShift Container Platform metrics
+Cassandra pods. However, if Cassandra was deployed with dynamically provisioned
+PVs, then this step is not necessary.
+
+The Cassandra nodes use persistent storage, therefore scaling up or down is not
+possible with replication controllers.
+
+Scaling a Cassandra cluster requires you to use the hawkular-cassandra-node
+template. By default, the Cassandra cluster is a single-node cluster.
+
+To scale out the number of OpenShift Container Platform metrics hawkular pods
+to two replicas, run:
+
+# oc scale -n openshift-infra --replicas=2 rc hawkular-metrics
+
+If you add a new node to a Cassandra cluster, the data stored in the cluster
+rebalances across the cluster. The same thing happens If you remove a node from
+the Cluster.
+
+Note: OpenShift Container Platform version 3.3 does not provide Horizontal Pod
+Autoscaling (HPA) support for metrics pods and scaling metrics pods.
+
