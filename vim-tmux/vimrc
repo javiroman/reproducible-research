@@ -114,6 +114,16 @@ Plugin 'vim-erlang/vim-erlang-compiler.git'
 Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
 Plugin 'vim-erlang/vim-erlang-tags.git'
 
+" Plugin for clang-format, a formatter for C, C++, 
+" Obj-C, Java, JavaScript, TypeScript and ProtoBuf.
+" This vim-clang-format has below advantages regarding the classical
+" clang-format.py bundled in clang-format distribution:
+" Style options are highly customizable in .vimrc. clang-format.py requires
+" - .clang-format file to customize a style.
+" - vim-clang-format provides an operator mapping.
+" - vim-clang-format doesn't need python interface.
+Plugin 'rhysd/vim-clang-format.git'
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
@@ -198,6 +208,12 @@ set cursorline
 " higlight the the column in 80 characters only one character
 highlight ColorColumn ctermbg=magenta 
 call matchadd('ColorColumn', '\%81v', 100) 
+
+" clang-format for C++ bindings
+" Supported style formats: llvm, google, chromium, mozilla is supported. 
+" The default value is google style.
+let g:clang_format#style_options = {
+            \ "Standard" : "C++11"}
 
 " -----------------------------------------------------------------------------
 " NERDTree Plugin settings:
