@@ -113,6 +113,8 @@ Plugin 'vim-erlang/vim-erlang-runtime.git'
 Plugin 'vim-erlang/vim-erlang-compiler.git'
 Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
 Plugin 'vim-erlang/vim-erlang-tags.git'
+Plugin 'melekes/vim-erlang-spec.git'
+Plugin 'huffman/vim-erlang-templates.git'
 
 " Plugin for clang-format, a formatter for C, C++, 
 " Obj-C, Java, JavaScript, TypeScript and ProtoBuf.
@@ -372,6 +374,8 @@ set laststatus=2
 " Vim-Go: 
 " Tutorial: https://github.com/fatih/vim-go-tutorial
 " HowTo: http://www.ascent.io/blog/2014/03/11/gvm-with-golang/
+" :GoErrCheck --> Check compiler errors
+" :GoImport fmt --> insert fmt import properly
 " -----------------------------------------------------------------------------
 " By default when :GoInstallBinaries is called, 
 " the binaries are installed to $GOBIN or $GOPATH/bin. 
@@ -381,6 +385,15 @@ set laststatus=2
 " Ready for working with GVM tool
 let g:go_bin_path = expand("$GOROOT/bin")
 
+let g:go_fmt_command = "goimports"
+let g:syntastic_check_on_wq = 1
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['golint', 'errcheck']
+
+" For avoiding only one of the checkers is working after adding the
+" syntastic_go_checkers line
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_go_checkers = ['errcheck', 'go', 'golint', 'govet']
 
 " -----------------------------------------------------------------------------
 " Better JSON for Vim
