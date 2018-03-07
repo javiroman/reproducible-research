@@ -126,6 +126,10 @@ Plugin 'huffman/vim-erlang-templates.git'
 " - vim-clang-format doesn't need python interface.
 Plugin 'rhysd/vim-clang-format.git'
 
+" Java IDE: [TODO]
+"
+Plugin 'artur-shaik/vim-javacomplete2'
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
