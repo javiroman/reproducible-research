@@ -134,6 +134,15 @@ Plugin 'rhysd/vim-clang-format.git'
 "
 Plugin 'artur-shaik/vim-javacomplete2'
 
+" Debugging
+"
+" Interactive command execution in Vim.
+Plugin 'Shougo/vimproc.vim'
+" Vebugger is yet another debugger frontend plugin for Vim
+" help vebugger-launching
+" help vebugger-usage
+Plugin 'idanarye/vim-vebugger.git'
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
@@ -231,6 +240,7 @@ call matchadd('ColorColumn', '\%81v', 100)
 " The default value is google style.
 let g:clang_format#style_options = {
             \ "Standard" : "C++11"}
+let g:clang_format#detect_style_file = 1
 
 " -----------------------------------------------------------------------------
 " NERDTree Plugin settings:
