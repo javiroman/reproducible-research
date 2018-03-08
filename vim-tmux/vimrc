@@ -99,6 +99,10 @@ Plugin 'fatih/vim-go.git'
 " github.com/flazz/vim-colorschemes.git
 Plugin 'flazz/vim-colorschemes.git'
 
+" precision colorscheme for the vim text editor
+" http://ethanschoonover.com/solarized
+Plugin 'altercation/vim-colors-solarized.git'
+
 " Vim syntax for Ansible playbooks:
 " github.com/pearofducks/ansible-vim
 Plugin 'pearofducks/ansible-vim'
@@ -168,8 +172,10 @@ set textwidth=79
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " Color Schemes
+" Default light solarized theme
 if has("gui_running")
-	setlocal background=dark
+	setlocal background=light
+    colorscheme solarized
 else
 	" Gray pretty clear
 	"colorscheme murphy
@@ -182,9 +188,14 @@ else
 	
 	" Similar to wombat less contrast
 	"colorscheme elflord
+    
+    "
+	"colorscheme jelleybeans
 	
 	" Comments in grey 
-	colorscheme jelleybeans
+    let g:solarized_termcolors=256
+	setlocal background=light
+    colorscheme solarized
 endif
 
 " -----------------------------------------------------------------------------
