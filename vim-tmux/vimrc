@@ -447,6 +447,11 @@ let g:syntastic_go_checkers = ['errcheck', 'go', 'golint', 'govet']
 " Notes:
 " Control X Control O -> autocompletion for Erlangs
 
+autocmd BufWritePost *
+      \ if filereadable('tags') |
+      \   call system('ctags -a '.expand('%')) |
+      \ endif
+
 " -----------------------------------------------------------------------------
 " Misc
 " -----------------------------------------------------------------------------
