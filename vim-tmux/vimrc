@@ -130,18 +130,30 @@ Plugin 'huffman/vim-erlang-templates.git'
 " - vim-clang-format doesn't need python interface.
 Plugin 'rhysd/vim-clang-format.git'
 
-" Java IDE: [TODO]
+" Java IDE
 "
 Plugin 'artur-shaik/vim-javacomplete2'
 
-" Debugging
-"
-" Interactive command execution in Vim.
-Plugin 'Shougo/vimproc.vim'
-" Vebugger is yet another debugger frontend plugin for Vim
-" help vebugger-launching
-" help vebugger-usage
-Plugin 'idanarye/vim-vebugger.git'
+" For JAVA Debugging
+" HowTo:
+" 1. start JAVA process with the following debug agent option in one terminal, 
+"    e.g.:  java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 MyClass
+" 2. attach to the JAVA process from your VIM with VIM-JDB like
+"    :JDBAttach or by explicitly specifying host and port :JDBAttach localhost:5005
+" 3. now the JDB shell buffer should open and signal that it connected to the 
+"    JAVA process
+" 4. open a JAVA file and go to the line in it where you want to set a breakpoint
+"    set a breakpoint on the current line in the current file by using the command
+"    :JDBBreakpointOnLine
+" 5. breakpoints are marked depending on your terminals and VIMs capabilities 
+"    with a ⛔ or x
+" 6. if your programm stops at the breakpoint this is marked with a ->
+" 7. use the command :JDBStepOver to execute to the next line
+" 8. with :JDBCommand you can send any JDB command to the JDB JAVA process, e.g. 
+"    you want to see all locals do :JDBCommands locals
+" 9. with :JDBContinue you can resume the execution until the next breakpoint 
+"    is hits
+Plugin 'Dica-Developer/vim-jdb'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
