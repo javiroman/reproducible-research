@@ -33,86 +33,125 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" [BEGIN  ... Plug-in handling ... BEGIN]
+" -----------------------------------------------------------------------------
+" BEGIN Plugin install section
+" -----------------------------------------------------------------------------
 
-" NERDTree plugin: (Folder explorer)
+" --------------------------------------------------
+" NERDTree Plugin: (Folder explorer)
 " github.com/scrooloose/nerdtree.git
-" dnf install ctags cscope
+" --------------------------------------------------
 Plugin 'scrooloose/nerdtree.git'
 
-" TagList plugin: (Code logic navigator)
+" --------------------------------------------------
+" TagList Plugin: (Code logic navigator)
 " github.com/vim-scripts/taglist.vim
+" --------------------------------------------------
 Plugin 'vim-scripts/taglist.vim'
 
-" Tagbar plugin: (A class outline viewer for Vim)
+" --------------------------------------------------
+" Tagbar Plugin: (A class outline viewer for Vim)
 " github.com/majutsushi/tagbar.git
+" --------------------------------------------------
 Plugin 'majutsushi/tagbar.git'
 
-" AutoPairs plugin: (Auto coloms, brackers, ..)
+" --------------------------------------------------
+" AutoPairs Plugin: (Auto coloms, brackers, ..)
 " github.com/jiangmiao/auto-pairs.git
+" --------------------------------------------------
 Plugin 'jiangmiao/auto-pairs.git'
 
-" Python-Mode plugin: (Python IDE tools)
+" --------------------------------------------------
+" Python Mode Plugin: (Python IDE tools)
 " github.com/klen/python-mode.git
+" --------------------------------------------------
 Plugin 'klen/python-mode.git'
 
-" Enhaced Commentify plugin: (Easy code block comment)
+" --------------------------------------------------
+" Enhaced Commentify Plugin: (Easy code block comment)
 " github.com/vim-scripts/EnhCommentify.vim.git
+" --------------------------------------------------
 Plugin 'vim-scripts/EnhCommentify.vim.git'
 
-" SuperTAB plugin: (autocomplete engine)
+" --------------------------------------------------
+" SuperTAB Plugin: (autocomplete engine)
 " github.com/ervandew/supertab.git
+" --------------------------------------------------
 Plugin 'ervandew/supertab.git'
 
-" SnipMate forked plugin: (Code snippets insert)
+" --------------------------------------------------
+" SnipMate Plugin: (Code snippets insert)
 " github.com/tomtom/tlib_vim.git
 " github.com/MarcWeber/vim-addon-mw-utils.git
 " github.com/garbas/vim-snipmate.git
 " github.com/honza/vim-snippets.git
+" --------------------------------------------------
 Plugin 'tomtom/tlib_vim.git'
 
-" BuffExporer plugin: (Easier buffer explorer)
+" --------------------------------------------------
+" BuffExporer Plugin: (Easier buffer explorer)
 " github.com/jlanzarotta/bufexplorer.git
+" --------------------------------------------------
 Plugin 'jlanzarotta/bufexplorer.git'
 
-" Fugitive plugin: (Git functions)
+" --------------------------------------------------
+" Fugitive Plugin: (Git functions)
 " github.com/tpope/vim-fugitive.git
+" --------------------------------------------------
 Plugin 'tpope/vim-fugitive.git'
 
-" IndentLine: (Visual horizontal code indentation)
+" --------------------------------------------------
+" IndentLine Plugin: (Visual horizontal code indentation)
 " github.com/Yggdroot/indentLine.git
+" --------------------------------------------------
 Plugin 'Yggdroot/indentLine.git'
 
-" ControlP: (Another folder explorer and search tool)
+" --------------------------------------------------
+" ControlP Plugin: (Another folder explorer and search tool)
 " github.com/kien/ctrlp.vim
+" --------------------------------------------------
 Plugin 'kien/ctrlp.vim'
 
+" --------------------------------------------------
 " AirLine: lean & mean status/tabline for vim 
 " github.com/vim-airline/vim-airline.git
+" --------------------------------------------------
 Plugin 'vim-airline/vim-airline.git'
 
-" Vim-Go: For Go lang programming
+" --------------------------------------------------
+" Vim Go Plugin: For Go lang programming
 " github.com/fatih/vim-go.git
+" --------------------------------------------------
 Plugin 'fatih/vim-go.git'
 
-" Vim colorschemes
+" --------------------------------------------------
+" Colorschemes Plugin:
 " github.com/flazz/vim-colorschemes.git
+" --------------------------------------------------
 Plugin 'flazz/vim-colorschemes.git'
 
-" precision colorscheme for the vim text editor
+" --------------------------------------------------
+" Precision Solarized Colorscheme Plugin:
 " http://ethanschoonover.com/solarized
 Plugin 'altercation/vim-colors-solarized.git'
+" --------------------------------------------------
 
-" Vim syntax for Ansible playbooks:
+" --------------------------------------------------
+" Ansible Playbooks Syntax Plugin:
 " github.com/pearofducks/ansible-vim
+" --------------------------------------------------
 Plugin 'pearofducks/ansible-vim'
 
-" A better JSON for Vim
+" --------------------------------------------------
+" JSON Managing Plugin:
 " github.com/elzr/vim-json
+" --------------------------------------------------
 Plugin 'elzr/vim-json'
 
-" Erlang IDE
+" --------------------------------------------------
+" Erlang IDE Plugins:
 " http://vim-erlang.github.io/
+" --------------------------------------------------
 Plugin 'vim-erlang/vim-erlang-runtime.git'
 Plugin 'vim-erlang/vim-erlang-compiler.git'
 Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
@@ -120,6 +159,9 @@ Plugin 'vim-erlang/vim-erlang-tags.git'
 Plugin 'melekes/vim-erlang-spec.git'
 Plugin 'huffman/vim-erlang-templates.git'
 
+
+" --------------------------------------------------
+"  Clang Format Plugin:
 " Plugin for clang-format, a formatter for C, C++, 
 " Obj-C, Java, JavaScript, TypeScript and ProtoBuf.
 " This vim-clang-format has below advantages regarding the classical
@@ -128,13 +170,16 @@ Plugin 'huffman/vim-erlang-templates.git'
 " - .clang-format file to customize a style.
 " - vim-clang-format provides an operator mapping.
 " - vim-clang-format doesn't need python interface.
+" --------------------------------------------------
 Plugin 'rhysd/vim-clang-format.git'
 
-" Java IDE
-"
+" --------------------------------------------------
+" Java Complete2 Plugin:
+" --------------------------------------------------
 Plugin 'artur-shaik/vim-javacomplete2'
 
-" For JAVA Debugging
+" --------------------------------------------------
+" For JAVA Debuggin Plugin:
 " HowTo:
 " 1. start JAVA process with the following debug agent option in one terminal, 
 "    e.g.:  java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 MyClass
@@ -153,14 +198,29 @@ Plugin 'artur-shaik/vim-javacomplete2'
 "    you want to see all locals do :JDBCommands locals
 " 9. with :JDBContinue you can resume the execution until the next breakpoint 
 "    is hits
+" --------------------------------------------------
 Plugin 'Dica-Developer/vim-jdb'
+
+" --------------------------------------------------
+"  Project Management Plugin:
+" --------------------------------------------------
+Plugin 'vimplugin/project.vim'
+
+" --------------------------------------------------
+"  MiniBufExplorer Plugin:
+"  Video tutorial https://www.youtube.com/watch?v=PFaLowK6ofY
+"  This is a fork of original plugin with lot of enhanced
+" --------------------------------------------------
+Plugin 'fholgado/minibufexpl.vim'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
-
-" [END ... Plug-in handling ... END]
-
+" -----------------------------------------------------------------------------
+" END Plugin install section
+" -----------------------------------------------------------------------------
+"
 " -----------------------------------------------------------------------------
 " General Settings
 " -----------------------------------------------------------------------------
@@ -195,29 +255,20 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 " Color Schemes
 " Default light solarized theme
 if has("gui_running")
-	setlocal background=light
+    setlocal background=light
     colorscheme solarized
 else
-	" Gray pretty clear
-	"colorscheme murphy
-	
-	" Comments in high contrast
-	"colorscheme wombat
-	
-	" Keywords pink purpe
-	"colorscheme molokai
-	
-	" Similar to wombat less contrast
-	"colorscheme elflord
+    " Similar to wombat less contrast
+    "colorscheme elflord
     
-    "
-	"colorscheme jelleybeans
-	
-	" Comments in grey 
+    " Prefered Colarized 
     let g:solarized_termcolors=256
-	setlocal background=light
+    setlocal background=light
     colorscheme solarized
 endif
+
+" Show line numbers by default
+set nu
 
 " -----------------------------------------------------------------------------
 " Custom key bindings
@@ -251,12 +302,11 @@ call matchadd('ColorColumn', '\%81v', 100)
 " Supported style formats: llvm, google, chromium, mozilla is supported. 
 " The default value is google style.
 let g:clang_format#style_options = {
-            \ "Standard" : "C++11"}
+        \ "Standard" : "C++11"}
 let g:clang_format#detect_style_file = 1
 
 " -----------------------------------------------------------------------------
-" NERDTree Plugin settings:
-"
+" NERDTree Plugin Settings:
 " The NERD tree allows you to explore your filesystem and to open files and
 " directories. It presents the filesystem to you in the form of a tree which
 " you manipulate with the keyboard and/or mouse. It also allows you to perform
@@ -264,6 +314,9 @@ let g:clang_format#detect_style_file = 1
 " -----------------------------------------------------------------------------
 " Avoid listing of files like .pyc
 let NERDTreeIgnore = ['\.pyc$']
+
+" Default window size is 31
+let g:NERDTreeWinSize = 35
 
 " -----------------------------------------------------------------------------
 " Python Mode General Settings:
@@ -277,21 +330,21 @@ let NERDTreeIgnore = ['\.pyc$']
 " -----------------------------------------------------------------------------
 " General help:
 " 1. Documentation: 
-" 	"K" in key word show help
-" 	"control-w w" cambia de buffer ciclicamente
-" 	"control-w j" cambia a buffer abajo
-" 	"control-w k" cambia a buffer arriba
-" 	"control-w c" cierra el buffer
-" 	"Number control-w <" decrement the panel to left Number times.
-" 	"control-w <" increment the panel to right
-" 	"control-w +" increment the panel to up
-" 	"control-w -" increment the panel to up
+" "K" in key word show help
+" "control-w w" cambia de buffer ciclicamente
+" "control-w j" cambia a buffer abajo
+" "control-w k" cambia a buffer arriba
+" "control-w c" cierra el buffer
+" "Number control-w <" decrement the panel to left Number times.
+" "control-w <" increment the panel to right
+" "control-w +" increment the panel to up
+" "control-w -" increment the panel to up
 " 2. Run the code:
-" 	"<leaderkey> r" the leader key and r runs the code
+" "<leaderkey> r" the leader key and r runs the code
 " 3. Autocomplete:
-" 	"control space (in inserting mode)"
+" "control space (in inserting mode)"
 " 4. Commnen/uncomment blocks:
-" 	"visual mode" ,c
+" "visual mode" ,c
 " Folders python-mode help:
 "
 " zf#j creates a fold from the cursor down # lines.
@@ -447,6 +500,9 @@ let g:syntastic_go_checkers = ['errcheck', 'go', 'golint', 'govet']
 " Notes:
 " Control X Control O -> autocompletion for Erlangs
 
+"------------------------------------------------------------------------------
+" Autoload tags
+"------------------------------------------------------------------------------
 autocmd BufWritePost *
       \ if filereadable('tags') |
       \   call system('ctags -a '.expand('%')) |
