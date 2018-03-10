@@ -101,6 +101,11 @@ Plugin 'jlanzarotta/bufexplorer.git'
 Plugin 'tpope/vim-fugitive.git'
 
 " --------------------------------------------------
+" Gitgutter Plugin:
+" --------------------------------------------------
+Plugin 'airblade/vim-gitgutter'
+
+" --------------------------------------------------
 " IndentLine Plugin: (Visual horizontal code indentation)
 " github.com/Yggdroot/indentLine.git
 " --------------------------------------------------
@@ -316,7 +321,7 @@ let g:clang_format#detect_style_file = 1
 let NERDTreeIgnore = ['\.pyc$']
 
 " Default window size is 31
-let g:NERDTreeWinSize = 35
+let g:NERDTreeWinSize = 20
 
 " -----------------------------------------------------------------------------
 " Python Mode General Settings:
