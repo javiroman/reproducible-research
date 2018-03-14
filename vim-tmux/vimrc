@@ -323,6 +323,9 @@ let NERDTreeIgnore = ['\.pyc$']
 " Default window size is 31
 let g:NERDTreeWinSize = 20
 
+" Close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 " -----------------------------------------------------------------------------
 " Python Mode General Settings:
 "
