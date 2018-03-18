@@ -218,6 +218,23 @@ Plugin 'vimplugin/project.vim'
 " --------------------------------------------------
 Plugin 'fholgado/minibufexpl.vim'
 
+" --------------------------------------------------
+" Code Completion Engine Plugin:
+" Install plugin with Vundle and manaually execute:
+" sudo dnf install automake gcc gcc-c++ kernel-devel cmake python-devel
+" sudo dnf install python3-devel mono-devel cargo
+" cd ~/.vim/bundle/YouCompleteMe
+" ./install.py --all
+" --------------------------------------------------
+Plugin 'Valloric/YouCompleteMe.git'
+
+" --------------------------------------------------
+" The Ultimate Snippet Solution Plugin:
+" Powered Code Snippets.
+" Howto: https://www.youtube.com/watch?v=WeppptWfV-0&t=131s 
+" --------------------------------------------------
+Plugin 'SirVer/ultisnips.git'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()
