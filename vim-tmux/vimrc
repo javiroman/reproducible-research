@@ -156,6 +156,8 @@ Plugin 'elzr/vim-json'
 " --------------------------------------------------
 " Erlang IDE Plugins:
 " http://vim-erlang.github.io/
+" Enable ctags;
+" ctags --exclude=_build --file-scope=no -R --languages=erlang .
 " --------------------------------------------------
 Plugin 'vim-erlang/vim-erlang-runtime.git'
 Plugin 'vim-erlang/vim-erlang-compiler.git'
