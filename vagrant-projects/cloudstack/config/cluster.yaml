@@ -1,0 +1,9 @@
+---
+- name: cloudstack
+  box: centos/7
+  ip: 100.0.10.100
+  mem: 2048
+  cpu: 2
+  aditional_disk:
+    - 20GB
+    - 20GB
