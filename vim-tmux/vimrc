@@ -1,13 +1,23 @@
+" Licensed to the Apache Software Foundation (ASF) under one
+" or more contributor license agreements.  See the NOTICE file
+" distributed with this work for additional information
+" regarding copyright ownership.  The ASF licenses this file
+" to you under the Apache License, Version 2.0 (the License"); 
+" you may not use this file except in compliance
+" with the License.  You may obtain a copy of the License at
+"
+" http://www.apache.org/licenses/LICENSE-2.0
+"
+" Unless required by applicable law or agreed to in writing,
+" software distributed under the License is distributed on an
+" AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+" KIND, either express or implied.  See the License for the
+" specific language governing permissions and limitations
+" under the License.
+
 " -----------------------------------------------------------------------------
 " Disable plugins:
 " vim -u NONE
-"
-" Vimscript:
-" http://learnvimscriptthehardway.stevelosh.com/
-"
-" Vim Colours:
-" http://www.gilesorr.com/blog/vim-colours.html
-"
 " -----------------------------------------------------------------------------
 "
 " Vim environment installation instructions:
@@ -20,11 +30,15 @@
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 " :PluginInstall or from command line: vim +PluginInstall +qall
 
-" -----------------------------------------------------------------------------
-" Plug-ins installation
-" -----------------------------------------------------------------------------
+" ##############################################################################
+"                           START Plugin install section            
+" ##############################################################################
+
+" When Vim starts, the 'compatible' option is on. This will be used when Vim
+" starts its initializations. But as soon as a user vimrc file is found, or a
+" vimrc file in the current directory, or the "VIMINIT" environment variable is
+" set, it will be set to 'nocompatible'.
 set nocompatible
-filetype off   
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -32,10 +46,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
-" -----------------------------------------------------------------------------
-" BEGIN Plugin install section
-" -----------------------------------------------------------------------------
 
 " --------------------------------------------------
 " NERDTree Plugin: (Folder explorer)
@@ -56,37 +66,11 @@ Plugin 'vim-scripts/taglist.vim'
 Plugin 'majutsushi/tagbar.git'
 
 " --------------------------------------------------
-" AutoPairs Plugin: (Auto coloms, brackers, ..)
-" github.com/jiangmiao/auto-pairs.git
+"  MiniBufExplorer Plugin:
+"  Video tutorial https://www.youtube.com/watch?v=PFaLowK6ofY
+"  This is a fork of original plugin with lot of enhanced
 " --------------------------------------------------
-Plugin 'jiangmiao/auto-pairs.git'
-
-" --------------------------------------------------
-" Python Mode Plugin: (Python IDE tools)
-" github.com/klen/python-mode.git
-" --------------------------------------------------
-Plugin 'klen/python-mode.git'
-
-" --------------------------------------------------
-" Enhaced Commentify Plugin: (Easy code block comment)
-" github.com/vim-scripts/EnhCommentify.vim.git
-" --------------------------------------------------
-Plugin 'vim-scripts/EnhCommentify.vim.git'
-
-" --------------------------------------------------
-" SuperTAB Plugin: (autocomplete engine)
-" github.com/ervandew/supertab.git
-" --------------------------------------------------
-Plugin 'ervandew/supertab.git'
-
-" --------------------------------------------------
-" SnipMate Plugin: (Code snippets insert)
-" github.com/tomtom/tlib_vim.git
-" github.com/MarcWeber/vim-addon-mw-utils.git
-" github.com/garbas/vim-snipmate.git
-" github.com/honza/vim-snippets.git
-" --------------------------------------------------
-Plugin 'tomtom/tlib_vim.git'
+Plugin 'fholgado/minibufexpl.vim'
 
 " --------------------------------------------------
 " BuffExporer Plugin: (Easier buffer explorer)
@@ -95,27 +79,10 @@ Plugin 'tomtom/tlib_vim.git'
 Plugin 'jlanzarotta/bufexplorer.git'
 
 " --------------------------------------------------
-" Fugitive Plugin: (Git functions)
-" github.com/tpope/vim-fugitive.git
-" --------------------------------------------------
-Plugin 'tpope/vim-fugitive.git'
-
-" --------------------------------------------------
-" Gitgutter Plugin:
-" --------------------------------------------------
-Plugin 'airblade/vim-gitgutter'
-
-" --------------------------------------------------
-" IndentLine Plugin: (Visual horizontal code indentation)
-" github.com/Yggdroot/indentLine.git
-" --------------------------------------------------
-Plugin 'Yggdroot/indentLine.git'
-
-" --------------------------------------------------
 " ControlP Plugin: (Another folder explorer and search tool)
 " github.com/kien/ctrlp.vim
 " --------------------------------------------------
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim.git'
 
 " --------------------------------------------------
 " AirLine: lean & mean status/tabline for vim 
@@ -141,6 +108,63 @@ Plugin 'flazz/vim-colorschemes.git'
 Plugin 'altercation/vim-colors-solarized.git'
 " --------------------------------------------------
 
+" #####################################
+" Programming Language Support Plugins
+" #####################################
+
+" --------------------------------------------------
+" The Ultimate Snippet Solution Plugin:
+" Powered Code Snippets.
+" Howto: https://www.youtube.com/watch?v=WeppptWfV-0&t=131s 
+" --------------------------------------------------
+Plugin 'SirVer/ultisnips.git'
+
+" --------------------------------------------------
+" Vim Snipmate Default Snippets:
+" vim-snipmate default snippets (Previously snipmate-snippets)
+" --------------------------------------------------
+Plugin 'honza/vim-snippets.git'
+
+" --------------------------------------------------
+" Some Utility Functions Plugin:
+" --------------------------------------------------
+Plugin 'tomtom/tlib_vim.git'
+
+" --------------------------------------------------
+" AutoPairs Plugin: (Auto coloms, brackers, ..)
+" github.com/jiangmiao/auto-pairs.git
+" --------------------------------------------------
+Plugin 'jiangmiao/auto-pairs.git'
+
+" --------------------------------------------------
+" Enhaced Commentify Plugin: (Easy code block comment)
+" github.com/vim-scripts/EnhCommentify.vim.git
+" --------------------------------------------------
+Plugin 'vim-scripts/EnhCommentify.vim.git'
+
+" --------------------------------------------------
+" SuperTAB Plugin: (autocomplete engine)
+" github.com/ervandew/supertab.git
+" --------------------------------------------------
+Plugin 'ervandew/supertab.git'
+
+" --------------------------------------------------
+" Fugitive Plugin: (Git functions)
+" github.com/tpope/vim-fugitive.git
+" --------------------------------------------------
+Plugin 'tpope/vim-fugitive.git'
+
+" --------------------------------------------------
+" Gitgutter Plugin:
+" --------------------------------------------------
+Plugin 'airblade/vim-gitgutter'
+
+" --------------------------------------------------
+" IndentLine Plugin: (Visual horizontal code indentation)
+" github.com/Yggdroot/indentLine.git
+" --------------------------------------------------
+Plugin 'Yggdroot/indentLine.git'
+
 " --------------------------------------------------
 " Ansible Playbooks Syntax Plugin:
 " github.com/pearofducks/ansible-vim
@@ -154,10 +178,14 @@ Plugin 'pearofducks/ansible-vim'
 Plugin 'elzr/vim-json'
 
 " --------------------------------------------------
+" Python Mode Plugin: (Python IDE tools)
+" github.com/klen/python-mode.git
+" --------------------------------------------------
+Plugin 'klen/python-mode.git'
+
+" --------------------------------------------------
 " Erlang IDE Plugins:
 " http://vim-erlang.github.io/
-" Enable ctags;
-" ctags --exclude=_build --file-scope=no -R --languages=erlang .
 " --------------------------------------------------
 Plugin 'vim-erlang/vim-erlang-runtime.git'
 Plugin 'vim-erlang/vim-erlang-compiler.git'
@@ -166,9 +194,8 @@ Plugin 'vim-erlang/vim-erlang-tags.git'
 Plugin 'melekes/vim-erlang-spec.git'
 Plugin 'huffman/vim-erlang-templates.git'
 
-
 " --------------------------------------------------
-"  Clang Format Plugin:
+" Clang Format Plugin: (C and C++)
 " Plugin for clang-format, a formatter for C, C++, 
 " Obj-C, Java, JavaScript, TypeScript and ProtoBuf.
 " This vim-clang-format has below advantages regarding the classical
@@ -208,43 +235,15 @@ Plugin 'artur-shaik/vim-javacomplete2'
 " --------------------------------------------------
 Plugin 'Dica-Developer/vim-jdb'
 
-" --------------------------------------------------
-"  Project Management Plugin:
-" --------------------------------------------------
-Plugin 'vimplugin/project.vim'
-
-" --------------------------------------------------
-"  MiniBufExplorer Plugin:
-"  Video tutorial https://www.youtube.com/watch?v=PFaLowK6ofY
-"  This is a fork of original plugin with lot of enhanced
-" --------------------------------------------------
-Plugin 'fholgado/minibufexpl.vim'
-
-" --------------------------------------------------
-" Code Completion Engine Plugin:
-" Install plugin with Vundle and manaually execute:
-" sudo dnf install automake gcc gcc-c++ kernel-devel cmake python-devel
-" sudo dnf install python3-devel mono-devel cargo
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.py --all
-" --------------------------------------------------
-Plugin 'Valloric/YouCompleteMe.git'
-
-" --------------------------------------------------
-" The Ultimate Snippet Solution Plugin:
-" Powered Code Snippets.
-" Howto: https://www.youtube.com/watch?v=WeppptWfV-0&t=131s 
-" --------------------------------------------------
-Plugin 'SirVer/ultisnips.git'
-
 
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
-" -----------------------------------------------------------------------------
-" END Plugin install section
-" -----------------------------------------------------------------------------
-"
+
+" ##############################################################################
+"                           END Plugin install section            
+" ##############################################################################
+
 " -----------------------------------------------------------------------------
 " General Settings
 " -----------------------------------------------------------------------------
@@ -301,19 +300,32 @@ set nu
 " Change leader key
 let mapleader=","
 
-" buffer navigation
+" Standard buffer navigation key bindings:
 nnoremap <silent> <TAB> :bn<CR>
 nnoremap <silent> <S-TAB> <C-w>w
-nnoremap <silent> <leader>b :BufExplorer<CR>
 
+" BuffExporer Plugin key bindings:
+" Leaer key + g -> show buffer navigation window
+nnoremap <silent> <leader>g :BufExplorer<CR>
+
+" TagList Plugin key bindings:
 " Leaer key + t -> open/close Tlist tree
 nnoremap <silent> <leader>t :TlistToggle<CR>
 
+" Tagbar Plugin key bindings:
 " Leaer key + y -> open/close TagBar tree
 nnoremap <silent> <leader>y :TagbarToggle<CR>
 
+" NERDTree Plugin key bindings:
 " Leader key + n -> open/close folder explorer
 nnoremap <silent> <leader>n :NERDTreeToggle<CR>
+
+" ControlP Plugin key bindings:
+" Leader key + p -> open search window (default key binding)
+
+" -----------------------------------------------------------------------------
+" Custom general settings
+" -----------------------------------------------------------------------------
 
 " higlight the line where the cursor is
 set cursorline 
@@ -340,7 +352,7 @@ let g:clang_format#detect_style_file = 1
 let NERDTreeIgnore = ['\.pyc$']
 
 " Default window size is 31
-let g:NERDTreeWinSize = 20
+let g:NERDTreeWinSize = 31
 
 " Close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -409,6 +421,7 @@ let g:pymode_rope = 0
 " Available snippets: .vim/bundle/vim-snippets/snippets
 " Usage: <intert mode> cl <tab> 
 " Usage: https://github.com/honza/vim-snippets
+"let g:UltiSnipsExpandTrigger='<Enter>'
 
 " -----------------------------------------------------------------------------
 " Fugitive plugin:
@@ -454,9 +467,9 @@ let g:pymode_rope = 0
 " <Leader>bv   or :BufExplorerVerticalSplit
 
 " -----------------------------------------------------------------------------
-" Commentify
+" Commentify Notes
 " -----------------------------------------------------------------------------
-" ESC v (visualmode selection) c
+" ESC v (visualmode selection) of lines to comment and then: <m-x>
 
 " -----------------------------------------------------------------------------
 " IdentLine
