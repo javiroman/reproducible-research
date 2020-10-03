@@ -17,9 +17,12 @@
 
 " -----------------------------------------------------------------------------
 " Disable plugins:
-" vim -u NONE
-" -----------------------------------------------------------------------------
+" $ vim -u NONE
 "
+" Edit .vimrc from vim:
+" :e $MYVIMRC
+" -----------------------------------------------------------------------------
+
 " Vim environment installation instructions:
 "
 " Vimrc file based on the plug-in manager
@@ -47,146 +50,135 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " NERDTree Plugin: (Folder explorer)
 " github.com/scrooloose/nerdtree.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'scrooloose/nerdtree.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " TagList Plugin: (Code logic navigator)
 " github.com/vim-scripts/taglist.vim
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'vim-scripts/taglist.vim'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Tagbar Plugin: (A class outline viewer for Vim)
 " github.com/majutsushi/tagbar.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'majutsushi/tagbar.git'
 
-" --------------------------------------------------
-"  MiniBufExplorer Plugin:
-"  Video tutorial https://www.youtube.com/watch?v=PFaLowK6ofY
-"  This is a fork of original plugin with lot of enhanced
-" --------------------------------------------------
-Plugin 'fholgado/minibufexpl.vim'
-
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " BuffExporer Plugin: (Easier buffer explorer)
 " github.com/jlanzarotta/bufexplorer.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'jlanzarotta/bufexplorer.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " ControlP Plugin: (Another folder explorer and search tool)
 " github.com/kien/ctrlp.vim
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'ctrlpvim/ctrlp.vim.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " AirLine: lean & mean status/tabline for vim 
 " github.com/vim-airline/vim-airline.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'vim-airline/vim-airline.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Vim Go Plugin: For Go lang programming
 " github.com/fatih/vim-go.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'fatih/vim-go.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Colorschemes Plugin:
 " github.com/flazz/vim-colorschemes.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'flazz/vim-colorschemes.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Precision Solarized Colorscheme Plugin:
 " http://ethanschoonover.com/solarized
 Plugin 'altercation/vim-colors-solarized.git'
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 
-" #####################################
-" Programming Language Support Plugins
-" #####################################
-
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " The Ultimate Snippet Solution Plugin:
 " Powered Code Snippets.
 " Howto: https://www.youtube.com/watch?v=WeppptWfV-0&t=131s 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'SirVer/ultisnips.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Vim Snipmate Default Snippets:
 " vim-snipmate default snippets (Previously snipmate-snippets)
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'honza/vim-snippets.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Some Utility Functions Plugin:
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'tomtom/tlib_vim.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " AutoPairs Plugin: (Auto coloms, brackers, ..)
 " github.com/jiangmiao/auto-pairs.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'jiangmiao/auto-pairs.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Enhaced Commentify Plugin: (Easy code block comment)
 " github.com/vim-scripts/EnhCommentify.vim.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'vim-scripts/EnhCommentify.vim.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " SuperTAB Plugin: (autocomplete engine)
 " github.com/ervandew/supertab.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'ervandew/supertab.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Fugitive Plugin: (Git functions)
 " github.com/tpope/vim-fugitive.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'tpope/vim-fugitive.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Gitgutter Plugin:
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'airblade/vim-gitgutter'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " IndentLine Plugin: (Visual horizontal code indentation)
 " github.com/Yggdroot/indentLine.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'Yggdroot/indentLine.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Ansible Playbooks Syntax Plugin:
 " github.com/pearofducks/ansible-vim
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'pearofducks/ansible-vim'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " JSON Managing Plugin:
 " github.com/elzr/vim-json
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'elzr/vim-json'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Python Mode Plugin: (Python IDE tools)
 " github.com/klen/python-mode.git
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'klen/python-mode.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Erlang IDE Plugins:
 " http://vim-erlang.github.io/
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'vim-erlang/vim-erlang-runtime.git'
 Plugin 'vim-erlang/vim-erlang-compiler.git'
 Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
@@ -194,7 +186,7 @@ Plugin 'vim-erlang/vim-erlang-tags.git'
 Plugin 'melekes/vim-erlang-spec.git'
 Plugin 'huffman/vim-erlang-templates.git'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 " Clang Format Plugin: (C and C++)
 " Plugin for clang-format, a formatter for C, C++, 
 " Obj-C, Java, JavaScript, TypeScript and ProtoBuf.
@@ -204,15 +196,22 @@ Plugin 'huffman/vim-erlang-templates.git'
 " - .clang-format file to customize a style.
 " - vim-clang-format provides an operator mapping.
 " - vim-clang-format doesn't need python interface.
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'rhysd/vim-clang-format.git'
 
-" --------------------------------------------------
-" Java Complete2 Plugin:
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
+" Java Complete2 Plugin: 
+" https://vimawesome.com/plugin/vim-javacomplete2
+" -----------------------------------------------------------------------------
 Plugin 'artur-shaik/vim-javacomplete2'
 
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
+" YouCompleteMe Plugin:
+" https://github.com/ycm-core/YouCompleteMe
+" -----------------------------------------------------------------------------
+Plugin 'ycm-core/YouCompleteMe'
+
+" -----------------------------------------------------------------------------
 " For JAVA Debuggin Plugin:
 " HowTo:
 " 1. start JAVA process with the following debug agent option in one terminal, 
@@ -232,7 +231,7 @@ Plugin 'artur-shaik/vim-javacomplete2'
 "    you want to see all locals do :JDBCommands locals
 " 9. with :JDBContinue you can resume the execution until the next breakpoint 
 "    is hits
-" --------------------------------------------------
+" -----------------------------------------------------------------------------
 Plugin 'Dica-Developer/vim-jdb'
 
 
@@ -421,7 +420,10 @@ let g:pymode_rope = 0
 " Available snippets: .vim/bundle/vim-snippets/snippets
 " Usage: <intert mode> cl <tab> 
 " Usage: https://github.com/honza/vim-snippets
-"let g:UltiSnipsExpandTrigger='<Enter>'
+
+" Change <tab> by <Enter> for code insertion to avoid conflicts with other tabs
+" actions and other plugins.
+let g:UltiSnipsExpandTrigger='<Enter>'
 
 " -----------------------------------------------------------------------------
 " Fugitive plugin:
@@ -513,7 +515,7 @@ set laststatus=2
 
 " let g:go_bin_path = expand("~/.gotools")
 " Ready for working with GVM tool
-let g:go_bin_path = expand("$GOROOT/bin")
+" let g:go_bin_path = expand("$GOROOT/bin")
 
 let g:go_fmt_command = "goimports"
 let g:syntastic_check_on_wq = 1
@@ -554,4 +556,20 @@ autocmd BufWritePost *
 " cool colors
 set t_Co=256
 
+" -----------------------------------------------------------------------------
+" Java Plugin Settings:
+" -----------------------------------------------------------------------------
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+" To enable smart (trying to guess import option) inserting class imports with F4, add:
+nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+" To enable usual (will ask for import option) inserting class imports with F5, add:
+nmap <F5> <Plug>(JavaComplete-Imports-Add)
+imap <F5> <Plug>(JavaComplete-Imports-Add)
+" To add all missing imports with F6:
+nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+" To remove all unused imports with F7:
+nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
 
