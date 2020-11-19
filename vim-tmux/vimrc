@@ -34,13 +34,15 @@
 " :PluginInstall or from command line: vim +PluginInstall +qall
 
 " ##############################################################################
-"                           START Plugin install section            
+" START Plugin install section ==========================>
 " ##############################################################################
 
 " When Vim starts, the 'compatible' option is on. This will be used when Vim
 " starts its initializations. But as soon as a user vimrc file is found, or a
 " vimrc file in the current directory, or the "VIMINIT" environment variable is
-" set, it will be set to 'nocompatible'.
+" set, it will be set to 'nocompatible'. Vim's compatible and nocompatible modes
+" the compatibility we're talking about is Vim's compatibility with Vi. When run
+" in compatible mode, most of the enhancements and improvements of Vim get disabled.
 set nocompatible
 
 " set the runtime path to include Vundle and initialize
@@ -49,6 +51,10 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
+"                         ##########################
+"                              GENERAL PLUGINS                        
+"                         ##########################
 
 " -----------------------------------------------------------------------------
 " NERDTree Plugin: (Folder explorer)
@@ -63,7 +69,7 @@ Plugin 'scrooloose/nerdtree.git'
 Plugin 'vim-scripts/taglist.vim'
 
 " -----------------------------------------------------------------------------
-" Tagbar Plugin: (A class outline viewer for Vim)
+" Tagbar Plugin: (A class outline viewer for Vim, similar to TagList)
 " github.com/majutsushi/tagbar.git
 " -----------------------------------------------------------------------------
 Plugin 'majutsushi/tagbar.git'
@@ -75,22 +81,16 @@ Plugin 'majutsushi/tagbar.git'
 Plugin 'jlanzarotta/bufexplorer.git'
 
 " -----------------------------------------------------------------------------
-" ControlP Plugin: (Another folder explorer and search tool)
+" ControlP Plugin: (File finder explorer)
 " github.com/kien/ctrlp.vim
 " -----------------------------------------------------------------------------
 Plugin 'ctrlpvim/ctrlp.vim.git'
 
 " -----------------------------------------------------------------------------
-" AirLine: lean & mean status/tabline for vim 
+" AirLine: Status line tuning
 " github.com/vim-airline/vim-airline.git
 " -----------------------------------------------------------------------------
 Plugin 'vim-airline/vim-airline.git'
-
-" -----------------------------------------------------------------------------
-" Vim Go Plugin: For Go lang programming
-" github.com/fatih/vim-go.git
-" -----------------------------------------------------------------------------
-Plugin 'fatih/vim-go.git'
 
 " -----------------------------------------------------------------------------
 " Colorschemes Plugin:
@@ -103,6 +103,10 @@ Plugin 'flazz/vim-colorschemes.git'
 " http://ethanschoonover.com/solarized
 Plugin 'altercation/vim-colors-solarized.git'
 " -----------------------------------------------------------------------------
+
+"                         ##########################
+"                                DEV PLUGINS                        
+"                         ##########################
 
 " -----------------------------------------------------------------------------
 " The Ultimate Snippet Solution Plugin:
@@ -168,6 +172,12 @@ Plugin 'pearofducks/ansible-vim'
 " github.com/elzr/vim-json
 " -----------------------------------------------------------------------------
 Plugin 'elzr/vim-json'
+
+" -----------------------------------------------------------------------------
+" Vim Go Plugin: For Go lang programming
+" github.com/fatih/vim-go.git
+" -----------------------------------------------------------------------------
+Plugin 'fatih/vim-go.git'
 
 " -----------------------------------------------------------------------------
 " Python Mode Plugin: (Python IDE tools)
@@ -240,11 +250,11 @@ call vundle#end()
 filetype plugin indent on
 
 " ##############################################################################
-"                           END Plugin install section            
+"                           <======================  END Plugin install section            
 " ##############################################################################
 
 " -----------------------------------------------------------------------------
-" General Settings
+"                          GENERAL CUSTOMIZATIONS
 " -----------------------------------------------------------------------------
 " Insert space characters whenever the tab key is pressed
 set expandtab
@@ -293,7 +303,7 @@ endif
 set nu
 
 " -----------------------------------------------------------------------------
-" Custom key bindings
+"                          CUSTOM KEY BINDINGS
 " -----------------------------------------------------------------------------
 
 " Change leader key
@@ -323,7 +333,7 @@ nnoremap <silent> <leader>n :NERDTreeToggle<CR>
 " Leader key + p -> open search window (default key binding)
 
 " -----------------------------------------------------------------------------
-" Custom general settings
+"                          Custom general settings
 " -----------------------------------------------------------------------------
 
 " higlight the line where the cursor is
@@ -421,9 +431,15 @@ let g:pymode_rope = 0
 " Usage: <intert mode> cl <tab> 
 " Usage: https://github.com/honza/vim-snippets
 
+" Aqui tengo problemas con los popups de snippets de condigo y la autocomplete.
+" No consigo que pulsando intro como en IDEA se inserte el codigo.
 " Change <tab> by <Enter> for code insertion to avoid conflicts with other tabs
 " actions and other plugins.
-let g:UltiSnipsExpandTrigger='<Enter>'
+" let g:UltiSnipsExpandTrigger='<Enter>'
+let g:UltiSnipsExpandTrigger = "<nop>"
+inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
+" NO FUNCIONA: deja de funcionar el intro en el buffer de comandos.
+" inoremap <expr> <cr> ((pumvisible())?("\<C-y>"):("\<cr>"))
 
 " -----------------------------------------------------------------------------
 " Fugitive plugin:
@@ -572,4 +588,5 @@ imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
 " To remove all unused imports with F7:
 nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
 imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+let g:JavaComplete_AutoStartServer = 1
 
