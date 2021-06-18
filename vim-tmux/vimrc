@@ -221,6 +221,7 @@ Plugin 'artur-shaik/vim-javacomplete2'
 " -----------------------------------------------------------------------------
 Plugin 'ycm-core/YouCompleteMe'
 
+Plugin 'francoiscabrol/ranger.vim'
 " -----------------------------------------------------------------------------
 " For JAVA Debuggin Plugin:
 " HowTo:
@@ -328,6 +329,10 @@ nnoremap <silent> <leader>y :TagbarToggle<CR>
 " NERDTree Plugin key bindings:
 " Leader key + n -> open/close folder explorer
 nnoremap <silent> <leader>n :NERDTreeToggle<CR>
+
+" Ranger Plugin key bindings:
+" Leader key + r -> Open Ranger Explorer
+nnoremap <silent> <leader>r :Ranger<CR>
 
 " ControlP Plugin key bindings:
 " Leader key + p -> open search window (default key binding)
